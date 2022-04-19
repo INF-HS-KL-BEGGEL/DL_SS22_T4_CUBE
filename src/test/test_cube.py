@@ -5,7 +5,6 @@ from environment.figure import Figure
 
 class TestCube(unittest.TestCase):
 
-
     def test_cube_turn_left(self):
 
         cube = Cube()

@@ -1,4 +1,4 @@
-from figure import Figure
+from environment.figure import Figure
 
 class Face():
 

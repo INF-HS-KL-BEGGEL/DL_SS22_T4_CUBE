@@ -1,5 +1,5 @@
-from environment.cube import Cube
-from environment.state import State
+from cube import Cube
+from state import State
 
 class Environment():
 
@@ -23,5 +23,4 @@ class Environment():
 
     @staticmethod
     def get_random_action():
-
-
+        pass
