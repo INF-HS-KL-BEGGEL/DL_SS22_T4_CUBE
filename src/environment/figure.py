@@ -4,6 +4,7 @@ class Figure():
 
     def __init__(self, name):
         self.name = name
+        self.points = [ (), (), () ]
 
     def get_name(self):
         return self.name

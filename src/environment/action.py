@@ -11,12 +11,8 @@ class Action():
 
 class TurnAction(Action):
 
-    def __init__(self, name, figure):
+    def __init__(self, name):
         super().__init__(name)
-        self.figure = figure
-
-    def get_figure(self):
-        return self.figure
 
 
 class FigureFitAction(Action):
