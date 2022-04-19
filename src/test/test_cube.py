@@ -5,36 +5,45 @@ from environment.figure import Figure
 
 class TestCube(unittest.TestCase):
 
-    def test_cube_turn_left(self):
-
-        cube = Cube()
-
-        cube.add_face(Face.create("figure1"))
-        cube.add_face(Face.create("figure2"))
-        cube.add_face(Face.create("figure3"))
-        cube.add_face(Face.create("figure4"))
-
-        print(cube.get_current_face())
-
-        cube.turn_left()
-        cube.turn_left()
-        cube.turn_left()
-        cube.turn_left()
-        cube.turn_left()
-        print(cube.get_current_face())
-
-        print(cube.fits(Figure("figure1")))
-
-        print(cube)
-
-    def test_cube_turn_right(self):
+    def test_cube_turn_left_default(self):
+        """ Turn left with one steps"""
 
         cube = Cube()
 
         f1 = Face.create("figure1")
-        f2 = Face.create("figure1")
-        f3 = Face.create("figure1")
-        f4 = Face.create("figure1")
+        f2 = Face.create("figure2")
+        f3 = Face.create("figure3")
+        f4 = Face.create("figure4")
+
+        cube.add_face(f1)
+        cube.add_face(f2)
+        cube.add_face(f3)
+        cube.add_face(f4)
+
+        cube.turn_left()
+
+        self.assertEqual(cube.get_current_face(), f4)
+
+        cube.turn_left()
+
+        self.assertEqual(cube.get_current_face(), f3)
+
+        cube.turn_left()
+        cube.turn_left()
+        cube.turn_left()
+
+        self.assertEqual(cube.get_current_face(), f4)
+
+
+    def test_cube_turn_right_default(self):
+        """ Turn left with one steps"""
+
+        cube = Cube()
+
+        f1 = Face.create("figure1")
+        f2 = Face.create("figure2")
+        f3 = Face.create("figure3")
+        f4 = Face.create("figure4")
 
         cube.add_face(f1)
         cube.add_face(f2)
@@ -48,6 +57,58 @@ class TestCube(unittest.TestCase):
         cube.turn_right()
         cube.turn_right()
         cube.turn_right()
+
+        self.assertEqual(cube.get_current_face(), f4)
+
+
+    def test_turn_left_steps(self):
+        """ Turn left with more steps"""
+
+        cube = Cube()
+
+        f1 = Face.create("figure1")
+        f2 = Face.create("figure2")
+        f3 = Face.create("figure3")
+        f4 = Face.create("figure4")
+
+        cube.add_face(f1)
+        cube.add_face(f2)
+        cube.add_face(f3)
+        cube.add_face(f4)
+
+        self.assertEqual(cube.get_current_face(), f1)
+
+        cube.turn_left(5)
+
+        self.assertEqual(cube.get_current_face(), f4)
+
+        cube.turn_left(2)
+
+        self.assertEqual(cube.get_current_face(), f2)
+
+
+    def test_turn_right_steps(self):
+        """ Turn left with more steps"""
+
+        cube = Cube()
+
+        f1 = Face.create("figure1")
+        f2 = Face.create("figure2")
+        f3 = Face.create("figure3")
+        f4 = Face.create("figure4")
+
+        cube.add_face(f1)
+        cube.add_face(f2)
+        cube.add_face(f3)
+        cube.add_face(f4)
+
+        self.assertEqual(cube.get_current_face(), f1)
+
+        cube.turn_right(5)
+
+        self.assertEqual(cube.get_current_face(), f2)
+
+        cube.turn_right(2)
 
         self.assertEqual(cube.get_current_face(), f4)
 

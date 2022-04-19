@@ -3,14 +3,17 @@ from environment.figure import Figure
 class Face():
 
     def __init__(self):
-        self.figures = []
+        self.matching_figures = []
 
     def add_available_figure(self, figure):
-        self.figures.append(figure)
+        self.matching_figures.append(figure)
+
+    def get_figures(self):
+        return self.matching_figures
 
     def fits(self, figure):
 
-        if figure in self.figures:
+        if figure in self.matching_figures:
             return True
 
         return False
@@ -19,14 +22,14 @@ class Face():
         return not self.__eq__(other)
 
     def __eq__(self, other):
-        for f in self.figures:
-            for o in other.figures:
+        for f in self.matching_figures:
+            for o in other.matching_figures:
                 if not f == o:
                     return False
         return True
 
     def __repr__(self):
-        return str(self.figures)
+        return str(self.matching_figures)
 
     @staticmethod
     def create(figure_name):
