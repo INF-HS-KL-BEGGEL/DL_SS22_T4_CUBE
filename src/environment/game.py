@@ -1,7 +1,8 @@
 from environment.cube import Cube
 from environment.face import Face
 
-class Game():
+
+class Game:
 
     def __init__(self, cube: Cube, figures: list):
 
@@ -38,7 +39,6 @@ class Game():
         Spiel auf Anfang zurücksetzen
         :return:
         """
-
 
     @staticmethod
     def setupGameRandom():

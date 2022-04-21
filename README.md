@@ -1,4 +1,10 @@
 
+# Start
+
+Start unittests
+
+    python setup.py test
+
 
 # Recherechen / Quellen / Referenzen
 
