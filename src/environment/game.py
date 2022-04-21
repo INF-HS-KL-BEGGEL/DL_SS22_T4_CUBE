@@ -1,5 +1,5 @@
-from cube import Cube
-from face import Face
+from environment.cube import Cube
+from environment.face import Face
 
 class Game():
 
@@ -29,6 +29,9 @@ class Game():
         :return:
         """
         return self.cube.fits(figure, self.front_face)
+
+    def get_current_face(self):
+        return self.cube.get_faces()[self.front_face]
 
     def reset_game(self):
         """

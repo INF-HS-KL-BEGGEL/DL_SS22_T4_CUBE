@@ -1,0 +1,7 @@
+README.md
+setup.py
+src/DeepLearningBabyCube.egg-info/PKG-INFO
+src/DeepLearningBabyCube.egg-info/SOURCES.txt
+src/DeepLearningBabyCube.egg-info/dependency_links.txt
+src/DeepLearningBabyCube.egg-info/top_level.txt
+test/test_cube.py
