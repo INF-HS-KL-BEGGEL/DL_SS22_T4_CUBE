@@ -2,24 +2,40 @@
 
 class Action():
 
-    def __init__(self, name):
+    def __init__(self, name, game):
+        self.game = game
         self.name = name
 
-    def get_name(self):
-        return self.name
+    def execute(self):
+        pass
 
 
-class TurnAction(Action):
+class TurnLeftAction(Action):
 
-    def __init__(self, name):
-        super().__init__(name)
+    def __init__(self, name, game):
+        super().__init__(name, game)
+
+    def execute(self):
+        self.game.turn_left()
 
 
-class FigureFitAction(Action):
+class TurnRightAction(Action):
 
-    def __init__(self, name, figure):
-        super().__init__(name)
+    def __init__(self, name, game):
+        super().__init__(name, game)
+
+    def execute(self):
+        self.game.turn_right()
+
+
+class TryFitAction(Action):
+
+    def __init__(self, name, game, figure):
+        super().__init__(name, game)
         self.figure = figure
 
     def get_figure(self):
         return self.figure
+
+    def execute(self):
+        self.game.try_fit(self.figure)

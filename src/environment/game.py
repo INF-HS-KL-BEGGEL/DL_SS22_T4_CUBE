@@ -28,14 +28,13 @@ class Game():
         Versuch ob übergebene figur PASST
         :return:
         """
-        pass
+        return self.cube.fits(figure, self.front_face)
 
     def reset_game(self):
         """
         Spiel auf Anfang zurücksetzen
         :return:
         """
-        pass
 
 
     @staticmethod
