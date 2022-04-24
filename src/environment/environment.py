@@ -8,12 +8,10 @@ class Environment():
 
         self.game = Game.setupGameRandom()
 
-    def act(self, action_str):
+    def action_space(self):
 
-        actions = {
-            ""
-        }
-
+        pass
+    
     @staticmethod
     def get_random_action():
         pass
