@@ -1,7 +1,7 @@
 # Noch keine Idee wie wir Actionen am besten wegabstrahieren können
 
 class Action():
-
+    """Class representing the actions that can be used in the game"""
     def __init__(self, name, game):
         self.game = game
         self.name = name
@@ -11,9 +11,7 @@ class Action():
 
 
 class TurnLeftAction(Action):
-    """
-        
-    """
+    """Class representing the action to turn the cube left"""
     def __init__(self, name, game):
         super().__init__(name, game)
 
@@ -22,7 +20,7 @@ class TurnLeftAction(Action):
 
 
 class TurnRightAction(Action):
-
+    """Class representing the action to turn the cube right"""
     def __init__(self, name, game):
         super().__init__(name, game)
 
@@ -31,7 +29,7 @@ class TurnRightAction(Action):
 
 
 class TryFitAction(Action):
-
+    """Class representing the action to try to fit a figure on the current face"""
     def __init__(self, name, game, figure):
         super().__init__(name, game)
         self.figure = figure
