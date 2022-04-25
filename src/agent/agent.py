@@ -69,3 +69,4 @@ class Agent:
                 target[0][action] = reward + self.gamma * np.amax(t)
 
             self.q_network.fit(state, target, epochs=1, verbose=0)
+

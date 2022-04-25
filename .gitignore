@@ -1,0 +1,4 @@
+/.idea/
+*.pyc
+dist/
+src/DeepLearningBabyCube.egg-info/PKG-INFO
