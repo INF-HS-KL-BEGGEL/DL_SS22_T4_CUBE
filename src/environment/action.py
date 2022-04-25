@@ -11,7 +11,9 @@ class Action():
 
 
 class TurnLeftAction(Action):
-
+    """
+        
+    """
     def __init__(self, name, game):
         super().__init__(name, game)
 
