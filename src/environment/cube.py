@@ -10,6 +10,10 @@ class Cube():
         """Adds a face to the cube"""
         self.faces.append(face)
 
+    def remove_face(self, pos):
+        """Removes the face at the given position"""
+        del self.faces[pos]
+
     def get_faces(self):
         """Returns the faces of the cube"""
         return self.faces
