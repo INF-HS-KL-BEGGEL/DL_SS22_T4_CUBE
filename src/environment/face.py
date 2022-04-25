@@ -1,6 +1,8 @@
 from environment.figure import Figure
 
-class Face():
+
+class Face:
+    """Class representing a face of the Cube"""
 
     def __init__(self):
         """Initializes the face with no figures"""

@@ -4,37 +4,37 @@ from environment.cube import Cube
 from environment.face import Face
 from environment.figure import Figure
 
+
 class TestCube(unittest.TestCase):
 
     def test_create_face(self):
-            face = Face.create("figure1")
-    
-            self.assertEqual(len(face.get_figures()), 1)
-            
-    
+        face = Face.create("figure1")
+
+        self.assertEqual(len(face.get_figures()), 1)
+
     def test_add_face(self):
-            
-            cube = Cube()
-    
-            fig1 = Figure("figure1")
-            face = Face()
-            face.add_available_figure(fig1)
-            cube.add_face(face)
-    
-            self.assertEqual(len(cube.get_faces()), 1)
+
+        cube = Cube()
+
+        fig1 = Figure("figure1")
+        face = Face()
+        face.add_available_figure(fig1)
+        cube.add_face(face)
+
+        self.assertEqual(len(cube.get_faces()), 1)
 
     def test_remove_face(self):
 
-            cube = Cube()
+        cube = Cube()
 
-            fig1 = Figure("figure1")
-            face = Face()
-            face.add_available_figure(fig1)
-            cube.add_face(face)
+        fig1 = Figure("figure1")
+        face = Face()
+        face.add_available_figure(fig1)
+        cube.add_face(face)
 
-            cube.remove_face(0)
+        cube.remove_face(0)
 
-            self.assertEqual(len(cube.get_faces()), 0)
+        self.assertEqual(len(cube.get_faces()), 0)
 
     # def test_cube_turn_left_default(self):
     #     """ Turn left with one steps"""
@@ -73,7 +73,6 @@ class TestCube(unittest.TestCase):
 
     #     self.assertEqual(game.get_current_face(), f4)
 
-
     # def test_cube_turn_right_default(self):
     #     """ Turn left with one steps"""
 
@@ -106,7 +105,6 @@ class TestCube(unittest.TestCase):
     #     game.turn_right()
 
     #     self.assertEqual(game.get_current_face(), f4)
-
 
     # def test_turn_left_steps(self):
     #     """ Turn left with more steps"""
@@ -141,7 +139,6 @@ class TestCube(unittest.TestCase):
 
     #     self.assertEqual(game.get_current_face(), f2)
 
-
     # def test_turn_right_steps(self):
     #     """ Turn left with more steps"""
 
@@ -174,7 +171,6 @@ class TestCube(unittest.TestCase):
     #     game.turn_right(2)
 
     #     self.assertEqual(game.get_current_face(), f4)
-
 
     # def test_cube_fits(self):
 

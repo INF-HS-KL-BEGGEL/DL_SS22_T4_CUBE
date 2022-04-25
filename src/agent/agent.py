@@ -15,7 +15,7 @@ class Agent:
 
     def __init__(self, environment, optimizer):
 
-        # Initialize atributes
+        # Initialize attributes
         self._state_size = environment.observation_space.n
         self._action_size = environment.action_space.n
         self._optimizer = optimizer
@@ -69,4 +69,3 @@ class Agent:
                 target[0][action] = reward + self.gamma * np.amax(t)
 
             self.q_network.fit(state, target, epochs=1, verbose=0)
-

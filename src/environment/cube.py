@@ -28,4 +28,4 @@ class Cube():
 
     def __repr__(self):
         """Returns a string representation of the cube"""
-        return " faces: %s" % (self.faces)
+        return " faces: %s" % self.faces

@@ -2,7 +2,8 @@ from cube import Cube
 from game import Game
 from action import Action, TurnRightAction, TurnLeftAction, TryFitAction
 
-class Environment():
+
+class Environment:
 
     def __init__(self):
         """Initializes the environment with a random Game"""
@@ -11,7 +12,7 @@ class Environment():
     def action_space(self):
 
         pass
-    
+
     @staticmethod
     def get_random_action():
         pass

@@ -8,7 +8,7 @@ class Figure():
             :param name: The name of the figure
         """
         self.name = name
-        self.points = [ (), (), () ]
+        self.points = [(), (), ()]
 
     def get_name(self):
         """Returns the name of the figure"""

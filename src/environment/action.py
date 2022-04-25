@@ -29,7 +29,10 @@ class TurnRightAction(Action):
 
 
 class TryFitAction(Action):
-    """Class representing the action to try to fit a figure on the current face"""
+    """
+    Class representing the action to try
+    to fit a figure on the current face
+    """
     def __init__(self, name, game, figure):
         super().__init__(name, game)
         self.figure = figure
