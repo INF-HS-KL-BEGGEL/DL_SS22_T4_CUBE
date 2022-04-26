@@ -13,14 +13,14 @@ from tensorflow.keras.optimizers import Adam
 
 class Agent:
 
-    def __init__(self, enviroment, optimizer):
+    def __init__(self, environment, optimizer):
 
-        # Initialize atributes
-        self._state_size = enviroment.observation_space.n
-        self._action_size = enviroment.action_space.n
+        # Initialize attributes
+        self._state_size = environment.observation_space.n
+        self._action_size = environment.action_space.n
         self._optimizer = optimizer
 
-        self.expirience_replay = deque(maxlen=2000)
+        self.experience_replay = deque(maxlen=2000)
 
         # Initialize discount and exploration rate
         self.gamma = 0.6
@@ -29,10 +29,10 @@ class Agent:
         # Build networks
         self.q_network = self._build_compile_model()
         self.target_network = self._build_compile_model()
-        self.alighn_target_model()
+        self.align_target_model()
 
     def store(self, state, action, reward, next_state, terminated):
-        self.expirience_replay.append((state, action, reward, next_state, terminated))
+        self.experience_replay.append((state, action, reward, next_state, terminated))
 
     def _build_compile_model(self):
         model = Sequential()
@@ -45,18 +45,18 @@ class Agent:
         model.compile(loss='mse', optimizer=self._optimizer)
         return model
 
-    def alighn_target_model(self):
+    def align_target_model(self):
         self.target_network.set_weights(self.q_network.get_weights())
 
     def act(self, state):
         if np.random.rand() <= self.epsilon:
-            return enviroment.action_space.sample()
+            return environment.action_space.sample()
 
         q_values = self.q_network.predict(state)
         return np.argmax(q_values[0])
 
     def retrain(self, batch_size):
-        minibatch = random.sample(self.expirience_replay, batch_size)
+        minibatch = random.sample(self.experience_replay, batch_size)
 
         for state, action, reward, next_state, terminated in minibatch:
 
@@ -69,4 +69,3 @@ class Agent:
                 target[0][action] = reward + self.gamma * np.amax(t)
 
             self.q_network.fit(state, target, epochs=1, verbose=0)
-

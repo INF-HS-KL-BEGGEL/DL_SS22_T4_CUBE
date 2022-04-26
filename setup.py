@@ -13,7 +13,7 @@ setup(
     version='0.1.0',
     description='DL',
     long_description=readme,
-    author='Stepp, Faas, Plautz',
+    author='Stepp, Faass, Plautz',
     author_email='kapl001@stud.hs-kl.de',
     url='',
     license=license,
