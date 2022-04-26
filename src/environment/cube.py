@@ -1,5 +1,5 @@
 
-class Cube():
+class Cube:
     """The Cube on which the game will be played"""
 
     def __init__(self):
