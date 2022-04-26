@@ -1,6 +1,6 @@
 
 
-class Figure():
+class Figure:
     """Class representing the figures that can be used in the game"""
     def __init__(self, name):
         """

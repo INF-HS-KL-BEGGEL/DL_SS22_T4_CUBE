@@ -1,6 +1,6 @@
 # Noch keine Idee wie wir Actionen am besten wegabstrahieren können
 
-class Action():
+class Action:
     """Class representing the actions that can be used in the game"""
     def __init__(self, name, game):
         self.game = game

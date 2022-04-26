@@ -36,6 +36,39 @@ class TestCube(unittest.TestCase):
 
         self.assertEqual(len(cube.get_faces()), 0)
 
+    def test_get_face(self):
+            
+        cube = Cube()
+
+        fig1 = Figure("figure1")
+        face = Face()
+        face.add_available_figure(fig1)
+        cube.add_face(face)
+
+        self.assertEqual(cube.get_face(0), face)
+
+    def test_get_faces(self):
+                    
+        cube = Cube()
+
+        fig1 = Figure("figure1")
+        face = Face()
+        face.add_available_figure(fig1)
+        cube.add_face(face)
+
+        self.assertEqual(cube.get_faces(), [face])
+
+    def test_fits(self):
+                
+        cube = Cube()
+
+        fig1 = Figure("figure1")
+        face = Face()
+        face.add_available_figure(fig1)
+        cube.add_face(face)
+
+        self.assertTrue(cube.fits(fig1, 0))
+
     # def test_cube_turn_left_default(self):
     #     """ Turn left with one steps"""
 
