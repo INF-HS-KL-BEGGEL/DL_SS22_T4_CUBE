@@ -13,3 +13,11 @@ class State:
     def get_prev(self):
         return self.prev
 
+    def __hash__(self):
+        return self.number
+
+    def __eq__(self, other):
+        return self.number
+
+    def __ne__(self, other):
+        return not self.number == other
