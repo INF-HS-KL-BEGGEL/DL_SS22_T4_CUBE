@@ -32,6 +32,9 @@ class Game:
         """Returns the current face"""
         return self.cube.get_faces()[self.front_face]
 
+    def get_cube(self):
+        return self.cube
+
     def reset_game(self):
         """Resets the game"""
         self.front_face = 0

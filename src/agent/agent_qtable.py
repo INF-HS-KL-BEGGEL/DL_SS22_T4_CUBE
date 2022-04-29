@@ -11,7 +11,7 @@ class QTableAgent(Agent):
         super().__init__(env)
 
         self.num_of_episodes = 10000
-        self.q_table = np.zeros([len(self.environment.game.cube.get_faces()), self.environment.action_space.n])
+        self.q_table = np.zeros([self.environment.observation_space.n, self.environment.action_space.n])
         self.epsilon = 0.1
         self.alpha = 0.1
         self.gamma = 0.6
@@ -43,7 +43,7 @@ class QTableAgent(Agent):
                     action = np.argmax(self.q_table[state.number])
 
                 # Take action
-                next_state, reward, terminated, info = self.environment.step(action)
+                next_state, reward, info = self.environment.step(action)
 
                 # Recalculate
                 q_value = self.q_table[state, action]

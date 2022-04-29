@@ -1,4 +1,5 @@
 # Noch keine Idee wie wir Actionen am besten wegabstrahieren können
+from environment.state import State
 
 class Action:
     """Class representing the actions that can be used in the game"""
@@ -15,18 +16,24 @@ class TurnLeftAction(Action):
     def __init__(self, name, game):
         super().__init__(name, game)
 
-    def execute(self):
+    def execute(self) -> int:
+        """
+        :return: reward
+        """
         self.game.turn_left()
-
+        return 1
 
 class TurnRightAction(Action):
     """Class representing the action to turn the cube right"""
     def __init__(self, name, game):
         super().__init__(name, game)
 
-    def execute(self):
+    def execute(self) -> int:
+        """
+        :return: reword
+        """
         self.game.turn_right()
-
+        return 1
 
 class TryFitAction(Action):
     """
@@ -40,5 +47,9 @@ class TryFitAction(Action):
     def get_figure(self):
         return self.figure
 
-    def execute(self):
+    def execute(self) -> (State, int):
+        """
+        :return: reward
+        """
         self.game.try_fit(self.figure)
+        return State(self.game), 2

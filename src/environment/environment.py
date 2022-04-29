@@ -26,23 +26,27 @@ class Environment:
         """Initializes the environment with a random Game"""
         self.game = Game.setupGameRandom()
         self._action_space = Space([TurnRightAction, TurnLeftAction, TryFitAction])
-        self._observation_space = Space([])
+        self._observation_space = self.calc_observation_space()
         self.state_counter = 0
+
+    def calc_observation_space(self):
+        space = []
+        for i, face in enumerate(self.game.get_cube().get_faces()):
+            space.append(State(i))
+        return Space(space)
 
     @property
     def observation_space(self):
-        for i, face in enumerate(self.game.cube.get_faces()):
-            self._observation_space.append(State(i))
-
         return self._observation_space
 
     @property
     def action_space(self):
         return self._action_space
 
-    def step(self, action) -> State:
+    def step(self, action) -> (State, int, str):
         self.state_counter += 1
-        return State(self.state_counter)
+        reward = action.execute()
+        return State(self.game.get_current_face()), reward, ""
 
     def reset(self) -> State:
         self.state_counter += 1
