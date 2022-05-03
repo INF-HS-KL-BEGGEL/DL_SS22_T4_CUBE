@@ -19,13 +19,16 @@ class Space():
     def append(self, object):
         self.space.append(object)
 
+    def get(self, index):
+        return self.space[index]
+
 class Environment:
 
 
     def __init__(self):
         """Initializes the environment with a random Game"""
         self.game = Game.setupGameRandom()
-        self._action_space = Space([TurnRightAction, TurnLeftAction, TryFitAction])
+        self._action_space = Space([TurnRightAction(self.game), TurnLeftAction(self.game), TryFitAction(self.game)])
         self._observation_space = self.calc_observation_space()
         self.state_counter = 0
 
@@ -45,6 +48,7 @@ class Environment:
 
     def step(self, action) -> (State, int, str):
         self.state_counter += 1
+        print(action)
         reward = action.execute()
         return State(self.game.get_current_face()), reward, ""
 

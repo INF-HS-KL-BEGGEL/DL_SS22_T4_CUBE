@@ -4,6 +4,18 @@ from agent.agent_base import Agent
 import random
 import numpy as np
 
+class QTable:
+
+    def __init__(self, obvservation_space_n, action_space_n):
+
+        self.q_table = np.zeros([obvservation_space_n, action_space_n])
+
+    def get_actions_from_state(self, state):
+        return []
+
+    def get_max_action_from_state(self, state):
+        return None
+
 
 class QTableAgent(Agent):
 
@@ -40,18 +52,14 @@ class QTableAgent(Agent):
                     print(self.q_table)
                     print(state)
 
-                    action = np.argmax(self.q_table[state.number])
+                    action = self.environment.action_space.get(np.argmax(self.q_table[state.number]))
 
+                print(action)
                 # Take action
                 next_state, reward, info = self.environment.step(action)
 
-                # Recalculate
-                q_value = self.q_table[state, action]
-                max_value = np.max(self.q_table[next_state])
-                new_q_value = (1 - self.alpha) * q_value + self.alpha * (reward + self.gamma * max_value)
-
                 # Update Q-table
-                self.q_table[state, action] = new_q_value
+                self.q_table[state.number, action] = self.recalculate(action, reward, state, next_state)
                 state = next_state
 
             if (episode + 1) % 100 == 0:
@@ -62,3 +70,14 @@ class QTableAgent(Agent):
         print("**********************************")
         print("Training is done!\n")
         print("**********************************")
+
+
+    def recalculate(self,action, reward, state, next_state):
+        """"""
+
+        # Recalculate
+        q_value = self.q_table[state.number, action]
+        max_value = np.max(self.q_table[next_state.number])
+        new_q_value = (1 - self.alpha) * q_value + self.alpha * (reward + self.gamma * max_value)
+
+        return new_q_value
