@@ -25,9 +25,9 @@ class Space():
 class Environment:
 
 
-    def __init__(self):
+    def __init__(self, game):
         """Initializes the environment with a random Game"""
-        self.game = Game.setupGameRandom()
+        self.game = game
         self._action_space = Space([TurnRightAction(self.game), TurnLeftAction(self.game), TryFitAction(self.game)])
         self._observation_space = self.calc_observation_space()
         self.state_counter = 0
@@ -55,3 +55,9 @@ class Environment:
     def reset(self) -> State:
         self.state_counter += 1
         return State(self.state_counter)
+
+    @staticmethod
+    def create_sample():
+
+        game = Game.setup_game_random()
+        return Environment(game)

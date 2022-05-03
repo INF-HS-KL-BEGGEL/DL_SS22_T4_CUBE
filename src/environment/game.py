@@ -1,6 +1,6 @@
 from environment.cube import Cube
 from environment.face import Face
-
+from environment.figure import Figure
 
 class Game:
 
@@ -40,13 +40,18 @@ class Game:
         self.front_face = 0
 
     @staticmethod
-    def setupGameRandom():
+    def setup_game_random():
         """Creates a random game"""
         cube = Cube()
-        cube.add_face(Face.create("figure1"))
-        cube.add_face(Face.create("figure2"))
-        cube.add_face(Face.create("figure3"))
 
-        figures = []
+        fig1 = Figure("figure1")
+        fig2 = Figure("figure2")
+        fig3 = Figure("figure3")
+
+        cube.add_face(fig1)
+        cube.add_face(fig2)
+        cube.add_face(fig3)
+
+        figures = [fig1, fig2, fig3]
 
         return Game(cube, figures)

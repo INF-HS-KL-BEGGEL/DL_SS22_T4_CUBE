@@ -1,7 +1,7 @@
 from agent.agent_qtable import QTableAgent
 from environment.environment import Environment
 
-env = Environment()
+env = Environment.create_sample()
 
 agent = QTableAgent(env)
 
