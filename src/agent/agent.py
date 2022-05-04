@@ -1,10 +1,9 @@
 import numpy as np
 import random
 from IPython.display import clear_output
-from collections import deque
+import collections
 import progressbar
 
-import gym
 
 from tensorflow.keras import Model, Sequential
 from tensorflow.keras.layers import Dense, Embedding, Reshape
@@ -20,7 +19,7 @@ class Agent:
         self._action_size = environment.action_space.n
         self._optimizer = optimizer
 
-        self.experience_replay = deque(maxlen=2000)
+        self.experience_replay = collections.deque(maxlen=2000)
 
         # Initialize discount and exploration rate
         self.gamma = 0.6

@@ -2,6 +2,7 @@ from environment.cube import Cube
 from environment.face import Face
 from environment.figure import Figure
 
+
 class Game:
 
     def __init__(self, cube: Cube, figures: list):

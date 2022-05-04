@@ -4,7 +4,8 @@ from environment.game import Game
 from environment.action import Action, TurnRightAction, TurnLeftAction, TryFitAction
 from environment.state import State
 
-class Space():
+
+class ActionSpace:
 
     def __init__(self, space: list):
         self.space = space
@@ -22,13 +23,17 @@ class Space():
     def get(self, index):
         return self.space[index]
 
+    def get_random_action(self):
+        return self.space[random.randint(0, len(self.space) - 1)]
+
+
 class Environment:
-
-
+    
     def __init__(self, game):
         """Initializes the environment with a random Game"""
         self.game = game
-        self._action_space = Space([TurnRightAction(self.game), TurnLeftAction(self.game), TryFitAction(self.game)])
+        self._action_space = ActionSpace(
+            [TurnRightAction(self.game), TurnLeftAction(self.game), TryFitAction(self.game)])
         self._observation_space = self.calc_observation_space()
         self.state_counter = 0
 
@@ -36,7 +41,7 @@ class Environment:
         space = []
         for i, face in enumerate(self.game.get_cube().get_faces()):
             space.append(State(i))
-        return Space(space)
+        return ActionSpace(space)
 
     @property
     def observation_space(self):
@@ -45,8 +50,14 @@ class Environment:
     @property
     def action_space(self):
         return self._action_space
+    
+    def pick_random_action(self):
+        return self.action_space.get_random_action()
+    
+    def execute_random_action(self):
+        return self.pick_random_action().execute()
 
-    def step(self, action) -> (State, int, str):
+    def step(self, action):
         self.state_counter += 1
         print(action)
         reward = action.execute()
@@ -58,6 +69,5 @@ class Environment:
 
     @staticmethod
     def create_sample():
-
         game = Game.setup_game_random()
         return Environment(game)

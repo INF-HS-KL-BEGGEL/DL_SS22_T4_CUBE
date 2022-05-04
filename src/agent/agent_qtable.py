@@ -4,57 +4,43 @@ from agent.agent_base import Agent
 import random
 import numpy as np
 
-from logger import LogItem
+from environment.action import Action
 
 
 class QTable:
 
-    def __init__(self, obvservation_space_n, action_space_n):
+    def __init__(self, observation_space_size, action_space_size):
+        self.q_table = np.zeros((observation_space_size, action_space_size))
 
-        self.q_table = np.zeros([obvservation_space_n, action_space_n])
-        self.logger = []
+    def write_value(self, state, action, value):
+        self.q_table[state, action] = value
+        
+    def get_max(self, state):
+        return np.argmax(self.q_table[state])
+
+    def get_item(self, state, action):
+        return self.q_table[state, action]
 
     def get_actions_from_state(self, state):
         # TODO returning available action from given state
-
         return []
 
     def get_action_with_max_reward(self, state):
         # TODO return action with maximal reward from given state
         return None
 
-    def add_logger(self, logger):
-        """
-        add logger
-        :param logger:
-        :return:
-        """
-        self.logger.append(logger)
-
-    def notify(self, logstring):
-        """
-        notofy all logger
-        :param logstring:
-        :return:
-        """
-        for logger in self.logger:
-            logger.log(LogItem(logstring))
-
 
 class QTableAgent(Agent):
 
-    def __init__(self, env):
-        super().__init__(env)
+    def __init__(self, environment, episodes=10000):
+        super().__init__(environment)
 
-        self.num_of_episodes = 10000
-        self.q_table = np.zeros([self.environment.observation_space.n, self.environment.action_space.n])
+        self.env = environment
+        self.num_of_episodes = episodes
+        self.q_table = QTable(self.env.observation_space.n, self.env.action_space.n)
         self.epsilon = 0.1
         self.alpha = 0.1
         self.gamma = 0.6
-
-    def set_num_of_episodes(self, count):
-
-        self.num_of_episodes = count
 
     def act(self, state):
         pass
@@ -62,7 +48,7 @@ class QTableAgent(Agent):
     def retrain(self, batch_size):
 
         for episode in range(0, self.num_of_episodes):
-            # Reset the enviroment
+            # Reset the environment
             state = self.environment.reset()
 
             # Initialize variables
@@ -74,20 +60,18 @@ class QTableAgent(Agent):
                 if random.uniform(0, 1) < self.epsilon:
                     action = self.environment.action_space.sample()
                 else:
-                    print(self.q_table)
+                    print('State')
                     print(state)
 
-                    action = self.environment.action_space.get(np.argmax(self.q_table[state.number]))
-                    #action = qt.get_action_with_max_reward(state)
-                    #qt = QTable(1,2)
+                    action = self.q_table.get_max(state.number)
 
                 print(action)
-
                 # Take action
-                next_state, reward, info = self.environment.step(action)
+                # TODO action is interger, cannot perform execute
+                next_state, reward, terminated, info = self.environment.step(action)
 
                 # Update Q-table
-                self.q_table[state.number, action] = self.recalculate(action, reward, state, next_state)
+                self.q_table.write_value(state.number, action, self.recalculate(action, reward, state, next_state))
                 state = next_state
 
             if (episode + 1) % 100 == 0:
@@ -99,13 +83,12 @@ class QTableAgent(Agent):
         print("Training is done!\n")
         print("**********************************")
 
-
-    def recalculate(self,action, reward, state, next_state):
+    def recalculate(self, action, reward, state, next_state):
         """"""
 
         # Recalculate
-        q_value = self.q_table[state.number, action]
-        max_value = np.max(self.q_table[next_state.number])
+        q_value = self.q_table.get_item(state.number, action)
+        max_value = self.q_table.get_max(next_state.number)
         new_q_value = (1 - self.alpha) * q_value + self.alpha * (reward + self.gamma * max_value)
 
         return new_q_value
