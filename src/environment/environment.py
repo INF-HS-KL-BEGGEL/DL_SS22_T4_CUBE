@@ -57,18 +57,17 @@ class Environment:
     def step(self, action):    
         self.action_space.get(action).execute()
         fits = self.game.try_fit(self.game.figures[0])
+        
+        self.game.print_game()
+        
+        # Determine if the game is over
+        done = False
 
         if fits:
             reward = 15
+            done = True
         else:
             reward = -1
-
-        # Determine if the game is over
-        done = False
-        if self.state.state_position >= self.observation_space.n - 1:
-            done = True
-        else: 
-            self.state.state_position += 1
             
         # Update the state
         self.state.update_state(self.game.get_current_face())

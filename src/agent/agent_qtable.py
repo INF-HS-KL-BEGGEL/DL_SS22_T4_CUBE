@@ -81,7 +81,7 @@ class QTableAgent(Agent):
             if (episode + 1) % 100 == 0:
                 clear_output(wait=True)
                 print("Episode: {}".format(episode + 1))
-                self.environment.render()
+                # self.environment.render()
 
         print("**********************************")
         print("Training is done!\n")

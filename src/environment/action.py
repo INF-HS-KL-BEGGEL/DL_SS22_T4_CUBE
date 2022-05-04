@@ -20,9 +20,6 @@ class TurnLeftAction(Action):
         super().__init__(game)
 
     def execute(self):
-        """
-        :return: reward
-        """
         self.game.turn_left()
 
 
@@ -33,9 +30,6 @@ class TurnRightAction(Action):
         super().__init__(game)
 
     def execute(self):
-        """
-        :return: reword
-        """
         self.game.turn_right()
 
 

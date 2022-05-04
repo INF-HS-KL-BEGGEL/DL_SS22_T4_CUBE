@@ -15,14 +15,14 @@ class Game:
     def turn_left(self, steps=1):
         """Turns the cube left by the given number of steps, default is 1"""
         if (self.current_face - steps) < 0:
-            self.current_face = len(self.cube.get_faces())
+            self.current_face = len(self.cube.get_faces()) - 1
         else:
             self.current_face -= steps
 
     def turn_right(self, steps=1):
         """Turns the cube right by the given number of steps, default is 1"""
-        if self.current_face >= len(self.cube.get_faces()) - steps:
-            self.current_face = 0
+        if (self.current_face + 1) >= len(self.cube.get_faces()) - steps:
+            self.reset_game()
         else:
             self.current_face += 1
 
@@ -40,6 +40,14 @@ class Game:
     def reset_game(self):
         """Resets the game"""
         self.current_face = 0
+
+    def print_game(self):
+        """Prints the game"""
+        print("Figures: %s" % self.figures)
+        print("Current face: %s" % self.get_current_face())
+        print("Cube: %s" % self.get_cube())
+
+
 
     @staticmethod
     def setup_game_random():
