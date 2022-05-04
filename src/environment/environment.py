@@ -3,7 +3,7 @@ from environment.cube import Cube
 from environment.game import Game
 from environment.action import Action, TurnRightAction, TurnLeftAction, TryFitAction
 from environment.state import State
-
+import numpy as np
 
 class ActionSpace:
 
@@ -29,19 +29,16 @@ class ActionSpace:
 
 class Environment:
     
-    def __init__(self, game):
+    def __init__(self):
         """Initializes the environment with a random Game"""
-        self.game = game
+        self.game = Game.setup_game_random()
+        self.state = self.reset()
         self._action_space = ActionSpace(
-            [TurnRightAction(self.game), TurnLeftAction(self.game), TryFitAction(self.game)])
+            [TurnRightAction(self.game), TurnLeftAction(self.game)])
         self._observation_space = self.calc_observation_space()
-        self.state_counter = 0
 
     def calc_observation_space(self):
-        space = []
-        for i, face in enumerate(self.game.get_cube().get_faces()):
-            space.append(State(i))
-        return ActionSpace(space)
+        return ActionSpace(self.game.get_cube().get_faces())
 
     @property
     def observation_space(self):
@@ -57,17 +54,28 @@ class Environment:
     def execute_random_action(self):
         return self.pick_random_action().execute()
 
-    def step(self, action):
-        self.state_counter += 1
-        print(action)
-        reward = action.execute()
-        return State(self.game.get_current_face()), reward, ""
+    def step(self, action):    
+        self.action_space.get(action).execute()
+        fits = self.game.try_fit(self.game.figures[0])
+
+        if fits:
+            reward = 25
+        else:
+            reward = -1
+        
+        # Determine if the game is over
+        done = False
+        if self.state.state_position > 1:
+            done = True
+
+        # Update the state
+        self.state.update_state(self.game.get_current_face())
+
+        return self.state, reward, done, {}
 
     def reset(self) -> State:
-        self.state_counter += 1
-        return State(self.state_counter)
+        return State(0, self.game.get_current_face())
 
     @staticmethod
     def create_sample():
-        game = Game.setup_game_random()
-        return Environment(game)
+        return Environment()

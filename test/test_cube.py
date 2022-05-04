@@ -18,7 +18,7 @@ class TestCube(unittest.TestCase):
 
         fig1 = Figure("figure1")
         face = Face()
-        face.add_available_figure(fig1)
+        face.add_matching_figure(fig1)
         cube.add_face(face)
 
         self.assertEqual(len(cube.get_faces()), 1)
@@ -29,7 +29,7 @@ class TestCube(unittest.TestCase):
 
         fig1 = Figure("figure1")
         face = Face()
-        face.add_available_figure(fig1)
+        face.add_matching_figure(fig1)
         cube.add_face(face)
 
         cube.remove_face(0)
@@ -42,7 +42,7 @@ class TestCube(unittest.TestCase):
 
         fig1 = Figure("figure1")
         face = Face()
-        face.add_available_figure(fig1)
+        face.add_matching_figure(fig1)
         cube.add_face(face)
 
         self.assertEqual(cube.get_face(0), face)
@@ -53,7 +53,7 @@ class TestCube(unittest.TestCase):
 
         fig1 = Figure("figure1")
         face = Face()
-        face.add_available_figure(fig1)
+        face.add_matching_figure(fig1)
         cube.add_face(face)
 
         self.assertEqual(cube.get_faces(), [face])
@@ -64,7 +64,7 @@ class TestCube(unittest.TestCase):
 
         fig1 = Figure("figure1")
         face = Face()
-        face.add_available_figure(fig1)
+        face.add_matching_figure(fig1)
         cube.add_face(face)
 
         self.assertTrue(cube.fits(fig1, 0))

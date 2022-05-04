@@ -9,7 +9,7 @@ class Action:
     def __init__(self, game):
         self.game = game
 
-    def execute(self) -> typing.Tuple[State, int]:
+    def execute(self):
         pass
 
 
@@ -19,12 +19,11 @@ class TurnLeftAction(Action):
     def __init__(self, game):
         super().__init__(game)
 
-    def execute(self) -> typing.Tuple[State, int]:
+    def execute(self):
         """
         :return: reward
         """
         self.game.turn_left()
-        return State(self.game.get_current_face()), 1
 
 
 class TurnRightAction(Action):
@@ -33,12 +32,11 @@ class TurnRightAction(Action):
     def __init__(self, game):
         super().__init__(game)
 
-    def execute(self) -> typing.Tuple[State, int]:
+    def execute(self):
         """
         :return: reword
         """
         self.game.turn_right()
-        return State(self.game.get_current_face()), 1
 
 
 class TryFitAction(Action):
@@ -57,9 +55,8 @@ class TryFitAction(Action):
     def set_figure(self, figure):
         self.figure = figure
 
-    def execute(self) -> typing.Tuple[State, int]:
+    def execute(self):
         """
         :return: reward
         """
         self.game.try_fit(self.figure)
-        return State(self.game.get_current_face()), 2

@@ -8,7 +8,7 @@ class Face:
         """Initializes the face with no figures"""
         self.matching_figures = []
 
-    def add_available_figure(self, figure):
+    def add_matching_figure(self, figure):
         """Adds a figure to the face"""
         self.matching_figures.append(figure)
 
@@ -40,5 +40,5 @@ class Face:
     def create(figure_name):
         """Creates a face with the given figure"""
         face = Face()
-        face.add_available_figure(Figure(figure_name))
+        face.add_matching_figure(Figure(figure_name))
         return face

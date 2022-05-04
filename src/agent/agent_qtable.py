@@ -60,18 +60,15 @@ class QTableAgent(Agent):
                 if random.uniform(0, 1) < self.epsilon:
                     action = self.environment.action_space.sample()
                 else:
-                    print('State')
-                    print(state)
-
-                    action = self.q_table.get_max(state.number)
+                    action = self.q_table.get_max(state.state_position)
 
                 print(action)
                 # Take action
-                # TODO action is interger, cannot perform execute
+                # TODO action is integer, cannot perform execute
                 next_state, reward, terminated, info = self.environment.step(action)
 
                 # Update Q-table
-                self.q_table.write_value(state.number, action, self.recalculate(action, reward, state, next_state))
+                self.q_table.write_value(state.state_position, action, self.recalculate(action, reward, state, next_state))
                 state = next_state
 
             if (episode + 1) % 100 == 0:
@@ -87,8 +84,8 @@ class QTableAgent(Agent):
         """"""
 
         # Recalculate
-        q_value = self.q_table.get_item(state.number, action)
-        max_value = self.q_table.get_max(next_state.number)
+        q_value = self.q_table.get_item(state.state_position, action)
+        max_value = self.q_table.get_max(next_state.state_position)
         new_q_value = (1 - self.alpha) * q_value + self.alpha * (reward + self.gamma * max_value)
 
         return new_q_value
