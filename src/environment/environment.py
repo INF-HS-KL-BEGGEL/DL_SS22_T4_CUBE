@@ -15,7 +15,7 @@ class ActionSpace:
         return len(self.space)
 
     def sample(self):
-        return random.choice(self.space)
+        return random.randint(0, len(self.space) - 1)
 
     def append(self, object):
         self.space.append(object)
@@ -59,15 +59,17 @@ class Environment:
         fits = self.game.try_fit(self.game.figures[0])
 
         if fits:
-            reward = 25
+            reward = 15
         else:
             reward = -1
-        
+
         # Determine if the game is over
         done = False
-        if self.state.state_position > 1:
+        if self.state.state_position >= self.observation_space.n - 1:
             done = True
-
+        else: 
+            self.state.state_position += 1
+            
         # Update the state
         self.state.update_state(self.game.get_current_face())
 

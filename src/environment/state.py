@@ -24,7 +24,6 @@ class State:
         return self.state_position
     
     def update_state(self, face):
-        self.increase_position()
         self.set_current_face(face)
 
     def __hash__(self):

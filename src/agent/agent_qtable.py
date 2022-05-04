@@ -62,13 +62,20 @@ class QTableAgent(Agent):
                 else:
                     action = self.q_table.get_max(state.state_position)
 
-                print(action)
                 # Take action
-                # TODO action is integer, cannot perform execute
                 next_state, reward, terminated, info = self.environment.step(action)
 
+                print(reward)
+                print(action)
+                print(self.q_table.q_table)
+
+                # Recalculate
+                q_value = self.q_table.q_table[state.state_position, action]
+                max_value = np.max(self.q_table.q_table[next_state.state_position])
+                new_q_value = (1 - self.alpha) * q_value + self.alpha * (reward + self.gamma * max_value)
+                
                 # Update Q-table
-                self.q_table.write_value(state.state_position, action, self.recalculate(action, reward, state, next_state))
+                self.q_table.q_table[state.state_position, action] = new_q_value
                 state = next_state
 
             if (episode + 1) % 100 == 0:
@@ -80,12 +87,3 @@ class QTableAgent(Agent):
         print("Training is done!\n")
         print("**********************************")
 
-    def recalculate(self, action, reward, state, next_state):
-        """"""
-
-        # Recalculate
-        q_value = self.q_table.get_item(state.state_position, action)
-        max_value = self.q_table.get_max(next_state.state_position)
-        new_q_value = (1 - self.alpha) * q_value + self.alpha * (reward + self.gamma * max_value)
-
-        return new_q_value
