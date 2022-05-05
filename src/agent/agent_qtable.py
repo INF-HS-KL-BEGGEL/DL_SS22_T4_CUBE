@@ -10,7 +10,7 @@ from environment.action import Action
 class QTable:
 
     def __init__(self, env, observation_space_size, action_space_size):
-        self.q_table = np.zeros((900, action_space_size))
+        self.q_table = np.zeros((observation_space_size, action_space_size))
         self.env = env
 
     def write_value(self, state, action, value):
@@ -33,6 +33,7 @@ class QTable:
         return np.max(self.q_table[state.get_number()])
 
     def update(self, state, action, new_q_value):
+        print("update:", state.number, action.id())
         self.q_table[state.get_number(), action.id()] = new_q_value
 
     def print(self):
@@ -43,6 +44,13 @@ class QTable:
 
     def to_json(self, filename):
         json.dump({"table": self.q_table.tolist()}, open(filename, "w"))
+
+    def load_csv(self, filename):
+        self.q_table = pd.read_csv(filename).to_numpy()
+
+    def load_json(self, filename):
+        self.q_table = np.array(json.load(open(filename, "r"))["table"])
+
 
 class QTableAgent(Agent):
 
@@ -70,6 +78,10 @@ class QTableAgent(Agent):
             terminated = False
 
             while not terminated:
+
+                if self.environment.game.is_done():
+                    break
+
                 # Take learned path or explore new actions based on the epsilon
                 if random.uniform(0, 1) < self.epsilon:
                     action = self.get_random_action()
@@ -91,6 +103,7 @@ class QTableAgent(Agent):
 
                 # Update Q-table
                 self.q_table.update(state, action, new_q_value)
+
                 state = next_state
 
             if (episode + 1) % 100 == 0:

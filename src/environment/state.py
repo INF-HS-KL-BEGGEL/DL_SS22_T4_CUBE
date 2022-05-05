@@ -2,7 +2,7 @@
 
 class State:
 
-    def __init__(self, number, prev=None):
+    def __init__(self, current_face, current_fig, number, prev=None):
         """
         The State is a Combination of the current Figure on top of the stack and the current Face of the cube
         in game.
@@ -10,6 +10,8 @@ class State:
         :param current_face:
         :param prev:
         """
+        self.current_face = current_face
+        self.current_fig = current_fig
         self.number = number
         self.prev = prev
 

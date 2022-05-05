@@ -2,18 +2,16 @@ import numpy as np
 import random
 from IPython.display import clear_output
 import collections
-import progressbar
-
-
 from tensorflow.keras import Model, Sequential
 from tensorflow.keras.layers import Dense, Embedding, Reshape
 from tensorflow.keras.optimizers import Adam
 
 
-class Agent:
+class QNetworkAgent:
 
     def __init__(self, environment, optimizer):
 
+        self.environment = environment
         # Initialize attributes
         self._state_size = environment.observation_space.n
         self._action_size = environment.action_space.n
@@ -49,7 +47,7 @@ class Agent:
 
     def act(self, state):
         if np.random.rand() <= self.epsilon:
-            return environment.action_space.sample()
+            return self.environment.action_space.sample()
 
         q_values = self.q_network.predict(state)
         return np.argmax(q_values[0])

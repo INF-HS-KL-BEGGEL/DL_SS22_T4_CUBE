@@ -41,10 +41,18 @@ class Game:
         """Returns the current face"""
         return self.cube.get_faces()[self.current_face]
 
+    def get_current_face_index(self):
+        """Returns the current face index"""
+        return self.current_face
+
+    def get_figure_stack(self):
+        return self.figure_stack
+
     def get_top_of_figure_stack(self):
         """
         :return:
         """
+
         return self.figure_stack[-1]
 
     def get_cube(self):

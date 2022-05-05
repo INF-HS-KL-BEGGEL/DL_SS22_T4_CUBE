@@ -9,17 +9,25 @@ class Environment:
     
     def __init__(self):
         """Initializes the environment with a random Game"""
-        self.state_counter = 0
 
         self.game = Game.setup_game_random()
-        self.state = self.reset()
-        self._action_space = [TurnRightAction(self.game), TurnLeftAction(self.game), TryFitAction(self.game)]
         self._observation_space = self.calc_observation_space()
+        self.current_state = self.reset()
+        self._action_space = [TurnRightAction(self.game), TurnLeftAction(self.game), TryFitAction(self.game)]
 
 
     def calc_observation_space(self):
-        statecount = len(self.game.get_cube().get_faces()) * len(self._action_space)
-        return [State(i) for i in range(0, statecount)]
+        statecounter = 0
+        faces = self.game.get_cube().get_faces()
+        figures = self.game.get_figure_stack()
+
+        states = []
+        for face in faces:
+            for fig in figures:
+                states.append(State(face, fig, statecounter))
+                statecounter += 1
+
+        return states
 
     @property
     def observation_space(self):
@@ -35,6 +43,9 @@ class Environment:
     def execute_random_action(self):
         return self.pick_random_action().execute()
 
+    def get_current_state(self):
+        return self.current_state
+
     def step(self, action):    
         reward = action.execute()
 
@@ -43,14 +54,24 @@ class Environment:
         # Determine if the game is over
         done = self.game.is_done()
 
-        state = State(self.state_counter)
+        if not done:
+            current_state = self.get_state_from(self.game.get_current_face(), self.game.get_top_of_figure_stack())
+            state = self.observation_space[current_state.get_number()]
+            return state, reward, done, {}
 
-        return state, reward, done, {}
+        return None, reward, done, {}
 
     def reset(self) -> State:
-        state = State(self.state_counter)
-        return state
+        return self._observation_space[0]
 
     @staticmethod
     def create_sample():
         return Environment()
+
+    def get_state_from(self, current_face, current_figure):
+        for state in self.observation_space:
+            print(state.current_fig, state.current_face, current_figure, current_face)
+            if state.current_fig == current_figure and state.current_face == current_face:
+                return state
+
+        return None
