@@ -5,25 +5,6 @@ from environment.action import Action, TurnRightAction, TurnLeftAction, TryFitAc
 from environment.state import State
 import numpy as np
 
-class ActionSpace:
-
-    def __init__(self, space: list):
-        self.space = space
-
-    @property
-    def n(self):
-        return len(self.space)
-
-    def append(self, object):
-        self.space.append(object)
-
-    def get(self, index):
-        return self.space[index]
-
-    def get_random_action(self):
-        return self.space[random.randint(0, len(self.space) - 1)]
-
-
 class Environment:
     
     def __init__(self):
@@ -32,13 +13,13 @@ class Environment:
 
         self.game = Game.setup_game_random()
         self.state = self.reset()
-        self._action_space = ActionSpace(
-            [TurnRightAction(self.game), TurnLeftAction(self.game), TryFitAction(self.game)])
+        self._action_space = [TurnRightAction(self.game), TurnLeftAction(self.game), TryFitAction(self.game)]
         self._observation_space = self.calc_observation_space()
 
 
     def calc_observation_space(self):
-        return ActionSpace(self.game.get_cube().get_faces())
+        statecount = len(self.game.get_cube().get_faces()) * len(self._action_space)
+        return [State(i) for i in range(0, statecount)]
 
     @property
     def observation_space(self):
@@ -63,13 +44,11 @@ class Environment:
         done = self.game.is_done()
 
         state = State(self.state_counter)
-        self.state_counter += 1
 
         return state, reward, done, {}
 
     def reset(self) -> State:
         state = State(self.state_counter)
-        self.state_counter += 1
         return state
 
     @staticmethod

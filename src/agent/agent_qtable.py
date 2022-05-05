@@ -1,5 +1,6 @@
 from IPython.core.display_functions import clear_output
-
+import json
+import pandas as pd
 from agent.agent_base import Agent
 import random
 import numpy as np
@@ -9,7 +10,7 @@ from environment.action import Action
 class QTable:
 
     def __init__(self, env, observation_space_size, action_space_size):
-        self.q_table = np.zeros((9, action_space_size))
+        self.q_table = np.zeros((900, action_space_size))
         self.env = env
 
     def write_value(self, state, action, value):
@@ -22,12 +23,13 @@ class QTable:
     def get_action_with_max_reward(self, state):
         print(state)
         index = np.argmax(self.q_table[state.get_number()])
-        return self.env.action_space.get(index)
+        return self.env.action_space[index]
 
     def get_reward(self, state, action):
         return self.q_table[state.get_number(), action.id()]
 
     def get_max_reward(self, state):
+        print("state nr", state.number )
         return np.max(self.q_table[state.get_number()])
 
     def update(self, state, action, new_q_value):
@@ -36,14 +38,20 @@ class QTable:
     def print(self):
         print(self.q_table)
 
+    def to_csv(self, filename):
+        pd.DataFrame(self.q_table).to_csv(filename)
+
+    def to_json(self, filename):
+        json.dump({"table": self.q_table.tolist()}, open(filename, "w"))
+
 class QTableAgent(Agent):
 
-    def __init__(self, environment, episodes=10000):
+    def __init__(self, environment, episodes=100):
         super().__init__(environment)
 
         self.env = environment
         self.num_of_episodes = episodes
-        self.q_table = QTable(self.env, self.env.observation_space.n, self.env.action_space.n)
+        self.q_table = QTable(self.env, len(self.env.observation_space), len(self.env.action_space))
         self.epsilon = 0.1
         self.alpha = 0.1
         self.gamma = 0.6
@@ -64,7 +72,7 @@ class QTableAgent(Agent):
             while not terminated:
                 # Take learned path or explore new actions based on the epsilon
                 if random.uniform(0, 1) < self.epsilon:
-                    action = self.env.action_space.get_random_action()
+                    action = self.get_random_action()
                 else:
                     action = self.q_table.get_action_with_max_reward(state)
 
@@ -97,3 +105,6 @@ class QTableAgent(Agent):
     def recalculate(self, q_value, max_value, reward):
 
         return (1 - self.alpha) * q_value + self.alpha * (reward + self.gamma * max_value)
+
+    def get_random_action(self):
+        return random.choice(self.env.action_space)

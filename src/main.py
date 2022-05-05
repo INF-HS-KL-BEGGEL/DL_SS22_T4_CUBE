@@ -7,3 +7,6 @@ agent = QTableAgent(env)
 
 agent.retrain(10)
 
+agent.q_table.to_csv("test.csv")
+
+agent.q_table.to_json("test.json")
