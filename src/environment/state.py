@@ -2,35 +2,29 @@
 
 class State:
 
-    def __init__(self, state_position, current_face, prev=None):
-        self.state_position = state_position
-        self.current_face = current_face
+    def __init__(self, number, prev=None):
+        """
+        The State is a Combination of the current Figure on top of the stack and the current Face of the cube
+        in game.
+        :param current_figure:
+        :param current_face:
+        :param prev:
+        """
+        self.number = number
         self.prev = prev
 
     def get_prev(self):
         return self.prev
-    
-    def get_current_face(self):
-        return self.current_face
-    
-    def set_current_face(self, current_face):
-        self.prev = self.current_face
-        self.current_face = current_face
-    
-    def increase_position(self):
-        self.state_position += 1
-    
-    def get_position(self):
-        return self.state_position
-    
-    def update_state(self, face):
-        self.set_current_face(face)
 
-    def __hash__(self):
-        return self.current_face
+    def __hash__(self) -> int:
+        return super().__hash__()
 
     def __eq__(self, other):
-        return self.current_face
+        return self.number == other.number
 
     def __ne__(self, other):
-        return not self.current_face == other
+        print("ACHTUNG HIER WURDE __ne__ aufgerufen")
+        return not self == other
+
+    def get_number(self):
+        return self.number

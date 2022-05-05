@@ -10,7 +10,7 @@ class Game:
         self.cube = cube
         self.current_face = 0
         self.faces = cube.get_faces()
-        self.figures = figures
+        self.figure_stack = figures
 
     def turn_left(self, steps=1):
         """Turns the cube left by the given number of steps, default is 1"""
@@ -26,13 +26,26 @@ class Game:
         else:
             self.current_face += 1
 
-    def try_fit(self, figure):
+    def try_fit(self):
         """Try to fit the given figure on the current face"""
-        return self.cube.fits(figure, self.current_face)
+        if len(self.figure_stack) == 0:
+            return False
+
+        figure = self.figure_stack[-1]
+        fits = self.cube.fits(figure, self.current_face)
+        if fits:
+            self.figure_stack.pop()
+        return fits
 
     def get_current_face(self):
         """Returns the current face"""
         return self.cube.get_faces()[self.current_face]
+
+    def get_top_of_figure_stack(self):
+        """
+        :return:
+        """
+        return self.figure_stack[-1]
 
     def get_cube(self):
         return self.cube
@@ -41,9 +54,12 @@ class Game:
         """Resets the game"""
         self.current_face = 0
 
+    def is_done(self):
+        return len(self.figure_stack) == 0
+
     def print_game(self):
         """Prints the game"""
-        print("Figures: %s" % self.figures)
+        print("Figures: %s" % self.figure_stack)
         print("Current face: %s" % self.get_current_face())
         print("Cube: %s" % self.get_cube())
 

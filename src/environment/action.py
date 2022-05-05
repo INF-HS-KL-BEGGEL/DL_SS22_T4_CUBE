@@ -19,9 +19,12 @@ class TurnLeftAction(Action):
     def __init__(self, game):
         super().__init__(game)
 
-    def execute(self):
-        self.game.turn_left()
+    def id(self):
+        return 0
 
+    def execute(self) -> int:
+        self.game.turn_left()
+        return -1
 
 class TurnRightAction(Action):
     """Class representing the action to turn the cube right"""
@@ -29,9 +32,12 @@ class TurnRightAction(Action):
     def __init__(self, game):
         super().__init__(game)
 
+    def id(self):
+        return 1
+
     def execute(self):
         self.game.turn_right()
-
+        return -1
 
 class TryFitAction(Action):
     """
@@ -41,16 +47,15 @@ class TryFitAction(Action):
 
     def __init__(self, game):
         super().__init__(game)
-        self.figure = None
 
-    def get_figure(self):
-        return self.figure
-
-    def set_figure(self, figure):
-        self.figure = figure
+    def id(self):
+        return 2
 
     def execute(self):
         """
         :return: reward
         """
-        self.game.try_fit(self.figure)
+        fits = self.game.try_fit()
+        if fits:
+            return 15
+        return -1

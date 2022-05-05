@@ -14,9 +14,6 @@ class ActionSpace:
     def n(self):
         return len(self.space)
 
-    def sample(self):
-        return random.randint(0, len(self.space) - 1)
-
     def append(self, object):
         self.space.append(object)
 
@@ -31,11 +28,14 @@ class Environment:
     
     def __init__(self):
         """Initializes the environment with a random Game"""
+        self.state_counter = 0
+
         self.game = Game.setup_game_random()
         self.state = self.reset()
         self._action_space = ActionSpace(
-            [TurnRightAction(self.game), TurnLeftAction(self.game)])
+            [TurnRightAction(self.game), TurnLeftAction(self.game), TryFitAction(self.game)])
         self._observation_space = self.calc_observation_space()
+
 
     def calc_observation_space(self):
         return ActionSpace(self.game.get_cube().get_faces())
@@ -55,27 +55,22 @@ class Environment:
         return self.pick_random_action().execute()
 
     def step(self, action):    
-        self.action_space.get(action).execute()
-        fits = self.game.try_fit(self.game.figures[0])
-        
+        reward = action.execute()
+
         self.game.print_game()
         
         # Determine if the game is over
-        done = False
+        done = self.game.is_done()
 
-        if fits:
-            reward = 15
-            done = True
-        else:
-            reward = -1
-            
-        # Update the state
-        self.state.update_state(self.game.get_current_face())
+        state = State(self.state_counter)
+        self.state_counter += 1
 
-        return self.state, reward, done, {}
+        return state, reward, done, {}
 
     def reset(self) -> State:
-        return State(0, self.game.get_current_face())
+        state = State(self.state_counter)
+        self.state_counter += 1
+        return state
 
     @staticmethod
     def create_sample():
