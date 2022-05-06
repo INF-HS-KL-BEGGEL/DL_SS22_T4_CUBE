@@ -26,4 +26,4 @@ class PlotWriter(Writer):
 
         plt.subplot()
         plt.plot(self.x, self.y , 'bo')
-        plt.redraw()
+        plt.draw()

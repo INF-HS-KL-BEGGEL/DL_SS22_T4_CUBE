@@ -22,6 +22,7 @@ class QTableAgent(Agent):
     def play(self, game_run_index):
 
         sum_reward = 0
+        state = self.environment.reset()
         terminated = False
         while not terminated:
 

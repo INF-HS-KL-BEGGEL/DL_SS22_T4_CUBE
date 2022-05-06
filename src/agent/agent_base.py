@@ -7,9 +7,6 @@ class Agent(ABC):
 
         self.environment = environment
 
-    @abstractmethod
-    def act(self, state):
-        pass
 
     @abstractmethod
     def retrain(self, batch_size):
