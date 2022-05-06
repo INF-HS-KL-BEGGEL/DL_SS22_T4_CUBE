@@ -72,7 +72,6 @@ class Game:
         print("Cube: %s" % self.get_cube())
 
 
-
     @staticmethod
     def setup_game_random():
         """Creates a random game"""

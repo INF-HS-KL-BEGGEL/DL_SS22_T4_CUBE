@@ -1,9 +1,7 @@
-import random
-from environment.cube import Cube
 from environment.game import Game
-from environment.action import Action, TurnRightAction, TurnLeftAction, TryFitAction
+from environment.action import TurnRightAction, TurnLeftAction, TryFitAction
 from environment.state import State
-import numpy as np
+
 
 class Environment:
     
@@ -14,7 +12,6 @@ class Environment:
         self._observation_space = self.calc_observation_space()
         self.current_state = self.reset()
         self._action_space = [TurnRightAction(self.game), TurnLeftAction(self.game), TryFitAction(self.game)]
-
 
     def calc_observation_space(self):
         statecounter = 0
@@ -49,29 +46,27 @@ class Environment:
     def step(self, action):    
         reward = action.execute()
 
-        self.game.print_game()
-        
         # Determine if the game is over
         done = self.game.is_done()
 
         if not done:
             current_state = self.get_state_from(self.game.get_current_face(), self.game.get_top_of_figure_stack())
-            state = self.observation_space[current_state.get_number()]
-            return state, reward, done, {}
+            next_state = self.observation_space[current_state.get_number()]
+            return next_state, reward, done, {}
 
         return None, reward, done, {}
 
     def reset(self) -> State:
         return self._observation_space[0]
 
-    @staticmethod
-    def create_sample():
-        return Environment()
-
     def get_state_from(self, current_face, current_figure):
         for state in self.observation_space:
-            print(state.current_fig, state.current_face, current_figure, current_face)
+
             if state.current_fig == current_figure and state.current_face == current_face:
                 return state
 
         return None
+
+    @staticmethod
+    def create_sample():
+        return Environment()

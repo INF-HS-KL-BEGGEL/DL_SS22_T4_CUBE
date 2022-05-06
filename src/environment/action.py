@@ -1,7 +1,3 @@
-# Noch keine Idee wie wir Actionen am besten wegabstrahieren können
-import typing
-from environment.state import State
-
 
 class Action:
     """Class representing the actions that can be used in the game"""
@@ -25,6 +21,7 @@ class TurnLeftAction(Action):
     def execute(self) -> int:
         self.game.turn_left()
         return -1
+
 
 class TurnRightAction(Action):
     """Class representing the action to turn the cube right"""
