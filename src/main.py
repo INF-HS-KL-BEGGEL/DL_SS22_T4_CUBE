@@ -3,11 +3,11 @@ from environment.environment import Environment
 
 env = Environment.create_sample()
 
-agent = QTableAgent(env, 10000)
+agent = QTableAgent(env)
 
 for i in range(1, 20):
 
-    agent.retrain()
+    agent.retrain(100)
     agent.play(i)
 
 

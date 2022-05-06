@@ -7,11 +7,10 @@ from logger.logger import PlotWriter
 
 class QTableAgent(Agent):
 
-    def __init__(self, environment, episodes=100):
+    def __init__(self, environment):
         super().__init__(environment)
 
         self.env = environment
-        self.num_of_episodes = episodes
         self.q_table = QTable(self.env, len(self.env.observation_space), len(self.env.action_space))
         self.epsilon = 0.1
         self.alpha = 0.1
@@ -44,9 +43,9 @@ class QTableAgent(Agent):
         self.plotwriter.write((game_run_index, sum_reward))
         self.environment.reset_environment()
 
-    def retrain(self):
+    def retrain(self, num_of_episodes=100):
 
-        for episode in range(0, self.num_of_episodes):
+        for episode in range(0, num_of_episodes):
             # Reset the environment
             state = self.environment.reset_state()
 
@@ -78,7 +77,7 @@ class QTableAgent(Agent):
                 self.q_table.update(state, action, new_q_value)
                 state = next_state
 
-            if (episode + 1) % 1000 == 0:
+            if (episode + 1) % num_of_episodes/10 == 0:
                 clear_output(wait=True)
                 self.q_table.print()
                 # self.environment.render()
