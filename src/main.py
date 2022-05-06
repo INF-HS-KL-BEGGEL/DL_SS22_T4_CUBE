@@ -3,9 +3,9 @@ from environment.environment import Environment
 
 env = Environment.create_sample()
 
-agent = QTableAgent(env)
+agent = QTableAgent(env, 10000)
 
-for i in range(1, 100):
+for i in range(1, 20):
 
     agent.retrain()
     agent.play(i)

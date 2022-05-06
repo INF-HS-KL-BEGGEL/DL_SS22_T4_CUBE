@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-
+from IPython.display import clear_output
 import matplotlib.pyplot as plt
 
 
@@ -14,16 +14,18 @@ class PlotWriter(Writer):
 
     def __init__(self):
 
-        self.plt = plt.figure()
+        self.fig = plt.figure()
+        self.ax = self.fig.add_subplot(111)
         self.x = []
         self.y = []
-        self.plt.show()
+        self.fig.show()
 
     def write(self, item: tuple):
         x, y = item
         self.x.append(x)
         self.y.append(y)
 
-        plt.subplot()
-        plt.plot(self.x, self.y , 'bo')
-        plt.draw()
+        self.ax.plot(self.x, self.y , 'bo')
+        clear_output(wait=True)
+        self.fig.canvas.draw()
+        self.fig.canvas.flush_events()

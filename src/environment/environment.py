@@ -10,7 +10,7 @@ class Environment:
 
         self.game = Game.setup_game_random()
         self._observation_space = self.calc_observation_space()
-        self.current_state = self.reset()
+        self.current_state = self.reset_state()
         self._action_space = [TurnRightAction(self.game), TurnLeftAction(self.game), TryFitAction(self.game)]
 
     def calc_observation_space(self):
@@ -56,8 +56,11 @@ class Environment:
 
         return None, reward, done, {}
 
-    def reset(self) -> State:
+    def reset_state(self) -> State:
         return self._observation_space[0]
+
+    def reset_environment(self):
+        self.game = Game.setup_game_random()
 
     def get_state_from(self, current_face, current_figure):
         for state in self.observation_space:
