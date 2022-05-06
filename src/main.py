@@ -5,7 +5,11 @@ env = Environment.create_sample()
 
 agent = QTableAgent(env)
 
-agent.retrain(10)
+for i in range(1, 100):
+
+    agent.retrain()
+    agent.play(i)
+
 
 agent.q_table.to_csv("test.csv")
 

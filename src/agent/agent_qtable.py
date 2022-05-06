@@ -3,7 +3,7 @@ import random
 from IPython.core.display_functions import clear_output
 from agent.agent_base import Agent
 from agent.qtable import QTable
-
+from logger.logger import PlotWriter
 
 class QTableAgent(Agent):
 
@@ -17,10 +17,35 @@ class QTableAgent(Agent):
         self.alpha = 0.1
         self.gamma = 0.6
 
-    def act(self, state):
-        pass
+        self.plotwriter = PlotWriter()
 
-    def retrain(self, batch_size):
+    def play(self, game_run_index):
+
+        sum_reward = 0
+        terminated = False
+        while not terminated:
+
+            # Take learned path or explore new actions based on the epsilon
+            if random.uniform(0, 1) < self.epsilon:
+                action = self.get_random_action()
+            else:
+                action = self.q_table.get_action_with_max_reward(state)
+
+            # Take action
+            next_state, reward, terminated, info = self.environment.step(action)
+
+            if terminated:
+                self.q_table.print()
+                print(self.env.action_space)
+                print(self.env.observation_space)
+                break
+
+            sum_reward += reward
+            state = next_state
+
+        self.plotwriter.write((game_run_index,sum_reward))
+
+    def retrain(self):
 
         for episode in range(0, self.num_of_episodes):
             # Reset the environment
