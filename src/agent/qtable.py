@@ -12,7 +12,7 @@ class QTable:
 
     def write_value(self, state, action, value):
 
-        self.q_table[state.get_number(), action.id()] = value
+        self.q_table[state.get_number(), action.id] = value
 
     def get_actions_from_state(self, state):
         return self.env.action_space
@@ -23,7 +23,7 @@ class QTable:
         return self.env.action_space[index]
 
     def get_reward(self, state, action):
-        return self.q_table[state.get_number(), action.id()]
+        return self.q_table[state.get_number(), action.id]
 
     def get_max_reward(self, state):
 
@@ -31,7 +31,7 @@ class QTable:
 
     def update(self, state, action, new_q_value):
 
-        self.q_table[state.get_number(), action.id()] = new_q_value
+        self.q_table[state.get_number(), action.id] = new_q_value
 
     def print(self):
         print(self.q_table)

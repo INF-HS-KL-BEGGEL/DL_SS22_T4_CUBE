@@ -73,22 +73,25 @@ class Game:
 
 
     @staticmethod
-    def setup_game_random():
+    def setup_game():
         """Creates a random game"""
         cube = Cube()
 
         fig1 = Figure("figure1")
         fig2 = Figure("figure2")
         fig3 = Figure("figure3")
+        fig4 = Figure("figure4")
 
-        face1 = Face().create("figure1")
-        face2 = Face().create("figure2")
-        face3 = Face().create("figure3")
+        face1 = Face.create("figure1")
+        face2 = Face.create("figure2")
+        face3 = Face.create("figure3")
+        face4 = Face.create("figure4")
 
         cube.add_face(face1)
         cube.add_face(face2)
         cube.add_face(face3)
+        cube.add_face(face4)
 
-        figures = [fig1, fig2, fig3]
+        figures = [fig1, fig2, fig3, fig4]
 
         return Game(cube, figures)

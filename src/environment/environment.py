@@ -1,17 +1,24 @@
 from environment.game import Game
 from environment.action import TurnRightAction, TurnLeftAction, TryFitAction
 from environment.state import State
-
+import random
 
 class Environment:
     
     def __init__(self):
         """Initializes the environment with a random Game"""
 
-        self.game = Game.setup_game_random()
+        self.game = Game.setup_game()
         self._observation_space = self.calc_observation_space()
         self.current_state = self.reset_state()
-        self._action_space = [TurnRightAction(self.game), TurnLeftAction(self.game), TryFitAction(self.game)]
+        self._action_space = [
+            TurnRightAction(0, self.game, 1),
+            TurnRightAction(1, self.game, 2),
+            TurnRightAction(2, self.game, 3),
+            TurnLeftAction(3, self.game, 1),
+            TurnLeftAction(4, self.game, 2),
+            TurnLeftAction(5, self.game, 3),
+            TryFitAction(6, self.game)]
 
     def calc_observation_space(self):
         statecounter = 0
@@ -33,12 +40,6 @@ class Environment:
     @property
     def action_space(self):
         return self._action_space
-    
-    def pick_random_action(self):
-        return self.action_space.get_random_action()
-    
-    def execute_random_action(self):
-        return self.pick_random_action().execute()
 
     def get_current_state(self):
         return self.current_state
@@ -60,7 +61,7 @@ class Environment:
         return self._observation_space[0]
 
     def reset_environment(self):
-        self.game = Game.setup_game_random()
+        self.game = Game.setup_game()
 
     def get_state_from(self, current_face, current_figure):
         for state in self.observation_space:
@@ -73,3 +74,6 @@ class Environment:
     @staticmethod
     def create_sample():
         return Environment()
+
+    def get_random_action(self):
+        return random.choice(self.action_space)

@@ -6,15 +6,14 @@ from tensorflow.keras import Model, Sequential
 from tensorflow.keras.layers import Dense, Embedding, Reshape
 from tensorflow.keras.optimizers import Adam
 
-
 class QNetworkAgent:
 
-    def __init__(self, environment, optimizer):
+    def __init__(self, environment, optimizer=Adam(learning_rate=0.01)):
 
         self.environment = environment
         # Initialize attributes
-        self._state_size = environment.observation_space.n
-        self._action_size = environment.action_space.n
+        self._state_size = len(environment.observation_space)
+        self._action_size = len(environment.action_space)
         self._optimizer = optimizer
 
         self.experience_replay = collections.deque(maxlen=2000)
@@ -47,7 +46,7 @@ class QNetworkAgent:
 
     def act(self, state):
         if np.random.rand() <= self.epsilon:
-            return self.environment.action_space.sample()
+            return self.environment.get_random_action()
 
         q_values = self.q_network.predict(state)
         return np.argmax(q_values[0])

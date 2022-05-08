@@ -18,6 +18,9 @@ class PlotWriter(Writer):
         self.ax = self.fig.add_subplot(111)
         self.x = []
         self.y = []
+
+    def show(self):
+
         self.fig.show()
 
     def write(self, item: tuple):
