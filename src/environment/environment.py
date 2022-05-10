@@ -1,4 +1,4 @@
-from environment.game import Game
+from games.cube.cube_game import CubeGame
 from environment.action import TurnRightAction, TurnLeftAction, TryFitAction, RotateFigureAction
 from environment.state import State
 import random
@@ -9,7 +9,7 @@ class Environment:
     def __init__(self):
         """Initializes the environment with a random Game"""
 
-        self.game = Game.setup_game(6)
+        self.game = CubeGame.setup_game(6)
         self._observation_space = self.calc_observation_space()
         self._action_space = self.calc_action_space()
         self.current_state = self.reset_state()

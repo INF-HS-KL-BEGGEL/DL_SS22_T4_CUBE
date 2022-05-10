@@ -26,7 +26,6 @@ class QNetworkAgent:
 
         self.target_network.algin_model(self.q_network)
 
-
     def store(self, state, action, reward, next_state, terminated):
         self.experience_replay.append((state, action, reward, next_state, terminated))
 

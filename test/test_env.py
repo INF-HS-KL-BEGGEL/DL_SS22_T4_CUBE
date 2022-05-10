@@ -1,8 +1,4 @@
 import unittest
-from environment.game import Game
-from environment.cube import Cube
-from environment.face import Face
-from environment.figure import Figure
 from environment.environment import Environment
 
 class TestEnv(unittest.TestCase):
