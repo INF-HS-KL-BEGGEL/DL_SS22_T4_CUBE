@@ -18,17 +18,29 @@ class Game:
 
     def turn_left(self, steps=1):
         """Turns the cube left by the given number of steps, default is 1"""
+        length = len(self.cube.get_faces())
         if (self.current_face - steps) < 0:
-            self.current_face = len(self.cube.get_faces()) - 1
+            while steps > 0:
+                if self.current_face == 0:
+                    self.current_face = length - 1
+                else:
+                    self.current_face -= 1
+                steps -= 1
         else:
             self.current_face -= steps
 
     def turn_right(self, steps=1):
         """Turns the cube right by the given number of steps, default is 1"""
-        if (self.current_face + 1) >= len(self.cube.get_faces()) - steps:
-            self.current_face = 0
+        length = len(self.cube.get_faces())
+        if (self.current_face + steps) >= (length - steps):
+            while steps > 0:
+                if self.current_face == (length - 1):
+                    self.current_face = 0
+                else:
+                    self.current_face += 1
+                steps -= 1
         else:
-            self.current_face += 1
+            self.current_face += steps
 
     def try_fit(self):
         """Try to fit the given figure on the current face"""
@@ -81,24 +93,13 @@ class Game:
 
 
     @staticmethod
-    def setup_game():
-        """Creates a random game"""
+    def setup_game(n=6):
+        """Creates a game"""
 
-        figures = [
-            Figure("figure1"),
-            Figure("figure2"),
-            Figure("figure3"),
-            Figure("figure4"),
-            Figure("figure5"),
-            Figure("figure6")
-        ]
-
+        figures = []
         cube = Cube()
-        cube.add_face(Face.create("figure1"))
-        cube.add_face(Face.create("figure2"))
-        cube.add_face(Face.create("figure3"))
-        cube.add_face(Face.create("figure4"))
-        cube.add_face(Face.create("figure5"))
-        cube.add_face(Face.create("figure6"))
+        for i in range(n):
+            figures.append(Figure("figure" + str(i)))
+            cube.add_face(Face.create("figure" + str(i)))
 
         return Game(cube, figures)

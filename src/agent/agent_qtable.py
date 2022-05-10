@@ -4,6 +4,7 @@ from IPython.core.display_functions import clear_output
 from agent.agent_base import Agent
 from agent.qtable import QTable
 from logger.logger import PlotWriter
+import numpy as np
 
 class QTableAgent(Agent):
 
@@ -12,9 +13,9 @@ class QTableAgent(Agent):
 
         self.environment = environment
         self.q_table = QTable(self.environment, len(self.environment.observation_space), len(self.environment.action_space))
-        self.epsilon = 0.001
-        self.alpha = 0.05
-        self.gamma = 0.5
+        self.epsilon = 0.2
+        self.alpha = 0.1
+        self.gamma = 0.6
 
         self.train_plot = PlotWriter()
         self.train_plot.show()
@@ -39,12 +40,12 @@ class QTableAgent(Agent):
                 break
 
             # Too few data from training, cannot solve the game
-            if sum_reward < -100:
+            if sum_reward < -(np.power(len(self.environment.game.faces), 3)):
                 sum_reward = 0
                 break
 
             state = next_state
-            print("Reward Sum: ", sum_reward)
+            print("Current reward sum: ", sum_reward)
         self.play_plot.write((game_run_index, sum_reward))
 
     def train(self, num_of_episodes=100):

@@ -3,20 +3,17 @@ from environment.action import TurnRightAction, TurnLeftAction, TryFitAction
 from environment.state import State
 import random
 
+
 class Environment:
-    
+
     def __init__(self):
         """Initializes the environment with a random Game"""
 
-        self.game = Game.setup_game()
+        self.game = Game.setup_game(6)
         self._observation_space = self.calc_observation_space()
+        self._action_space = self.calc_action_space()
         self.current_state = self.reset_state()
-        self._action_space = [
-            TurnRightAction(0, self.game, 1),
-            TurnRightAction(1, self.game, 2),
-            TurnLeftAction(2, self.game, 1),
-            TurnLeftAction(3, self.game, 2),
-            TryFitAction(4, self.game)]
+
 
     def calc_observation_space(self):
         statecounter = 0
@@ -31,6 +28,18 @@ class Environment:
 
         return states
 
+    def calc_action_space(self):
+        action_id = 0
+        action_space = [TryFitAction(action_id, self.game)]
+        length = len(self.game.faces)
+        for i in range(length):
+            action_id += 1
+            action_space.append(TurnRightAction(action_id, self.game, i + 1))
+
+            action_id += 1
+            action_space.append(TurnLeftAction(action_id, self.game, i + 1))
+        return action_space
+
     @property
     def observation_space(self):
         return self._observation_space
@@ -42,7 +51,7 @@ class Environment:
     def get_current_state(self):
         return self.current_state
 
-    def step(self, action):    
+    def step(self, action):
         reward = action.execute()
 
         # Determine if the game is over
