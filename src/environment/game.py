@@ -1,3 +1,5 @@
+import random
+
 from environment.cube import Cube
 from environment.face import Face
 from environment.figure import Figure
@@ -96,5 +98,6 @@ class Game:
         cube.add_face(face4)
 
         figures = [fig1, fig2, fig3, fig4]
-
+        #random.shuffle(figures)
+        #print(figures)
         return Game(cube, figures)

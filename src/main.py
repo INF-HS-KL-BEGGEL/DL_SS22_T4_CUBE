@@ -5,12 +5,12 @@ from environment.environment import Environment
 
 env = Environment.create_sample()
 
-# agent = QTableAgent(env)
-agent = QNetworkAgent(env)
+agent = QTableAgent(env)
+#agent = QNetworkAgent(env)
 
 for i in range(1, 2):
 
-    agent.train(100)
+    agent.train(1000)
 
     #agent.play(i)
 

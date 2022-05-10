@@ -1,5 +1,5 @@
 import random
-
+import time
 from IPython.core.display_functions import clear_output
 from agent.agent_base import Agent
 from agent.qtable import QTable
@@ -12,11 +12,12 @@ class QTableAgent(Agent):
 
         self.environment = environment
         self.q_table = QTable(self.environment, len(self.environment.observation_space), len(self.environment.action_space))
-        self.epsilon = 0.01
-        self.alpha = 0.2
-        self.gamma = 0.1
+        self.epsilon = 0.1
+        self.alpha = 0.01
+        self.gamma = 0.7
 
         self.plotwriter = PlotWriter()
+        self.plotwriter.show()
 
     def play(self, game_run_index):
         self.plotwriter.show()
@@ -33,7 +34,7 @@ class QTableAgent(Agent):
 
             sum_reward += reward
             if terminated:
-                #self.q_table.print()
+                self.q_table.print("TERMINATED")
                 #print(self.env.action_space)
                 #print(self.env.observation_space)
                 break
@@ -41,7 +42,7 @@ class QTableAgent(Agent):
             print("################################ SUM", sum_reward)
             state = next_state
 
-        self.plotwriter.write((game_run_index, sum_reward))
+        #self.plotwriter.write((game_run_index, sum_reward))
         self.environment.reset_environment()
 
     def train(self, num_of_episodes=100):
@@ -53,6 +54,8 @@ class QTableAgent(Agent):
             # Initialize variables
             reward = 0
             terminated = False
+
+            start_t = time.time()
 
             while not terminated:
 
@@ -66,9 +69,9 @@ class QTableAgent(Agent):
                 next_state, reward, terminated, info = self.environment.step(action)
 
                 if terminated:
-                    #self.q_table.print()
                     #print(self.environment.action_space)
                     #print(self.env.observation_space)
+                    #self.q_table.print("Episode %s" % episode)
                     break
 
                 q_value = self.q_table.get_reward(state, action)
@@ -78,11 +81,13 @@ class QTableAgent(Agent):
                 self.q_table.update(state, action, new_q_value)
                 state = next_state
 
-            if (episode) % int(num_of_episodes/(num_of_episodes * 0.5)) == 0:
-                self.q_table.print()
-                print("-----------------------------------------")
+            end_t = time.time()
+            self.q_table.print("Episode %s Time: %s" % (episode, end_t - start_t))
+            self.plotwriter.write((episode, end_t - start_t))
+            #self.epsilon -= (self.epsilon/100)*1
+            start_t = end_t
 
-            #self.environment.reset_environment()
+            self.environment.reset_environment()
 
         print("**********************************")
         print("Training is done!\n")

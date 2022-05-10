@@ -2,7 +2,7 @@ import json
 
 import numpy as np
 import pandas as pd
-
+from tabulate import tabulate
 
 class QTable:
 
@@ -33,8 +33,9 @@ class QTable:
 
         self.q_table[state.get_number(), action.id] = new_q_value
 
-    def print(self):
-        print(self.q_table)
+    def print(self, msg=""):
+        print("******************** %s **********************" % msg)
+        print(tabulate(self.q_table, tablefmt="fancy_grid"))
 
     def to_csv(self, filename):
         pd.DataFrame(self.q_table).to_csv(filename)

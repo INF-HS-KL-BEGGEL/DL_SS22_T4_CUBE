@@ -9,5 +9,5 @@ class Agent(ABC):
 
 
     @abstractmethod
-    def retrain(self, batch_size):
+    def train(self, batch_size):
         pass

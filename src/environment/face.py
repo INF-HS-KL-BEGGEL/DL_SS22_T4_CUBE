@@ -34,7 +34,7 @@ class Face:
         return True
 
     def __repr__(self):
-        return str(self.matching_figures)
+        return "<Face %s>" % str(self.matching_figures)
 
     @staticmethod
     def create(figure_name):

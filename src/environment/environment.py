@@ -14,11 +14,9 @@ class Environment:
         self._action_space = [
             TurnRightAction(0, self.game, 1),
             TurnRightAction(1, self.game, 2),
-            TurnRightAction(2, self.game, 3),
-            TurnLeftAction(3, self.game, 1),
-            TurnLeftAction(4, self.game, 2),
-            TurnLeftAction(5, self.game, 3),
-            TryFitAction(6, self.game)]
+            TurnLeftAction(2, self.game, 1),
+            TurnLeftAction(3, self.game, 2),
+            TryFitAction(4, self.game)]
 
     def calc_observation_space(self):
         statecounter = 0
@@ -62,6 +60,7 @@ class Environment:
 
     def reset_environment(self):
         self.game.reset_game()
+        self.current_state = self.reset_state()
 
     def get_state_from(self, current_face, current_figure):
         for state in self.observation_space:
