@@ -8,9 +8,9 @@ env = Environment.create_sample()
 agent = QTableAgent(env)
 #agent = QNetworkAgent(env)
 
-for i in range(1, 2):
+for i in range(0, 1):
 
-    agent.train(1000)
+    agent.train(500)
 
     #agent.play(i)
 

@@ -29,7 +29,7 @@ class TurnLeftAction(Action):
 
     def execute(self) -> int:
         self.game.turn_left(self.step)
-        return 1
+        return -1
 
 
 class TurnRightAction(Action):
@@ -41,7 +41,7 @@ class TurnRightAction(Action):
 
     def execute(self):
         self.game.turn_right(self.step)
-        return 1
+        return -1
 
 
 class TryFitAction(Action):

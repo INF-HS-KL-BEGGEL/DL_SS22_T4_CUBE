@@ -35,7 +35,8 @@ class QTable:
 
     def print(self, msg=""):
         print("******************** %s **********************" % msg)
-        print(tabulate(self.q_table, tablefmt="fancy_grid"))
+        table = np.vstack((self.env.action_space, self.q_table))
+        print(tabulate(table, headers='firstrow', tablefmt="fancy_grid"))
 
     def to_csv(self, filename):
         pd.DataFrame(self.q_table).to_csv(filename)

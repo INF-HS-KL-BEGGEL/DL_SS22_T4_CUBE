@@ -65,7 +65,7 @@ class Environment:
     def get_state_from(self, current_face, current_figure):
         for state in self.observation_space:
 
-            if state.current_fig == current_figure and state.current_face == current_face:
+            if state.get_current_figure() == current_figure and state.get_current_face() == current_face:
                 return state
 
         return None

@@ -26,7 +26,7 @@ class Game:
     def turn_right(self, steps=1):
         """Turns the cube right by the given number of steps, default is 1"""
         if (self.current_face + 1) >= len(self.cube.get_faces()) - steps:
-            self.reset_game()
+            self.current_face = 0
         else:
             self.current_face += 1
 
@@ -56,6 +56,8 @@ class Game:
         """
         :return:
         """
+        if len(self.figure_stack) == 0:
+            return None
 
         return self.figure_stack[-1]
 

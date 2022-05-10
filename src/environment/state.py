@@ -13,10 +13,12 @@ class State:
         self.current_face = current_face
         self.current_fig = current_fig
         self.number = number
-        self.prev = prev
 
-    def get_prev(self):
-        return self.prev
+    def get_current_face(self):
+        return self.current_face
+
+    def get_current_figure(self):
+        return self.current_fig
 
     def __hash__(self) -> int:
         return super().__hash__()

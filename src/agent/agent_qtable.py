@@ -12,9 +12,9 @@ class QTableAgent(Agent):
 
         self.environment = environment
         self.q_table = QTable(self.environment, len(self.environment.observation_space), len(self.environment.action_space))
-        self.epsilon = 0.1
-        self.alpha = 0.01
-        self.gamma = 0.7
+        self.epsilon = 0.001
+        self.alpha = 0.05
+        self.gamma = 0.5
 
         self.plotwriter = PlotWriter()
         self.plotwriter.show()
@@ -56,6 +56,7 @@ class QTableAgent(Agent):
             terminated = False
 
             start_t = time.time()
+            sum_reward = 0
 
             while not terminated:
 
@@ -67,6 +68,7 @@ class QTableAgent(Agent):
 
                 # Take action
                 next_state, reward, terminated, info = self.environment.step(action)
+                sum_reward += reward
 
                 if terminated:
                     #print(self.environment.action_space)
@@ -83,10 +85,11 @@ class QTableAgent(Agent):
 
             end_t = time.time()
             self.q_table.print("Episode %s Time: %s" % (episode, end_t - start_t))
-            self.plotwriter.write((episode, end_t - start_t))
+            #self.plotwriter.write((episode, end_t - start_t))
+            self.plotwriter.write((episode, sum_reward))
             #self.epsilon -= (self.epsilon/100)*1
             start_t = end_t
-
+            sum_reward = 0
             self.environment.reset_environment()
 
         print("**********************************")
