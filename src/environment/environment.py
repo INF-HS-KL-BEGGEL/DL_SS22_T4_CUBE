@@ -1,5 +1,5 @@
 from environment.game import Game
-from environment.action import TurnRightAction, TurnLeftAction, TryFitAction
+from environment.action import TurnRightAction, TurnLeftAction, TryFitAction, RotateFigureAction
 from environment.state import State
 import random
 
@@ -38,6 +38,8 @@ class Environment:
 
             action_id += 1
             action_space.append(TurnLeftAction(action_id, self.game, i + 1))
+        action_id += 1
+        action_space.append(RotateFigureAction(action_id, self.game))
         return action_space
 
     @property
@@ -73,7 +75,6 @@ class Environment:
 
     def get_state_from(self, current_face, current_figure):
         for state in self.observation_space:
-
             if state.get_current_figure() == current_figure and state.get_current_face() == current_face:
                 return state
 

@@ -64,3 +64,14 @@ class TryFitAction(Action):
             # Square the length as reward plus give back negative reward from turn action
             return np.power(len(self.game.faces), 2) + len(self.game.faces)
         return -len(self.game.faces)
+
+
+class RotateFigureAction(Action):
+    """Class representing the action to turn the cube left"""
+
+    def __init__(self, id, game):
+        super().__init__(id, game)
+
+    def execute(self) -> int:
+        self.game.rotate_figure()
+        return -len(self.game.faces)

@@ -37,8 +37,8 @@ class Face:
         return "<Face %s>" % str(self.matching_figures)
 
     @staticmethod
-    def create(figure_name):
+    def create(figure):
         """Creates a face with the given figure"""
         face = Face()
-        face.add_matching_figure(Figure(figure_name))
+        face.add_matching_figure(figure)
         return face

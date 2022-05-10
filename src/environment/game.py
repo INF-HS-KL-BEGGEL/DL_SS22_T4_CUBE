@@ -2,7 +2,7 @@ import random
 
 from environment.cube import Cube
 from environment.face import Face
-from environment.figure import Figure
+from environment.figure import Direction, Figure
 
 
 class Game:
@@ -52,6 +52,10 @@ class Game:
         if fits:
             self.figure_stack.pop()
         return fits
+    
+    def rotate_figure(self):
+        """Rotates the given figure"""
+        self.get_top_of_figure_stack().rotate()
 
     def get_current_face(self):
         """Returns the current face"""
@@ -65,9 +69,6 @@ class Game:
         return self.figure_stack
 
     def get_top_of_figure_stack(self):
-        """
-        :return:
-        """
         if len(self.figure_stack) == 0:
             return None
 
@@ -96,10 +97,13 @@ class Game:
     def setup_game(n=6):
         """Creates a game"""
 
+        directions = [Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT]
         figures = []
         cube = Cube()
         for i in range(n):
-            figures.append(Figure("figure" + str(i)))
-            cube.add_face(Face.create("figure" + str(i)))
+            fig = Figure("figure" + str(i), random.choice(directions))
+            face = Figure("figure" + str(i), random.choice(directions))
+            figures.append(fig)
+            cube.add_face(Face.create(face))
 
         return Game(cube, figures)
