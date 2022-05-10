@@ -16,12 +16,13 @@ class QTableAgent(Agent):
         self.alpha = 0.05
         self.gamma = 0.5
 
-        self.plotwriter = PlotWriter()
-        self.plotwriter.show()
+        self.train_plot = PlotWriter()
+        self.train_plot.show()
+
+        self.play_plot = PlotWriter()
+        self.play_plot.show()
 
     def play(self, game_run_index):
-        self.plotwriter.show()
-
         sum_reward = 0
         state = self.environment.reset_state()
         terminated = False
@@ -34,16 +35,17 @@ class QTableAgent(Agent):
 
             sum_reward += reward
             if terminated:
-                self.q_table.print("TERMINATED")
-                #print(self.env.action_space)
-                #print(self.env.observation_space)
+                self.q_table.print("Playing Done!")
                 break
 
-            print("################################ SUM", sum_reward)
-            state = next_state
+            # Too few data from training, cannot solve the game
+            if sum_reward < -100:
+                sum_reward = 0
+                break
 
-        #self.plotwriter.write((game_run_index, sum_reward))
-        self.environment.reset_environment()
+            state = next_state
+            print("Reward Sum: ", sum_reward)
+        self.play_plot.write((game_run_index, sum_reward))
 
     def train(self, num_of_episodes=100):
 
@@ -86,7 +88,7 @@ class QTableAgent(Agent):
             end_t = time.time()
             self.q_table.print("Episode %s Time: %s" % (episode, end_t - start_t))
             #self.plotwriter.write((episode, end_t - start_t))
-            self.plotwriter.write((episode, sum_reward))
+            self.train_plot.write((episode, sum_reward))
             #self.epsilon -= (self.epsilon/100)*1
             start_t = end_t
             sum_reward = 0

@@ -60,4 +60,4 @@ class TryFitAction(Action):
         fits = self.game.try_fit()
         if fits:
             return 10
-        return 0
+        return -1

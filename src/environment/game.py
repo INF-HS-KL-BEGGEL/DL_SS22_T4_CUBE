@@ -67,7 +67,8 @@ class Game:
     def reset_game(self):
         """Resets the game"""
         self.figure_stack = self.figure_stack_copy.copy()
-        self.current_face = 0
+        random.shuffle(self.figure_stack)
+        self.current_face = random.randint(0, len(self.faces) - 1)
 
     def is_done(self):
         return len(self.figure_stack) == 0
@@ -82,24 +83,22 @@ class Game:
     @staticmethod
     def setup_game():
         """Creates a random game"""
+
+        figures = [
+            Figure("figure1"),
+            Figure("figure2"),
+            Figure("figure3"),
+            Figure("figure4"),
+            Figure("figure5"),
+            Figure("figure6")
+        ]
+
         cube = Cube()
+        cube.add_face(Face.create("figure1"))
+        cube.add_face(Face.create("figure2"))
+        cube.add_face(Face.create("figure3"))
+        cube.add_face(Face.create("figure4"))
+        cube.add_face(Face.create("figure5"))
+        cube.add_face(Face.create("figure6"))
 
-        fig1 = Figure("figure1")
-        fig2 = Figure("figure2")
-        fig3 = Figure("figure3")
-        fig4 = Figure("figure4")
-
-        face1 = Face.create("figure1")
-        face2 = Face.create("figure2")
-        face3 = Face.create("figure3")
-        face4 = Face.create("figure4")
-
-        cube.add_face(face1)
-        cube.add_face(face2)
-        cube.add_face(face3)
-        cube.add_face(face4)
-
-        figures = [fig1, fig2, fig3, fig4]
-        #random.shuffle(figures)
-        #print(figures)
         return Game(cube, figures)

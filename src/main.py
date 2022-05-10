@@ -8,13 +8,14 @@ env = Environment.create_sample()
 agent = QTableAgent(env)
 #agent = QNetworkAgent(env)
 
-for i in range(0, 1):
+for i in range(0, 100):
+    
+    agent.train(10)
 
-    agent.train(500)
+    agent.play(i)
 
-    #agent.play(i)
-
-
+# Use this as a breakpoint to keep the plots open
+print('--- END ---')
 #agent.q_table.to_csv("test.csv")
 
 #agent.q_table.to_json("test.json")
