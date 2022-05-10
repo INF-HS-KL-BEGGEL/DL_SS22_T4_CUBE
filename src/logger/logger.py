@@ -28,7 +28,7 @@ class PlotWriter(Writer):
         self.x.append(x)
         self.y.append(y)
 
-        self.ax.plot(self.x, self.y , 'bo')
+        self.ax.plot(self.x, self.y, 'bo-')
         clear_output(wait=True)
         self.fig.canvas.draw()
         self.fig.canvas.flush_events()

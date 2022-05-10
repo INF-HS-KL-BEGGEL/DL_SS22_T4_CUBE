@@ -17,6 +17,8 @@ class QTableAgent(Agent):
         self.alpha = 0.1
         self.gamma = 0.6
 
+        self.total_episodes = 0
+
         self.train_plot = PlotWriter()
         self.train_plot.show()
 
@@ -88,9 +90,10 @@ class QTableAgent(Agent):
 
             end_t = time.time()
             self.q_table.print("Episode %s Time: %s" % (episode, end_t - start_t))
-            #self.plotwriter.write((episode, end_t - start_t))
-            self.train_plot.write((episode, sum_reward))
-            #self.epsilon -= (self.epsilon/100)*1
+            
+            self.train_plot.write((self.total_episodes, sum_reward))
+            self.total_episodes += 1
+            
             start_t = end_t
             sum_reward = 0
             self.environment.reset_environment()
