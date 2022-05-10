@@ -12,6 +12,8 @@ class Game:
         self.faces = cube.get_faces()
         self.figure_stack = figures
 
+        self.figure_stack_copy = figures.copy()
+
     def turn_left(self, steps=1):
         """Turns the cube left by the given number of steps, default is 1"""
         if (self.current_face - steps) < 0:
@@ -60,6 +62,7 @@ class Game:
 
     def reset_game(self):
         """Resets the game"""
+        self.figure_stack = self.figure_stack_copy.copy()
         self.current_face = 0
 
     def is_done(self):

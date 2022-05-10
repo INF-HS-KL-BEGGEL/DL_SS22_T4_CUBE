@@ -10,11 +10,11 @@ agent = QNetworkAgent(env)
 
 for i in range(1, 2):
 
-    agent.retrain(10)
+    agent.train(100)
 
     #agent.play(i)
 
 
-agent.q_table.to_csv("test.csv")
+#agent.q_table.to_csv("test.csv")
 
-agent.q_table.to_json("test.json")
+#agent.q_table.to_json("test.json")

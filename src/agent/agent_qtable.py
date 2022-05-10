@@ -44,7 +44,7 @@ class QTableAgent(Agent):
         self.plotwriter.write((game_run_index, sum_reward))
         self.environment.reset_environment()
 
-    def retrain(self, num_of_episodes=100):
+    def train(self, num_of_episodes=100):
 
         for episode in range(0, num_of_episodes):
             # Reset the environment

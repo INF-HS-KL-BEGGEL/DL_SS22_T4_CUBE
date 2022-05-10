@@ -2,9 +2,8 @@ import numpy as np
 import random
 from IPython.display import clear_output
 import collections
-from tensorflow.keras import Model, Sequential
-from tensorflow.keras.layers import Dense, Embedding, Reshape
 from tensorflow.keras.optimizers import Adam
+from agent.qnetwork import QNetwork
 
 class QNetworkAgent:
 
@@ -14,7 +13,6 @@ class QNetworkAgent:
         # Initialize attributes
         self._state_size = len(environment.observation_space)
         self._action_size = len(environment.action_space)
-        self._optimizer = optimizer
 
         self.experience_replay = collections.deque(maxlen=2000)
 
@@ -23,30 +21,18 @@ class QNetworkAgent:
         self.epsilon = 0.1
 
         # Build networks
-        self.q_network = self._build_compile_model()
-        self.target_network = self._build_compile_model()
-        self.align_target_model()
+        self.target_network = QNetwork(self._action_size, self._state_size, optimizer)
+        self.q_network = QNetwork(self._action_size, self._state_size, optimizer)
+
+        self.target_network.algin_model(self.q_network)
+
 
     def store(self, state, action, reward, next_state, terminated):
         self.experience_replay.append((state, action, reward, next_state, terminated))
 
-    def _build_compile_model(self):
-        model = Sequential()
-        model.add(Embedding(self._state_size, 10, input_length=1))
-        model.add(Reshape((10,)))
-        model.add(Dense(50, activation='relu'))
-        model.add(Dense(50, activation='relu'))
-        model.add(Dense(self._action_size, activation='linear'))
-
-        model.compile(loss='mse', optimizer=self._optimizer)
-        return model
-
-    def align_target_model(self):
-        self.target_network.set_weights(self.q_network.get_weights())
-
     def act(self, state):
         if np.random.rand() <= self.epsilon:
-            return self.environment.get_random_action()
+            return self.environment.get_random_action().id
 
         q_values = self.q_network.predict(state)
         return np.argmax(q_values[0])
@@ -65,3 +51,45 @@ class QNetworkAgent:
                 target[0][action] = reward + self.gamma * np.amax(t)
 
             self.q_network.fit(state, target, epochs=1, verbose=0)
+
+    def train(self, num_of_episodes, batch_size=10):
+        for e in range(0, num_of_episodes):
+            # Reset the enviroment
+            state = self.environment.reset_state()
+            state = np.reshape(state.get_number(), [1, 1])
+
+            # Initialize variables
+            reward = 0
+            terminated = False
+
+            #bar = progressbar.ProgressBar(maxval=timesteps_per_episode / 10, widgets= \
+            #    [progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
+            #bar.start()
+
+            self.timesteps_per_episode = 1
+            for timestep in range(self.timesteps_per_episode):
+                # Run Action
+                action_index = self.act(state)
+                print(action_index)
+
+                action = self.environment.action_space[action_index]
+
+                # Take action
+                next_state, reward, terminated, info = self.environment.step(action)
+                next_state = np.reshape(next_state, [1, 1])
+                self.store(state, action.id, reward, next_state, terminated)
+
+                state = next_state
+
+                if terminated:
+                    self.target_network.algin_model(self.q_network)
+                    break
+
+                if len(self.experience_replay) > batch_size:
+                    self.retrain(batch_size)
+
+
+            if (e + 1) % 10 == 0:
+                print("**********************************")
+                print("Episode: {}".format(e + 1))
+                print("**********************************")

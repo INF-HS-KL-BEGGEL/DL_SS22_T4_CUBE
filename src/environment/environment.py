@@ -61,7 +61,7 @@ class Environment:
         return self._observation_space[0]
 
     def reset_environment(self):
-        self.game = Game.setup_game()
+        self.game.reset_game()
 
     def get_state_from(self, current_face, current_figure):
         for state in self.observation_space:
