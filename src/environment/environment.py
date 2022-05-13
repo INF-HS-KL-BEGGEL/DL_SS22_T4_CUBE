@@ -6,10 +6,10 @@ import random
 
 class Environment:
 
-    def __init__(self):
+    def __init__(self, game):
         """Initializes the environment with a random Game"""
 
-        self.game = CubeGame.setup_game(6)
+        self.game = game
         self._observation_space = self.calc_observation_space()
         self._action_space = self.calc_action_space()
         self.current_state = self.reset_state()
@@ -82,7 +82,7 @@ class Environment:
 
     @staticmethod
     def create_sample():
-        return Environment()
+        return Environment(CubeGame.setup_game(6))
 
     def get_random_action(self):
         return random.choice(self.action_space)

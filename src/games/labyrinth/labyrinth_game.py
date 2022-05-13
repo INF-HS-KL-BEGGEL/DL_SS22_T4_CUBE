@@ -1,7 +1,7 @@
 from games.labyrinth.labyrinth import Labyrinth, Tile
+from games.Game import Game
 
-
-class LabyrinthGame:
+class LabyrinthGame(Game):
 
     def __init__(self, labyrinth, start_pos: tuple, target_positions: list):
         self.labyrinth = labyrinth

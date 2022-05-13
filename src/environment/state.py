@@ -32,3 +32,8 @@ class State:
 
     def get_number(self):
         return self.number
+
+    @staticmethod
+    def create_state_from_cube(self, game, number):
+        return State()
+

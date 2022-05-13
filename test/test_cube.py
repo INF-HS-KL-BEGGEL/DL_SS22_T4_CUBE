@@ -1,7 +1,7 @@
 import unittest
 from games.cube import Cube
-from environment.face import Face
-from environment.figure import Figure
+from games.cube.face import Face
+from games.cube.figure import Figure
 
 
 class TestCube(unittest.TestCase):

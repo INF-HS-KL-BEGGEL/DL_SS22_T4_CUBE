@@ -1,11 +1,11 @@
 import random
 
 from games.cube import Cube
-from environment.face import Face
-from environment.figure import Direction, Figure
+from games.cube.face import Face
+from games.cube.figure import Direction, Figure
+from games.Game import Game
 
-
-class CubeGame:
+class CubeGame(Game):
 
     def __init__(self, cube: Cube, figures: list):
         """Initializes the game with the given cube and figures"""

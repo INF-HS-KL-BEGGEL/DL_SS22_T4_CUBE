@@ -41,7 +41,7 @@ class Labyrinth:
         index 0: left
         index 1: straight
         index 2: right
-        index 3: beck
+        index 3: back
         :param x:
         :param y:
         :return:
@@ -54,6 +54,16 @@ class Labyrinth:
         create Labyrnith random from given seed
         :param self:
         :param size:
+        :param seed:
+        :return:
+        """
+        pass
+
+
+    @staticmethod
+    def create_random(self, seed):
+        """
+
         :param seed:
         :return:
         """

@@ -1,6 +1,3 @@
-from environment.figure import Figure
-
-
 class Face:
     """Class representing a face of the Cube"""
 
