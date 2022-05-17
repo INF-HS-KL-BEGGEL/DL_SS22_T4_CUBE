@@ -9,9 +9,9 @@ class LabyrinthGame(Game):
     def __init__(self, labyrinth):
         super().__init__()
         self.labyrinth = labyrinth
-        self.current_tile = self.labyrinth.get_tile(0, 0)
-        self.start_tile = self.labyrinth.get_tile(0, 0)
-        self.targets = [Tile(TileType.TARGET, 2, 1)]
+        self.current_tile = self.labyrinth.get_start_tile()
+        self.start_tile = self.labyrinth.get_start_tile()
+        self.targets = self.labyrinth.get_all_target_tiles()
 
         # copy for reset_game
         self.start_tile_copy = copy.deepcopy(self.start_tile)
@@ -43,7 +43,7 @@ class LabyrinthGame(Game):
     @staticmethod
     def setup_game():
         """Factory Method"""
-        maze = Labyrinth.create_from("./src/games/labyrinth/test_labyrinth.json")
+        maze = Labyrinth.create_from("./games/labyrinth/test_labyrinth.json")
         return LabyrinthGame(maze)
 
     def is_accessible(self, direction):
@@ -56,14 +56,15 @@ class LabyrinthGame(Game):
         self.targets = copy.deepcopy(self.targets_copy)
 
     def is_done(self):
-        return len(self.targets) == 0
+        return len(self.get_targets()) == 0
 
     def go(self, direction):
-        print(direction)
         tile = self.labyrinth.get_neighbor_tile(self.get_current_tile(), direction)
-        if not tile:
+        if tile is None or tile.get_type() is TileType.BLOCKED:
             return -1
+
+        # Tile is safe to move to
         self.current_tile = tile
-        if self.check_for_target():
+        if not self.is_done() and self.check_for_target():
             return 1
         return 0

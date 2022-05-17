@@ -15,8 +15,8 @@ class QTableAgent(Agent):
         self.environment = environment
         self.q_table = QTable(self.environment, len(self.environment.observation_space),
                               len(self.environment.action_space))
-        self.epsilon = 0.1
-        self.alpha = 0.2
+        self.epsilon = 0.15
+        self.alpha = 0.3
         self.gamma = 0.6
 
         self.total_episodes = 0
@@ -34,32 +34,29 @@ class QTableAgent(Agent):
         while not terminated:
 
             action = self.q_table.get_action_with_max_reward(state)
-            print(action.__class__)
+
             # Take action
             next_state, reward, terminated, info = self.environment.step(action)
 
             sum_reward += reward
-            if terminated:
+            if terminated or next_state is None:
                 self.q_table.print("Playing Done!")
                 break
 
             # Too few data from training, cannot solve the game
-            if sum_reward < -(np.power(len(self.environment.game.faces), 3)):
+            if sum_reward < -40000:
                 sum_reward = 0
                 break
 
             state = next_state
-            print("Current reward sum: ", sum_reward)
+            # print("Current reward sum: ", sum_reward)
         self.play_plot.write((game_run_index, sum_reward))
 
     def train(self, num_of_episodes=100):
 
         for episode in range(0, num_of_episodes):
             # Reset the environment
-            print("test")
             state = self.environment.reset_state()
-            print("test2")
-
 
             # Initialize variables
             reward = 0
@@ -68,7 +65,7 @@ class QTableAgent(Agent):
             start_t = time.time()
             sum_reward = 0
 
-            while not terminated:
+            while not terminated and sum_reward > -20000:
 
                 # Take learned path or explore new actions based on the epsilon
                 if random.uniform(0, 1) < self.epsilon:
@@ -79,9 +76,9 @@ class QTableAgent(Agent):
                 # Take action
                 next_state, reward, terminated, info = self.environment.step(action)
                 sum_reward += reward
-                print(next_state.get_current_tile(), next_state.get_current_target())
+                # print(next_state.get_current_tile(), next_state.get_current_target())
 
-                if terminated:
+                if terminated or next_state is None:
                     # print(self.environment.action_space)
                     # print(self.env.observation_space)
                     # self.q_table.print("Episode %s" % episode)

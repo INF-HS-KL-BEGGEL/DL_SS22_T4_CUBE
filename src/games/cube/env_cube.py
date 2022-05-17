@@ -40,5 +40,4 @@ class EnvCube(Environment):
             if state.get_current_figure() == self.game.get_top_of_figure_stack() and \
                     state.get_current_face() == self.game.get_current_face():
                 return state
-
         return None
