@@ -1,9 +1,9 @@
 import random
 
-from games.cube import Cube
+from games.cube.cube import Cube
 from games.cube.face import Face
 from games.cube.figure import Direction, Figure
-from games.Game import Game
+from games.game import Game
 
 class CubeGame(Game):
 
@@ -15,6 +15,9 @@ class CubeGame(Game):
         self.figure_stack = figures
 
         self.figure_stack_copy = figures.copy()
+
+    def get_action_space(self):
+        return []
 
     def turn_left(self, steps=1):
         """Turns the cube left by the given number of steps, default is 1"""

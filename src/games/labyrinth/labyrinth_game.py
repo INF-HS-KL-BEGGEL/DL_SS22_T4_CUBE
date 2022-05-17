@@ -1,5 +1,6 @@
 from games.labyrinth.labyrinth import Labyrinth, Tile
-from games.Game import Game
+from games.game import Game
+from games.labyrinth.actions import GoAction
 
 class LabyrinthGame(Game):
 
@@ -15,6 +16,9 @@ class LabyrinthGame(Game):
         l = Labyrinth.create_from("./src/games/labyrinth/test_labyrinth.json")
         return LabyrinthGame(l, (0, 0), [(4, 4), (4, 3)])
 
+    def get_action_space(self):
+        return [ GoAction(self) ]
+
     def go_left(self):
         self.__go(0)
 
@@ -26,13 +30,6 @@ class LabyrinthGame(Game):
 
     def go_back(self):
         self.__go(3)
-
-    def __go(self, direction):
-        x, y = self.current_position
-        tile = self.labyrinth.get_neigbors(x, y)[direction]
-
-        if self.labyrinth.is_empty_tile(x, y):
-            self.current_position = tile.get_pos()
 
     def is_left_executable(self):
         x, y = self.current_position
@@ -63,3 +60,13 @@ class LabyrinthGame(Game):
 
     def is_done(self):
         return len(self.targets) == 0
+
+    def __go(self, direction):
+        x, y = self.current_position
+        tile = self.labyrinth.get_neigbors(x, y)[direction]
+
+        if self.labyrinth.is_empty_tile(x, y):
+            self.current_position = tile.get_pos()
+
+
+

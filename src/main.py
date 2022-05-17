@@ -6,7 +6,6 @@ from environment.environment import Environment
 
 env = Environment.create_sample()
 
-
 agent = QTableAgent(env)
 #agent = QNetworkAgent(env)
 

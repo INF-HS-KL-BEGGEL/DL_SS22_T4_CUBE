@@ -36,7 +36,7 @@ class Labyrinth:
     def is_blocked_tile(self, x, y):
         pass
 
-    def get_neigbors(self, x, y):
+    def get_neigbors(self, x, y) -> tuple:
         """
         index 0: left
         index 1: straight
@@ -48,22 +48,10 @@ class Labyrinth:
         """
         pass
 
-    @staticmethod
-    def create(self, size, seed):
-        """
-        create Labyrnith random from given seed
-        :param self:
-        :param size:
-        :param seed:
-        :return:
-        """
-        pass
-
 
     @staticmethod
     def create_random(self, seed):
         """
-
         :param seed:
         :return:
         """
