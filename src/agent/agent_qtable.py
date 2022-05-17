@@ -15,8 +15,8 @@ class QTableAgent(Agent):
         self.environment = environment
         self.q_table = QTable(self.environment, len(self.environment.observation_space),
                               len(self.environment.action_space))
-        self.epsilon = 0.15
-        self.alpha = 0.3
+        self.epsilon = 0.1
+        self.alpha = 0.1
         self.gamma = 0.6
 
         self.total_episodes = 0

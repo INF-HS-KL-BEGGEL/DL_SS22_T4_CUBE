@@ -2,9 +2,6 @@ from os import access
 import random
 import json
 from enum import Enum
-from turtle import width
-
-from numpy import true_divide
 
 
 class TileType(Enum):
@@ -13,11 +10,13 @@ class TileType(Enum):
     START = 2
     TARGET = 3
 
+
 class Direction(Enum):
     NORTH = 0
     EAST = 1
     SOUTH = 2
     WEST = 3
+
 
 class Tile:
 
@@ -41,7 +40,7 @@ class Tile:
         return self != other
 
     def __repr__(self):
-        return '[x: %s, y: %s, type: %s]'% (self.x, self.y, self.tile_type)
+        return '[x: %s, y: %s, type: %s]' % (self.x, self.y, self.tile_type)
 
 
 class Labyrinth:
@@ -55,23 +54,23 @@ class Labyrinth:
 
     def get_maze_map(self):
         return self.maze_map
-    
+
     def get_tile(self, x, y):
-        return self.maze_map[x][y]  
+        return self.maze_map[x][y]
 
     def get_all_tiles(self):
         tiles = []
         for row in self.maze_map:
             for tile in row:
                 tiles.append(tile)
-        return tiles         
+        return tiles
 
     def get_start_tile(self):
         for tile in self.get_all_tiles():
             if tile.get_type() == TileType.START:
                 return tile
         return None
-    
+
     def get_all_target_tiles(self):
         target_tiles = []
         for tile in self.get_all_tiles():
@@ -83,7 +82,7 @@ class Labyrinth:
         accessible_tiles = []
         maze = self.get_maze_map()
         for row in maze:
-            for tile in row: 
+            for tile in row:
                 if tile.get_type() != TileType.BLOCKED:
                     accessible_tiles.append(tile)
         return accessible_tiles
@@ -99,25 +98,25 @@ class Labyrinth:
 
     def get_west_tile(self, tile):
         x, y = tile.get_pos()
-        if (y == 0):
+        if y == 0:
             return None
         return self.get_tile(x, y - 1)
 
     def get_east_tile(self, tile):
         x, y = tile.get_pos()
-        if (y == self.width-1):
+        if y == self.width - 1:
             return None
         return self.get_tile(x, y + 1)
 
     def get_north_tile(self, tile):
         x, y = tile.get_pos()
-        if (x == 0):
+        if x == 0:
             return None
         return self.get_tile(x - 1, y)
-    
+
     def get_south_tile(self, tile):
         x, y = tile.get_pos()
-        if (x == self.height-1):
+        if x == self.height - 1:
             return None
         return self.get_tile(x + 1, y)
 
