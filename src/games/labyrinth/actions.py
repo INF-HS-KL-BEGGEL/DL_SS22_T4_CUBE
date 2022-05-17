@@ -9,8 +9,9 @@ class GoAction(Action):
         self.direction = direction
 
     def execute(self) -> int:
-        if self.game.go(self.direction) == 1:
+        result = self.game.go(self.direction)
+        if result == 1:
             return 50
-        if self.game.go(self.direction) == 0:
+        if result == 0:
             return -1
         return -5

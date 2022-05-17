@@ -4,6 +4,8 @@ import json
 from enum import Enum
 from turtle import width
 
+from numpy import true_divide
+
 
 class TileType(Enum):
     EMPTY = 0
@@ -29,6 +31,17 @@ class Tile:
 
     def get_pos(self):
         return self.x, self.y
+
+    def __eq__(self, other):
+        if self.x == other.x and self.y == other.y and self.tile_type == other.tile_type:
+            return True
+        return False
+
+    def __ne__(self, other):
+        return self != other
+
+    def __repr__(self):
+        return '[x: %s, y: %s, type: %s]'% (self.x, self.y, self.tile_type)
 
 
 class Labyrinth:
@@ -66,27 +79,27 @@ class Labyrinth:
 
     def get_west_tile(self, tile):
         x, y = tile.get_pos()
-        if (y - 1) > 0:
-            return self.get_tile(x, y - 1)
-        return None
+        if (y == 0):
+            return None
+        return self.get_tile(x, y - 1)
 
     def get_east_tile(self, tile):
         x, y = tile.get_pos()
-        if (y + 1) < self.width:
-            return self.get_tile(x, y + 1)
-        return None
-    
+        if (y == self.width-1):
+            return None
+        return self.get_tile(x, y + 1)
+
     def get_north_tile(self, tile):
         x, y = tile.get_pos()
-        if (x - 1) > 0:
-            return self.get_tile(x - 1, y)
-        return None
+        if (x == 0):
+            return None
+        return self.get_tile(x - 1, y)
     
     def get_south_tile(self, tile):
         x, y = tile.get_pos()
-        if (x + 1) < self.height:
-            return self.get_tile(x + 1, y)
-        return None
+        if (x == self.height-1):
+            return None
+        return self.get_tile(x + 1, y)
 
     def get_neighbor_tile(self, tile, direction):
         if direction == Direction.NORTH:
@@ -125,9 +138,9 @@ class Labyrinth:
         }
         data = json.load(open(filename, "rb"))
 
-        for y, row in enumerate(data["tiles"]):
+        for x, row in enumerate(data["tiles"]):
             map_tmp_row = []
-            for x, tile in enumerate(row):
+            for y, tile in enumerate(row):
                 map_tmp_row.append(Tile(mapping[tile], x, y))
             maze_map.append(map_tmp_row)
 

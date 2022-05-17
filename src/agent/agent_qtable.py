@@ -56,7 +56,10 @@ class QTableAgent(Agent):
 
         for episode in range(0, num_of_episodes):
             # Reset the environment
+            print("test")
             state = self.environment.reset_state()
+            print("test2")
+
 
             # Initialize variables
             reward = 0
@@ -76,6 +79,7 @@ class QTableAgent(Agent):
                 # Take action
                 next_state, reward, terminated, info = self.environment.step(action)
                 sum_reward += reward
+                print(next_state.get_current_tile(), next_state.get_current_target())
 
                 if terminated:
                     # print(self.environment.action_space)

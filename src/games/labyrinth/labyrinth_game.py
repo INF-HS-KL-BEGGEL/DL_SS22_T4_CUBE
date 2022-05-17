@@ -1,6 +1,7 @@
 from games.labyrinth.labyrinth import Direction, Labyrinth, Tile, TileType
 from games.game import Game
 from games.labyrinth.actions import GoAction
+import copy
 
 
 class LabyrinthGame(Game):
@@ -10,7 +11,11 @@ class LabyrinthGame(Game):
         self.labyrinth = labyrinth
         self.current_tile = self.labyrinth.get_tile(0, 0)
         self.start_tile = self.labyrinth.get_tile(0, 0)
-        self.targets = [(1, 1), (2, 1)]
+        self.targets = [Tile(TileType.TARGET, 2, 1)]
+
+        # copy for reset_game
+        self.start_tile_copy = copy.deepcopy(self.start_tile)
+        self.targets_copy = copy.deepcopy(self.targets)
 
     def get_current_tile(self):
         return self.current_tile
@@ -38,7 +43,7 @@ class LabyrinthGame(Game):
     @staticmethod
     def setup_game():
         """Factory Method"""
-        maze = Labyrinth.create_from("./games/labyrinth/test_labyrinth.json")
+        maze = Labyrinth.create_from("./src/games/labyrinth/test_labyrinth.json")
         return LabyrinthGame(maze)
 
     def is_accessible(self, direction):
@@ -46,17 +51,19 @@ class LabyrinthGame(Game):
         return self.labyrinth.is_accessible_tile(tile)
 
     def reset_game(self):
-        self.current_tile = (0, 0)
+        self.start_tile = copy.deepcopy(self.start_tile_copy)
+        self.current_tile = self.start_tile
+        self.targets = copy.deepcopy(self.targets_copy)
 
     def is_done(self):
         return len(self.targets) == 0
 
     def go(self, direction):
+        print(direction)
         tile = self.labyrinth.get_neighbor_tile(self.get_current_tile(), direction)
-
-        if self.is_accessible(direction):
-            self.current_tile = tile
-            if self.check_for_target():
-                return 1
-            return 0
-        return -1
+        if not tile:
+            return -1
+        self.current_tile = tile
+        if self.check_for_target():
+            return 1
+        return 0

@@ -10,7 +10,6 @@ class QTable:
     def __init__(self, env, observation_space_size, action_space_size):
         self.q_table = np.zeros((observation_space_size, action_space_size))
         self.env = env
-        self.print()
 
     def write_value(self, state, action, value):
         self.q_table[state.get_number(), action.id] = value
