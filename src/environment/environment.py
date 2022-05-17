@@ -1,11 +1,8 @@
-from games.cube.cube_game import CubeGame
-from games.cube.actions import TurnRightAction, TurnLeftAction, TryFitAction, RotateFigureAction
-from games.cube.state import StateCube
+from abc import ABC, abstractmethod
 from environment.state import StateBase
 import random
 
-
-class Environment:
+class Environment(ABC):
 
     def __init__(self, game):
         """Initializes the environment with a random Game"""
@@ -15,38 +12,17 @@ class Environment:
         self._action_space = self.calc_action_space()
         self.current_state = self.reset_state()
 
-    def add_action_space(self, actionspace: list):
-        self._action_space = actionspace
+    @abstractmethod
+    def get_current_state(self):
+        pass
 
-    def add_observation_space(self, observation_space: list):
-        self._observation_space = observation_space
-
+    @abstractmethod
     def calc_observation_space(self):
-        statecounter = 0
-        faces = self.game.get_cube().get_faces()
-        figures = self.game.get_figure_stack()
+        pass
 
-        states = []
-        for face in faces:
-            for fig in figures:
-                states.append(StateCube(face, fig, statecounter))
-                statecounter += 1
-
-        return states
-
+    @abstractmethod
     def calc_action_space(self):
-        action_id = 0
-        action_space = [TryFitAction(action_id, self.game)]
-        length = len(self.game.faces)
-        for i in range(length):
-            action_id += 1
-            action_space.append(TurnRightAction(action_id, self.game, i + 1))
-
-            action_id += 1
-            action_space.append(TurnLeftAction(action_id, self.game, i + 1))
-        action_id += 1
-        action_space.append(RotateFigureAction(action_id, self.game))
-        return action_space
+        pass
 
     @property
     def observation_space(self):
@@ -75,18 +51,6 @@ class Environment:
     def reset_environment(self):
         self.game.reset_game()
         self.current_state = self.reset_state()
-
-    def get_current_state(self):
-        for state in self.observation_space:
-            if state.get_current_figure() == self.game.get_top_of_figure_stack() and \
-                    state.get_current_face() == self.game.get_current_face():
-                return state
-
-        return None
-
-    @staticmethod
-    def create_sample():
-        return Environment(CubeGame.setup_game(6))
 
     def get_random_action(self):
         return random.choice(self.action_space)

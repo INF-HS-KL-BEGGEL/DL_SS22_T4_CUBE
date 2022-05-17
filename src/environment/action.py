@@ -1,7 +1,5 @@
 from abc import ABC, abstractmethod
 
-import numpy as np
-
 
 class Action(ABC):
     """Class representing the actions that can be used in the game"""
