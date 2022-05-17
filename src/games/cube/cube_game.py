@@ -5,19 +5,18 @@ from games.cube.face import Face
 from games.cube.figure import Direction, Figure
 from games.game import Game
 
+
 class CubeGame(Game):
 
     def __init__(self, cube: Cube, figures: list):
         """Initializes the game with the given cube and figures"""
+        super().__init__()
         self.cube = cube
         self.current_face = 0
         self.faces = cube.get_faces()
         self.figure_stack = figures
 
         self.figure_stack_copy = figures.copy()
-
-    def get_action_space(self):
-        return []
 
     def turn_left(self, steps=1):
         """Turns the cube left by the given number of steps, default is 1"""
@@ -55,7 +54,7 @@ class CubeGame(Game):
         if fits:
             self.figure_stack.pop()
         return fits
-    
+
     def rotate_figure(self):
         """Rotates the given figure"""
         self.get_top_of_figure_stack().rotate()
@@ -94,7 +93,6 @@ class CubeGame(Game):
         print("Figures: %s" % self.figure_stack)
         print("Current face: %s" % self.get_current_face())
         print("Cube: %s" % self.get_cube())
-
 
     @staticmethod
     def setup_game(n=6):

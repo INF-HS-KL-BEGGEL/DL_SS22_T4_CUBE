@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from environment.state import StateBase
 import random
 
+
 class Environment(ABC):
 
     def __init__(self, game):

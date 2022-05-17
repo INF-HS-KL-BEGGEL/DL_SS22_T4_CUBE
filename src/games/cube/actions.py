@@ -1,6 +1,7 @@
 import numpy as np
 from environment.action import Action
 
+
 class TurnLeftAction(Action):
     """Class representing the action to turn the cube left"""
 

@@ -6,13 +6,15 @@ from agent.qtable import QTable
 from logger.logger import PlotWriter
 import numpy as np
 
+
 class QTableAgent(Agent):
 
     def __init__(self, environment):
         super().__init__(environment)
 
         self.environment = environment
-        self.q_table = QTable(self.environment, len(self.environment.observation_space), len(self.environment.action_space))
+        self.q_table = QTable(self.environment, len(self.environment.observation_space),
+                              len(self.environment.action_space))
         self.epsilon = 0.1
         self.alpha = 0.2
         self.gamma = 0.6
@@ -76,9 +78,9 @@ class QTableAgent(Agent):
                 sum_reward += reward
 
                 if terminated:
-                    #print(self.environment.action_space)
-                    #print(self.env.observation_space)
-                    #self.q_table.print("Episode %s" % episode)
+                    # print(self.environment.action_space)
+                    # print(self.env.observation_space)
+                    # self.q_table.print("Episode %s" % episode)
                     break
 
                 q_value = self.q_table.get_reward(state, action)
@@ -90,10 +92,10 @@ class QTableAgent(Agent):
 
             end_t = time.time()
             self.q_table.print("Episode %s Time: %s" % (episode, end_t - start_t))
-            
+
             self.train_plot.write((self.total_episodes, sum_reward))
             self.total_episodes += 1
-            
+
             start_t = end_t
             sum_reward = 0
             self.environment.reset_environment()
