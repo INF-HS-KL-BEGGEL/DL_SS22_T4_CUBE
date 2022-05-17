@@ -118,10 +118,10 @@ class Labyrinth:
         maze_map = []
 
         mapping = {
-            "*": TileType.EMPTY,
-            "x": TileType.BLOCKED,
+            "o": TileType.EMPTY,
+            "#": TileType.BLOCKED,
             "s": TileType.START,
-            "t": TileType.TARGET
+            "x": TileType.TARGET
         }
         data = json.load(open(filename, "rb"))
 
