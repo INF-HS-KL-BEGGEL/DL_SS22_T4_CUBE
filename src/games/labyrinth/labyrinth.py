@@ -1,15 +1,31 @@
+from os import access
 import random
 import json
+from enum import Enum
+from turtle import width
+
+
+class TileType(Enum):
+    EMPTY = 0
+    BLOCKED = 1
+    START = 2
+    TARGET = 3
+
+class Direction(Enum):
+    NORTH = 0
+    EAST = 1
+    SOUTH = 2
+    WEST = 3
 
 class Tile:
 
-    def __init__(self, type, x, y):
-        self.type = type
+    def __init__(self, tile_type, x, y):
+        self.tile_type = tile_type
         self.x = x
         self.y = y
 
     def get_type(self):
-        return self.type
+        return self.tile_type
 
     def get_pos(self):
         return self.x, self.y
@@ -17,37 +33,71 @@ class Tile:
 
 class Labyrinth:
 
-    def __init__(self, map):
-        self.map = map
+    def __init__(self, maze_map):
+        self.maze_map = maze_map
+        # the number of rows
+        self.height = len(maze_map)
+        # the number of columns
+        self.width = len(self.maze_map[0])
 
-    def add_target(self):
-        pass
-
-    def remove_target(self):
-        pass
-
+    def get_maze_map(self):
+        return self.maze_map
+    
     def get_tile(self, x, y):
-        pass
+        return self.maze_map[x][y]           
 
-    def is_empty_tile(self, x, y):
+    def get_all_accessible_tiles(self):
+        accessible_tiles = []
+        maze = self.get_maze_map()
+        for row in maze:
+            for tile in row: 
+                if tile.get_type() != TileType.BLOCKED:
+                    accessible_tiles.append(tile)
+        return accessible_tiles
+
+    def is_accessible_tile(self, tile):
         """ If position is not blocked"""
-        return Tile("empty").get_type() == "empty"
+        if tile is None:
+            return False
+        return tile.get_type() == TileType.EMPTY
 
-    def is_blocked_tile(self, x, y):
-        pass
+    def is_blocked_tile(self, tile):
+        return tile.get_type() == TileType.BLOCKED
 
-    def get_neigbors(self, x, y) -> tuple:
-        """
-        index 0: left
-        index 1: straight
-        index 2: right
-        index 3: back
-        :param x:
-        :param y:
-        :return:
-        """
-        pass
+    def get_west_tile(self, tile):
+        x, y = tile.get_pos()
+        if (y - 1) > 0:
+            return self.get_tile(x, y - 1)
+        return None
 
+    def get_east_tile(self, tile):
+        x, y = tile.get_pos()
+        if (y + 1) < self.width:
+            return self.get_tile(x, y + 1)
+        return None
+    
+    def get_north_tile(self, tile):
+        x, y = tile.get_pos()
+        if (x - 1) > 0:
+            return self.get_tile(x - 1, y)
+        return None
+    
+    def get_south_tile(self, tile):
+        x, y = tile.get_pos()
+        if (x + 1) < self.height:
+            return self.get_tile(x + 1, y)
+        return None
+
+    def get_neighbor_tile(self, tile, direction):
+        if direction == Direction.NORTH:
+            return self.get_north_tile(tile)
+        elif direction == Direction.EAST:
+            return self.get_east_tile(tile)
+        elif direction == Direction.SOUTH:
+            return self.get_south_tile(tile)
+        elif direction == Direction.WEST:
+            return self.get_west_tile(tile)
+        return None
 
     @staticmethod
     def create_random(self, seed):
@@ -58,20 +108,20 @@ class Labyrinth:
         pass
 
     @staticmethod
-    def create_from(self, filename):
+    def create_from(filename):
         """
         Factory Method to create Labyrinth from definition file
         :param self:
         :param filename:
         :return:
         """
-        map = []
+        maze_map = []
 
         mapping = {
-            "*": "empty",
-            "x": "blocked",
-            "s": "start",
-            "t": "target"
+            "*": TileType.EMPTY,
+            "x": TileType.BLOCKED,
+            "s": TileType.START,
+            "t": TileType.TARGET
         }
         data = json.load(open(filename, "rb"))
 
@@ -79,6 +129,6 @@ class Labyrinth:
             map_tmp_row = []
             for x, tile in enumerate(row):
                 map_tmp_row.append(Tile(mapping[tile], x, y))
-            map.append(map_tmp_row)
+            maze_map.append(map_tmp_row)
 
-        return Labyrinth(map)
+        return Labyrinth(maze_map)

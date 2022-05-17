@@ -2,22 +2,15 @@ from environment.action import Action
 
 
 class GoAction(Action):
-    """Class representing the action to turn the cube left"""
+    """Class representing the action to move the agent in a given direction"""
 
     def __init__(self, id, game, direction):
         super().__init__(id, game)
         self.direction = direction
 
     def execute(self) -> int:
-        return -1
-
-
-class IsExecutableAction(Action):
-    """Class representing the action to turn the cube left"""
-
-    def __init__(self, id, game, direction):
-        super().__init__(id, game)
-        self.direction = direction
-
-    def execute(self) -> int:
-        return -1
+        if self.game.go(self.direction) == 1:
+            return 50
+        if self.game.go(self.direction) == 0:
+            return -1
+        return -5

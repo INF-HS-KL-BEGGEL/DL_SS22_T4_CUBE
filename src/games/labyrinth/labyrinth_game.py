@@ -1,72 +1,63 @@
-from games.labyrinth.labyrinth import Labyrinth, Tile
+from games.labyrinth.labyrinth import Direction, Labyrinth, Tile, TileType
 from games.game import Game
 from games.labyrinth.actions import GoAction
 
 class LabyrinthGame(Game):
 
-    def __init__(self, labyrinth, start_pos: tuple, target_positions: list):
+    def __init__(self, labyrinth):
         self.labyrinth = labyrinth
-        self.current_position = (0, 0)
-        self.start_position = (0, 0)
+        self.current_tile = self.labyrinth.get_tile(0, 0)
+        self.start_tile = self.labyrinth.get_tile(0, 0)
         self.targets = [(1, 1), (2, 1)]
 
+    def get_current_tile(self):
+        return self.current_tile
+
+    def get_tiles(self):
+        return self.labyrinth.get_tiles()
+
+    def get_targets(self):
+        return self.targets
+    
+    def get_labyrinth(self):
+        return self.labyrinth
+
+    def get_current_target(self):
+        if not self.is_done(): 
+            return self.targets[0]
+    
+    def check_for_target(self):
+        tile = self.get_current_tile()
+        if tile.get_type() == TileType.TARGET:
+            self.targets.pop(0)
+            return True
+        return False
+
     @staticmethod
-    def setup_game(self):
+    def setup_game():
         """Factory Method"""
-        l = Labyrinth.create_from("./src/games/labyrinth/test_labyrinth.json")
-        return LabyrinthGame(l, (0, 0), [(4, 4), (4, 3)])
+        l = Labyrinth.create_from("./games/labyrinth/test_labyrinth.json")
+        return LabyrinthGame(l)
 
-    def get_action_space(self):
-        return [ GoAction(self) ]
-
-    def go_left(self):
-        self.__go(0)
-
-    def go_right(self):
-        self.__go(2)
-
-    def go_straight(self):
-        self.__go(1)
-
-    def go_back(self):
-        self.__go(3)
-
-    def is_left_executable(self):
-        x, y = self.current_position
-        tile = self.labyrinth.get_neigbors(x, y)[0]
-        t_x, t_y = tile.get_pos()
-        return self.labyrinth.is_empty_tile(t_x, t_y)
-
-    def is_right_executable(self):
-        x, y = self.current_position
-        tile = self.labyrinth.get_neigbors(x, y)[2]
-        t_x, t_y = tile.get_pos()
-        return self.labyrinth.is_empty_tile(t_x, t_y)
-
-    def is_straight_executable(self):
-        x, y = self.current_position
-        tile = self.labyrinth.get_neigbors(x, y)[1]
-        t_x, t_y = tile.get_pos()
-        return self.labyrinth.is_empty_tile(t_x, t_y)
-
-    def is_back_executable(self):
-        x, y = self.current_position
-        tile = self.labyrinth.get_neigbors(x, y)[3]
-        t_x, t_y = tile.get_pos()
-        return self.labyrinth.is_empty_tile(t_x, t_y)
+    def is_accessible(self, direction):
+        tile = self.labyrinth.get_neighbor_tile(self.get_current_tile(), direction)
+        return self.labyrinth.is_accessible_tile(tile)
 
     def reset_game(self):
-        self.current_position = (0, 0)
+        self.current_tile = (0, 0)
 
     def is_done(self):
         return len(self.targets) == 0
 
-    def __go(self, direction):
-        x, y = self.current_position
-        tile = self.labyrinth.get_neigbors(x, y)[direction]
+    def go(self, direction):
+        tile = self.labyrinth.get_neighbor_tile(self.get_current_tile(), direction)
 
-        if self.labyrinth.is_empty_tile(x, y):
-            self.current_position = tile.get_pos()
+        if self.is_accessible(direction):
+            self.current_tile = tile
+            if self.check_for_target():
+                return 1
+            return 0
+        return -1
 
 
 

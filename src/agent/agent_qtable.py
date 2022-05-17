@@ -1,6 +1,6 @@
 import random
 import time
-from IPython.core.display_functions import clear_output
+from IPython.display import clear_output
 from agent.agent_base import Agent
 from agent.qtable import QTable
 from logger.logger import PlotWriter
