@@ -12,13 +12,15 @@ class EnvLabyrinth(Environment):
 
     def calc_observation_space(self):
         statecounter = 0
-        tiles = self.game.get_labyrinth().get_all_tiles()
+        accessible_tiles = self.game.get_labyrinth().get_all_accessible_tiles()
+        targets = self.game.get_targets()
 
         states = []
-        for tile in tiles:
-            states.append(StateLabyrinth(statecounter, tile))
-            statecounter += 1
-          
+        for tile in accessible_tiles:
+            for target in targets:
+                states.append(StateLabyrinth(statecounter, tile, target))
+                statecounter += 1
+
         return states
 
     def calc_action_space(self):
@@ -28,6 +30,8 @@ class EnvLabyrinth(Environment):
 
     def get_current_state(self):
         for state in self.observation_space:
-            if state.get_current_tile() == self.game.get_current_tile():
+            if state.get_current_tile() == self.game.get_current_tile() and \
+                    state.get_current_target() == self.game.get_current_target():
                 return state
+
         return None

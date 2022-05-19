@@ -57,27 +57,7 @@ class Labyrinth:
         return self.maze_map
     
     def get_tile(self, x, y):
-        return self.maze_map[x][y]  
-
-    def get_all_tiles(self):
-        tiles = []
-        for row in self.maze_map:
-            for tile in row:
-                tiles.append(tile)
-        return tiles         
-
-    def get_start_tile(self):
-        for tile in self.get_all_tiles():
-            if tile.get_type() == TileType.START:
-                return tile
-        return None
-    
-    def get_all_target_tiles(self):
-        target_tiles = []
-        for tile in self.get_all_tiles():
-            if tile.get_type() == TileType.TARGET:
-                target_tiles.append(tile)
-        return target_tiles
+        return self.maze_map[x][y]           
 
     def get_all_accessible_tiles(self):
         accessible_tiles = []

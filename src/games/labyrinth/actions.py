@@ -10,9 +10,8 @@ class GoAction(Action):
 
     def execute(self) -> int:
         result = self.game.go(self.direction)
-        if result == -1:
-            return -5
-        elif result == 0:
-            return -1
-        elif result == 1:
+        if result == 1:
             return 50
+        if result == 0:
+            return -1
+        return -5
