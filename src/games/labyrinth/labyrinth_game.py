@@ -1,5 +1,6 @@
 from games.labyrinth.labyrinth import Direction, Labyrinth, Tile, TileType
 from games.game import Game
+from games.labyrinth.actions import GoAction
 import copy
 
 
@@ -9,7 +10,6 @@ class LabyrinthGame(Game):
         super().__init__()
         self.labyrinth = labyrinth
         self.current_tile = self.labyrinth.get_start_tile()
-        self.current_direction = Direction.EAST
         self.start_tile = self.labyrinth.get_start_tile()
         self.targets = self.labyrinth.get_all_target_tiles()
 
@@ -19,9 +19,6 @@ class LabyrinthGame(Game):
 
     def get_current_tile(self):
         return self.current_tile
-    
-    def get_current_direction(self):
-        return self.current_direction
 
     def get_tiles(self):
         return self.labyrinth.get_tiles()
@@ -35,9 +32,6 @@ class LabyrinthGame(Game):
     def get_current_target(self):
         if not self.is_done():
             return self.targets[0]
-
-    def set_current_direction(self, direction):
-        self.current_direction = direction
 
     def check_for_target(self):
         tile = self.get_current_tile()
@@ -59,19 +53,18 @@ class LabyrinthGame(Game):
     def reset_game(self):
         self.start_tile = copy.deepcopy(self.start_tile_copy)
         self.current_tile = self.start_tile
-        self.current_direction = Direction.EAST
         self.targets = copy.deepcopy(self.targets_copy)
 
     def is_done(self):
         return len(self.get_targets()) == 0
 
-    def move_forward(self):
-        tile = self.labyrinth.get_neighbor_tile(self.get_current_tile(), self.get_current_direction())
+    def go(self, direction):
+        tile = self.labyrinth.get_neighbor_tile(self.get_current_tile(), direction)
         if tile is None or tile.get_type() is TileType.BLOCKED:
-            return TileType.BLOCKED
+            return -1
 
         # Tile is safe to move to
         self.current_tile = tile
-        if self.check_for_target():
-            return TileType.TARGET
-        return TileType.EMPTY
+        if not self.is_done() and self.check_for_target():
+            return 1
+        return 0

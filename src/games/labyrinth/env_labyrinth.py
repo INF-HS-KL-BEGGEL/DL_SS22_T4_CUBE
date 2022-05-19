@@ -1,7 +1,7 @@
 from turtle import position
 from environment.environment import Environment
 from games.labyrinth.labyrinth import Direction
-from games.labyrinth.actions import ChangeDirectionAction, MoveForwardAction
+from games.labyrinth.actions import GoAction
 from games.labyrinth.state import StateLabyrinth
 
 
@@ -22,8 +22,8 @@ class EnvLabyrinth(Environment):
         return states
 
     def calc_action_space(self):
-        action_space = [MoveForwardAction(0, self.game), ChangeDirectionAction(1, self.game, Direction.NORTH), ChangeDirectionAction(2, self.game, Direction.EAST),
-                        ChangeDirectionAction(3, self.game, Direction.SOUTH), ChangeDirectionAction(4, self.game, Direction.WEST)]
+        action_space = [GoAction(0, self.game, Direction.NORTH), GoAction(1, self.game, Direction.EAST),
+                        GoAction(2, self.game, Direction.SOUTH), GoAction(3, self.game, Direction.WEST)]
         return action_space
 
     def get_current_state(self):
