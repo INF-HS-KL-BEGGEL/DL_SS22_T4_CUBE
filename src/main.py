@@ -6,10 +6,10 @@ from games.labyrinth.env_labyrinth import EnvLabyrinth
 from games.labyrinth.labyrinth_game import LabyrinthGame
 
 
-#env = EnvCube(CubeGame.setup_game(6))
-env = EnvLabyrinth(LabyrinthGame.setup_game())
-agent = QTableAgent(env)
-#agent = QNetworkAgent(env)
+env = EnvCube(CubeGame.setup_game(6))
+#env = EnvLabyrinth(LabyrinthGame.setup_game())
+#agent = QTableAgent(env)
+agent = QNetworkAgent(env)
 
 for i in range(0, 10):
     agent.train(50)
