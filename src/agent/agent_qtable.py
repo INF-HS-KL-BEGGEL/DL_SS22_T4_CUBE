@@ -3,7 +3,7 @@ import time
 from IPython.display import clear_output
 from agent.agent_base import Agent
 from agent.qtable import QTable
-from logger.logger import PlotWriter
+from monitoring.monitoring import PlotWriter
 import numpy as np
 
 
@@ -21,10 +21,12 @@ class QTableAgent(Agent):
 
         self.total_episodes = 0
 
-        self.train_plot = PlotWriter()
+        self.train_plot = PlotWriter("Train")
+        self.train_plot.set_label("Epoches", "Reward")
         self.train_plot.show()
 
-        self.play_plot = PlotWriter()
+        self.play_plot = PlotWriter("Play")
+        self.train_plot.set_label("Epoche", "Reward")
         self.play_plot.show()
 
     def play(self, game_run_index):

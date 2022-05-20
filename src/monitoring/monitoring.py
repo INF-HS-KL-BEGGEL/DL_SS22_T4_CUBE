@@ -12,12 +12,18 @@ class Writer(ABC):
 
 class PlotWriter(Writer):
 
-    def __init__(self):
+
+    def __init__(self, name=""):
 
         self.fig = plt.figure()
         self.ax = self.fig.add_subplot(111)
+        self.ax.title(name)
         self.x = []
         self.y = []
+
+    def set_label(self, x_label, y_label):
+        self.ax.xlabel(x_label)
+        self.ax.ylabel(y_label)
 
     def show(self):
 
