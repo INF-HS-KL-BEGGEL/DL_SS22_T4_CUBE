@@ -79,7 +79,6 @@ class QTableAgent(Agent):
                 # Take action
                 next_state, reward, terminated, info = self.environment.step(action)
                 sum_reward += reward
-                print(next_state.get_current_tile(), next_state.get_current_target())
 
                 if terminated:
                     # print(self.environment.action_space)

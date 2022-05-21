@@ -11,7 +11,7 @@ class QNetworkAgent(Agent):
 
     def __init__(self, environment, optimizer=Adam(learning_rate=0.01)):
 
-        self.environment = environment
+        super().__init__(environment)
         # Initialize attributes
         self._state_size = len(environment.observation_space)
         self._action_size = len(environment.action_space)
@@ -27,7 +27,6 @@ class QNetworkAgent(Agent):
         self.q_network = QNetwork(self._action_size, self._state_size, optimizer, self.environment)
 
         self.target_network.algin_model(self.q_network)
-
 
         self.train_plot = PlotWriter()
         self.train_plot.show()

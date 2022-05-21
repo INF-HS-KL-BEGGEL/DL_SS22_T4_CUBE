@@ -11,7 +11,8 @@ class TurnLeftAction(Action):
 
     def execute(self) -> int:
         self.game.turn_left(self.step)
-        return -len(self.game.faces)
+        #return -len(self.game.faces)
+        return -1
 
 
 class TurnRightAction(Action):
@@ -23,7 +24,8 @@ class TurnRightAction(Action):
 
     def execute(self):
         self.game.turn_right(self.step)
-        return -len(self.game.faces)
+        #return -len(self.game.faces)
+        return -1
 
 
 class TryFitAction(Action):
@@ -42,8 +44,10 @@ class TryFitAction(Action):
         fits = self.game.try_fit()
         if fits:
             # Square the length as reward plus give back negative reward from turn action
-            return np.power(len(self.game.faces), 2) + len(self.game.faces)
-        return -len(self.game.faces)
+            #np.power(len(self.game.faces), 2) + len(self.game.faces)
+            return 50
+        #return -len(self.game.faces)
+        return -2
 
 
 class RotateFigureAction(Action):
@@ -54,4 +58,6 @@ class RotateFigureAction(Action):
 
     def execute(self) -> int:
         self.game.rotate_figure()
-        return -len(self.game.faces)
+
+        #return -len(self.game.faces)
+        return -1
