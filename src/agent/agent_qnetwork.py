@@ -4,7 +4,7 @@ import collections
 from agent.agent_base import Agent
 from tensorflow.keras.optimizers import Adam
 from agent.qnetwork import QNetwork
-from logger.logger import PlotWriter
+from monitoring.monitoring import PlotWriter
 
 
 class QNetworkAgent(Agent):

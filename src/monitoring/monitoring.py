@@ -17,13 +17,13 @@ class PlotWriter(Writer):
 
         self.fig = plt.figure()
         self.ax = self.fig.add_subplot(111)
-        self.ax.title(name)
+        self.ax.set_title(name)
         self.x = []
         self.y = []
 
     def set_label(self, x_label, y_label):
-        self.ax.xlabel(x_label)
-        self.ax.ylabel(y_label)
+        self.ax.set_xlabel(x_label)
+        self.ax.set_ylabel(y_label)
 
     def show(self):
 

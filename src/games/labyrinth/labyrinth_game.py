@@ -28,9 +28,9 @@ class LabyrinthGame(Game):
         return self.labyrinth.get_tiles()
 
     def get_targets(self):
-        return self.get_targets()
+        return self.labyrinth.get_targets()
 
-    def get_current_targets(self):
+    def get_current_target(self):
         return self.get_targets()[-1]
 
     def get_labyrinth(self):
