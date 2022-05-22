@@ -1,10 +1,5 @@
-from os import access
-import random
 import json
 from enum import Enum
-from turtle import width
-
-from numpy import true_divide
 
 
 class TileType(Enum):
@@ -13,11 +8,13 @@ class TileType(Enum):
     START = 2
     TARGET = 3
 
+
 class Direction(Enum):
     NORTH = 0
     EAST = 1
     SOUTH = 2
     WEST = 3
+
 
 class Tile:
 
@@ -59,6 +56,17 @@ class Labyrinth:
     def get_tile(self, x, y):
         return self.maze_map[x][y]           
 
+    def get_targets(self) -> list:
+        """
+        returns list of Tiles
+        """
+        targets = []
+        for row in self.maze_map:
+            for tile in row:
+                if tile.get_type() == TileType.TARGET:
+                    targets.append(tile)
+        return targets
+
     def get_all_accessible_tiles(self):
         accessible_tiles = []
         maze = self.get_maze_map()
@@ -77,27 +85,30 @@ class Labyrinth:
     def is_blocked_tile(self, tile):
         return tile.get_type() == TileType.BLOCKED
 
+    def is_target_tile(self, tile):
+        return tile.get_type() == TileType.TARGET
+
     def get_west_tile(self, tile):
         x, y = tile.get_pos()
-        if (y == 0):
+        if y == 0:
             return None
         return self.get_tile(x, y - 1)
 
     def get_east_tile(self, tile):
         x, y = tile.get_pos()
-        if (y == self.width-1):
+        if y == self.width-1:
             return None
         return self.get_tile(x, y + 1)
 
     def get_north_tile(self, tile):
         x, y = tile.get_pos()
-        if (x == 0):
+        if x == 0:
             return None
         return self.get_tile(x - 1, y)
     
     def get_south_tile(self, tile):
         x, y = tile.get_pos()
-        if (x == self.height-1):
+        if x == self.height-1:
             return None
         return self.get_tile(x + 1, y)
 
@@ -111,14 +122,6 @@ class Labyrinth:
         elif direction == Direction.WEST:
             return self.get_west_tile(tile)
         return None
-
-    @staticmethod
-    def create_random(self, seed):
-        """
-        :param seed:
-        :return:
-        """
-        pass
 
     @staticmethod
     def create_from(filename):

@@ -11,11 +11,15 @@ class LabyrinthGame(Game):
         self.labyrinth = labyrinth
         self.current_tile = self.labyrinth.get_tile(0, 0)
         self.start_tile = self.labyrinth.get_tile(0, 0)
-        self.targets = [Tile(TileType.TARGET, 2, 1)]
 
         # copy for reset_game
         self.start_tile_copy = copy.deepcopy(self.start_tile)
-        self.targets_copy = copy.deepcopy(self.targets)
+
+    @staticmethod
+    def setup_game():
+        """Factory Method"""
+        maze = Labyrinth.create_from("./games/labyrinth/test_labyrinth.json")
+        return LabyrinthGame(maze)
 
     def get_current_tile(self):
         return self.current_tile
@@ -24,27 +28,20 @@ class LabyrinthGame(Game):
         return self.labyrinth.get_tiles()
 
     def get_targets(self):
-        return self.targets
+        return self.get_targets()
+
+    def get_current_targets(self):
+        return self.get_targets()[-1]
 
     def get_labyrinth(self):
         return self.labyrinth
 
-    def get_current_target(self):
-        if not self.is_done():
-            return self.targets[0]
-
-    def check_for_target(self):
+    def check_current_for_target(self):
         tile = self.get_current_tile()
         if tile.get_type() == TileType.TARGET:
             self.targets.pop(0)
             return True
         return False
-
-    @staticmethod
-    def setup_game():
-        """Factory Method"""
-        maze = Labyrinth.create_from("./src/games/labyrinth/test_labyrinth.json")
-        return LabyrinthGame(maze)
 
     def is_accessible(self, direction):
         tile = self.labyrinth.get_neighbor_tile(self.get_current_tile(), direction)
@@ -53,10 +50,9 @@ class LabyrinthGame(Game):
     def reset_game(self):
         self.start_tile = copy.deepcopy(self.start_tile_copy)
         self.current_tile = self.start_tile
-        self.targets = copy.deepcopy(self.targets_copy)
 
     def is_done(self):
-        return len(self.targets) == 0
+        return len(self.labyrinth.get_targets()) == 0
 
     def go(self, direction):
         print(direction)
@@ -64,6 +60,6 @@ class LabyrinthGame(Game):
         if not tile:
             return -1
         self.current_tile = tile
-        if self.check_for_target():
+        if self.check_current_for_target():
             return 1
         return 0

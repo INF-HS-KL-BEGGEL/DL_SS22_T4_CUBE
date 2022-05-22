@@ -1,4 +1,3 @@
-from turtle import position
 from environment.environment import Environment
 from games.labyrinth.labyrinth import Direction
 from games.labyrinth.actions import GoAction
