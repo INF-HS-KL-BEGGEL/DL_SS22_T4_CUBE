@@ -39,9 +39,11 @@ class LabyrinthGame(Game):
     def check_current_for_target(self):
         tile = self.get_current_tile()
         if tile.get_type() == TileType.TARGET:
-            tile.tile_type = TileType.EMPTY
             return True
         return False
+
+    def collect_target(self):
+        self.get_current_tile().tile_type = TileType.EMPTY
 
     def is_accessible(self, direction):
         tile = self.labyrinth.get_neighbor_tile(self.get_current_tile(), direction)
@@ -57,9 +59,11 @@ class LabyrinthGame(Game):
     def go(self, direction):
         print(direction)
         tile = self.labyrinth.get_neighbor_tile(self.get_current_tile(), direction)
-        if not tile:
+        if not tile or tile.get_type() == TileType.BLOCKED:
             return -1
+
         self.current_tile = tile
         if self.check_current_for_target():
+            self.collect_target()
             return 1
         return 0

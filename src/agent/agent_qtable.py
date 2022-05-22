@@ -60,8 +60,6 @@ class QTableAgent(Agent):
             # Reset the environment
             print("test")
             state = self.environment.reset_state()
-            print("test2")
-
 
             # Initialize variables
             reward = 0
