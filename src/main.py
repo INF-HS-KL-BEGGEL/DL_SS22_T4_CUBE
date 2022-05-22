@@ -6,14 +6,15 @@ from games.labyrinth.env_labyrinth import EnvLabyrinth
 from games.labyrinth.labyrinth_game import LabyrinthGame
 
 
-#env = EnvCube(CubeGame.setup_game(6))
-env = EnvLabyrinth(LabyrinthGame.setup_game())
+env = EnvCube(CubeGame.setup_game(6))
+#env = EnvLabyrinth(LabyrinthGame.setup_game())
 agent = QTableAgent(env)
 #agent = QNetworkAgent(env)
 
-for i in range(0, 10):
+for i in range(0, 20):
     agent.train(50)
-    agent.play(i)
+    for j in range(10):
+        agent.play(i)
 
 # Use this as a breakpoint to keep the plots open
 print('--- END ---')
