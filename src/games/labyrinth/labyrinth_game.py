@@ -39,7 +39,7 @@ class LabyrinthGame(Game):
     def check_current_for_target(self):
         tile = self.get_current_tile()
         if tile.get_type() == TileType.TARGET:
-            self.targets.pop(0)
+            tile.tile_type = TileType.EMPTY
             return True
         return False
 
