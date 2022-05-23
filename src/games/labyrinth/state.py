@@ -10,7 +10,6 @@ class StateLabyrinth(StateBase):
 
     def get_current_tile(self):
         return self.current_tile
-    
+
     def get_current_target(self):
         return self.current_target
-    

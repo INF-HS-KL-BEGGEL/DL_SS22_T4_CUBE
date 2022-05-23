@@ -1,4 +1,3 @@
-
 class Cube:
     """The Cube on which the game will be played"""
 

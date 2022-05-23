@@ -1,4 +1,3 @@
-
 class CSVStore:
 
     def __init__(self, filename):

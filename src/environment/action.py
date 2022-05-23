@@ -8,7 +8,6 @@ class Action(ABC):
         self.game = game
         self._id = id
 
-
     @abstractmethod
     def execute(self):
         pass
@@ -19,5 +18,3 @@ class Action(ABC):
 
     def __repr__(self):
         return "<ActionId %s , %s>" % (self.id, self.__class__.__name__)
-
-

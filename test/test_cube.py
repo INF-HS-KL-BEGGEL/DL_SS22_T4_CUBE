@@ -12,7 +12,6 @@ class TestCube(unittest.TestCase):
         self.assertEqual(len(face.get_figures()), 1)
 
     def test_add_face(self):
-
         cube = Cube()
 
         fig1 = Figure("figure1")
@@ -23,7 +22,6 @@ class TestCube(unittest.TestCase):
         self.assertEqual(len(cube.get_faces()), 1)
 
     def test_remove_face(self):
-
         cube = Cube()
 
         fig1 = Figure("figure1")
@@ -36,7 +34,6 @@ class TestCube(unittest.TestCase):
         self.assertEqual(len(cube.get_faces()), 0)
 
     def test_get_face(self):
-            
         cube = Cube()
 
         fig1 = Figure("figure1")
@@ -47,7 +44,6 @@ class TestCube(unittest.TestCase):
         self.assertEqual(cube.get_face(0), face)
 
     def test_get_faces(self):
-                    
         cube = Cube()
 
         fig1 = Figure("figure1")
@@ -58,7 +54,6 @@ class TestCube(unittest.TestCase):
         self.assertEqual(cube.get_faces(), [face])
 
     def test_fits(self):
-                
         cube = Cube()
 
         fig1 = Figure("figure1")

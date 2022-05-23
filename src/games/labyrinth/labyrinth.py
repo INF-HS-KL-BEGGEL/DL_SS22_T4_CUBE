@@ -38,7 +38,7 @@ class Tile:
         return self != other
 
     def __repr__(self):
-        return '[x: %s, y: %s, type: %s]'% (self.x, self.y, self.tile_type)
+        return '[x: %s, y: %s, type: %s]' % (self.x, self.y, self.tile_type)
 
 
 class Labyrinth:
@@ -52,9 +52,9 @@ class Labyrinth:
 
     def get_maze_map(self):
         return self.maze_map
-    
+
     def get_tile(self, x, y):
-        return self.maze_map[x][y]           
+        return self.maze_map[x][y]
 
     def get_targets(self) -> list:
         """
@@ -71,7 +71,7 @@ class Labyrinth:
         accessible_tiles = []
         maze = self.get_maze_map()
         for row in maze:
-            for tile in row: 
+            for tile in row:
                 if tile.get_type() != TileType.BLOCKED:
                     accessible_tiles.append(tile)
         return accessible_tiles
@@ -96,7 +96,7 @@ class Labyrinth:
 
     def get_east_tile(self, tile):
         x, y = tile.get_pos()
-        if y == self.width-1:
+        if y == self.width - 1:
             return None
         return self.get_tile(x, y + 1)
 
@@ -105,10 +105,10 @@ class Labyrinth:
         if x == 0:
             return None
         return self.get_tile(x - 1, y)
-    
+
     def get_south_tile(self, tile):
         x, y = tile.get_pos()
-        if x == self.height-1:
+        if x == self.height - 1:
             return None
         return self.get_tile(x + 1, y)
 

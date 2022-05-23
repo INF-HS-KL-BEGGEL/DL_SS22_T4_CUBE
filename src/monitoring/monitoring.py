@@ -12,9 +12,7 @@ class Writer(ABC):
 
 class PlotWriter(Writer):
 
-
     def __init__(self, name=""):
-
         self.fig = plt.figure()
         self.ax = self.fig.add_subplot(111)
         self.ax.set_title(name)
@@ -26,7 +24,6 @@ class PlotWriter(Writer):
         self.ax.set_ylabel(y_label)
 
     def show(self):
-
         self.fig.show()
 
     def write(self, item: tuple):

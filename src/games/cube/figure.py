@@ -1,4 +1,3 @@
-
 from enum import Enum
 
 
@@ -11,6 +10,7 @@ class Direction(Enum):
 
 class Figure:
     """Class representing the figures that can be used in the game"""
+
     def __init__(self, name, direction: Direction):
         """
         Initializes the figure with the given name
@@ -23,7 +23,7 @@ class Figure:
     def get_name(self):
         """Returns the name of the figure"""
         return self.name
-    
+
     def rotate(self):
         """Rotates the figure"""
         directions = [Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT]

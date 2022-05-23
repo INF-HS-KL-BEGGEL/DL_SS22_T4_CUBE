@@ -1,10 +1,8 @@
-
 # Start
 
 Start unittests
 
     python setup.py test
-
 
 # Recherechen / Quellen / Referenzen
 
@@ -12,11 +10,10 @@ Kapitel mit Code Snippets
 
 	https://github.com/PacktPublishing/Python-Reinforcement-Learning-Projects
 
-
 # Welche Aufgaben soll das Spiel lösen?
 
 1. Drehen des Würfels schnellstmöglich in die richtige Richtung
-2. Finde die passende Seite des Würfels zur aktuellen Figur 
+2. Finde die passende Seite des Würfels zur aktuellen Figur
 3. Finde die passende Figur zur aktuellen Seite des Würfels
 
 # State
@@ -31,6 +28,7 @@ Kapitel mit Code Snippets
 2. Drehen des Würfels nach rechts
 3. Auswahl einer Figur
 4. Schauen ob Figur in die aktuelle Seite passt
+
 # Rewards
 
 1. Der Agent erhält einen positiven Reward, wenn er die richtige Seite des Würfels findet
