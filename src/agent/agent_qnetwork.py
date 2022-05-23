@@ -21,6 +21,7 @@ class QNetworkAgent(Agent):
         # Initialize discount and exploration rate
         self.gamma = 0.6
         self.epsilon = 0.1
+        self.timesteps_per_episode = 1
 
         # Build networks
         self.target_network = QNetwork(self._action_size, self._state_size, optimizer, self.environment)
@@ -28,10 +29,12 @@ class QNetworkAgent(Agent):
 
         self.target_network.algin_model(self.q_network)
 
-        self.train_plot = PlotWriter()
+        self.train_plot = PlotWriter("Training")
+        self.train_plot.set_label("Epoche", "Reward")
         self.train_plot.show()
 
-        self.play_plot = PlotWriter()
+        self.play_plot = PlotWriter("Play")
+        self.play_plot.set_label("Epoche", "Reward")
         self.play_plot.show()
 
     def store(self, state, action, reward, next_state, terminated):
@@ -59,13 +62,11 @@ class QNetworkAgent(Agent):
 
             self.q_network.fit(state, q_values, epochs=1, verbose=0)
 
-
     def play(self, index):
         """
         """
         state = self.environment.reset_state()
 
-        self.timesteps_per_episode = 1
         for timestep in range(self.timesteps_per_episode):
             # Run Action
             action = self.act(state)
