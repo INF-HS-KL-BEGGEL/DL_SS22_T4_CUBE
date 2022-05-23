@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from IPython.display import clear_output
+import matplotlib
 import matplotlib.pyplot as plt
+matplotlib.use('TkAgg')
 
 
 class Writer(ABC):
