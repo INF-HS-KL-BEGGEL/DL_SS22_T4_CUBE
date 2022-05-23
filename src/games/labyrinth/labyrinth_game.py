@@ -12,9 +12,6 @@ class LabyrinthGame(Game):
         self.current_tile = self.labyrinth.get_tile(0, 0)
         self.start_tile = self.labyrinth.get_tile(0, 0)
 
-        # copy for reset_game
-        self.start_tile_copy = copy.deepcopy(self.start_tile)
-
     @staticmethod
     def setup_game():
         """Factory Method"""
@@ -50,8 +47,8 @@ class LabyrinthGame(Game):
         return self.labyrinth.is_accessible_tile(tile)
 
     def reset_game(self):
-        self.start_tile = copy.deepcopy(self.start_tile_copy)
-        self.current_tile = self.start_tile
+        maze = Labyrinth.create_from("./games/labyrinth/test_labyrinth.json")
+        self.__init__(maze)
 
     def is_done(self):
         return len(self.labyrinth.get_targets()) == 0

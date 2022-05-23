@@ -47,6 +47,7 @@ class Environment(ABC):
         return None, reward, done, {}
 
     def reset_state(self) -> StateBase:
+        self.game.reset_game()
         return self._observation_space[0]
 
     def reset_environment(self):

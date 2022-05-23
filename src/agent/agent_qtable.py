@@ -41,12 +41,12 @@ class QTableAgent(Agent):
             next_state, reward, terminated, info = self.environment.step(action)
 
             sum_reward += reward
-            if terminated:
+            if terminated or next_state is None:
                 self.q_table.print("Playing Done!")
                 break
 
             # Too few data from training, cannot solve the game
-            if sum_reward < -(np.power(len(self.environment.game.faces), 3)):
+            if sum_reward < -10000:
                 sum_reward = 0
                 break
 
@@ -58,7 +58,6 @@ class QTableAgent(Agent):
 
         for episode in range(0, num_of_episodes):
             # Reset the environment
-            print("test")
             state = self.environment.reset_state()
 
             # Initialize variables
@@ -80,7 +79,7 @@ class QTableAgent(Agent):
                 next_state, reward, terminated, info = self.environment.step(action)
                 sum_reward += reward
 
-                if terminated:
+                if terminated or next_state is None:
                     # print(self.environment.action_space)
                     # print(self.env.observation_space)
                     # self.q_table.print("Episode %s" % episode)
