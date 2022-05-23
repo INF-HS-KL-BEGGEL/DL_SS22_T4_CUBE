@@ -60,10 +60,10 @@ class LabyrinthGame(Game):
         print(direction)
         tile = self.labyrinth.get_neighbor_tile(self.get_current_tile(), direction)
         if not tile or tile.get_type() == TileType.BLOCKED:
-            return -1
+            return TileType.BLOCKED
 
         self.current_tile = tile
         if self.check_current_for_target():
             self.collect_target()
-            return 1
-        return 0
+            return TileType.TARGET
+        return TileType.EMPTY

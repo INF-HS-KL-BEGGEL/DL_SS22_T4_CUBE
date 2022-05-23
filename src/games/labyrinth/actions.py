@@ -11,11 +11,12 @@ class GoAction(Action):
 
     def execute(self) -> int:
         result = self.game.go(self.direction)
-        if result == 1:
-            return 50
-        if result == 0:
+        if result == TileType.BLOCKED:
+            return -2
+        elif result == TileType.EMPTY:
             return -1
-        return -5
+        elif result == TileType.TARGET:
+            return 50
 
 
 class MoveForwardAction(Action):
