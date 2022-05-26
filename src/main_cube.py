@@ -20,8 +20,8 @@ def run_qnetwork_agent(env):
 print('--- Start ---')
 env = EnvCube(CubeGame.setup_game(6))
 
-run_qtable_agent(env)
-# run_qnetwork_agent(env)
+#run_qtable_agent(env)
+run_qnetwork_agent(env)
 
 # Use this as a breakpoint to keep the plots open
 print('--- END ---')

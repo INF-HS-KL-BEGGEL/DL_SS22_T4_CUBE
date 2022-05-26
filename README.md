@@ -1,3 +1,6 @@
+# Nächstes Treffen
+Donnerstag: 09.06.2022 16 Uhr vor Ort
+
 # Start
 
 Start unittests

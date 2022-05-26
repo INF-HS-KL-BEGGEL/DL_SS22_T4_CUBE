@@ -124,6 +124,11 @@ class Labyrinth:
         return None
 
     @staticmethod
+    def generate_from(self, seed):
+        pass
+        # TODO
+
+    @staticmethod
     def create_from(filename):
         """
         Factory Method to create Labyrinth from definition file

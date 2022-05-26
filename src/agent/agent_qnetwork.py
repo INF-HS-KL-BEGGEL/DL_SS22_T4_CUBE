@@ -9,7 +9,7 @@ from monitoring.monitoring import PlotWriter
 
 class QNetworkAgent(Agent):
 
-    def __init__(self, environment, optimizer=Adam(learning_rate=0.01)):
+    def __init__(self, environment, optimizer=Adam(learning_rate=0.05)):
 
         super().__init__(environment)
         # Initialize attributes
@@ -19,9 +19,9 @@ class QNetworkAgent(Agent):
         self.experience_replay = collections.deque(maxlen=2000)
 
         # Initialize discount and exploration rate
-        self.gamma = 0.6
-        self.epsilon = 0.1
-        self.timesteps_per_episode = 1
+        self.gamma = 0.9
+        self.epsilon = 0.2
+        self.timesteps_per_episode = 10
 
         # Build networks
         self.target_network = QNetwork(self._action_size, self._state_size, optimizer, self.environment)
@@ -66,7 +66,7 @@ class QNetworkAgent(Agent):
         """
         """
         state = self.environment.reset_state()
-
+        sum_reward = 0
         for timestep in range(self.timesteps_per_episode):
             # Run Action
             action = self.act(state)
@@ -74,14 +74,16 @@ class QNetworkAgent(Agent):
             # Take action
             next_state, reward, terminated, info = self.environment.step(action)
             self.store(state, action, reward, next_state, terminated)
-
+            sum_reward += reward
             state = next_state
 
             if terminated:
                 self.target_network.algin_model(self.q_network)
                 break
 
-    def train(self, num_of_episodes, batch_size=10):
+        #self.play_plot.write(index, sum_reward)
+
+    def train(self, num_of_episodes, batch_size=100):
         for e in range(0, num_of_episodes):
             # Reset the enviroment
             state = self.environment.reset_state()
@@ -91,7 +93,7 @@ class QNetworkAgent(Agent):
             terminated = False
             sum_reward = 0
 
-            self.timesteps_per_episode = 1
+            #self.timesteps_per_episode = 1
             for timestep in range(self.timesteps_per_episode):
                 # Run Action
                 action = self.act(state)
@@ -111,7 +113,7 @@ class QNetworkAgent(Agent):
                 if len(self.experience_replay) > batch_size:
                     self.retrain(batch_size)
 
-            self.play_plot.write((e, sum_reward))
+            self.train_plot.write((e, sum_reward))
 
             if (e + 1) % 10 == 0:
                 print("**********************************")
