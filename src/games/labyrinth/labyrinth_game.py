@@ -2,6 +2,7 @@ from games.labyrinth.labyrinth import Direction, Labyrinth, Tile, TileType
 from games.game import Game
 from games.labyrinth.actions import GoAction
 import copy
+import random
 
 
 class LabyrinthGame(Game):
@@ -11,15 +12,31 @@ class LabyrinthGame(Game):
         self.labyrinth = labyrinth
         self.current_tile = self.labyrinth.get_tile(0, 0)
         self.start_tile = self.labyrinth.get_tile(0, 0)
+        self.maze_copy = copy.deepcopy(self.labyrinth)
 
     @staticmethod
     def setup_game():
         """Factory Method"""
-        maze = Labyrinth.create_from("./games/labyrinth/test_labyrinth.json")
+        #maze = Labyrinth.create_from("./games/labyrinth/test_labyrinth.json")
+
+        maze = Labyrinth.generate_maze(10,10)
+        #LabyrinthGame.create_targets(maze, 5)
         return LabyrinthGame(maze)
+    
+    def create_targets(maze, target_count):
+        random_tiles = random.sample(range(1, len(maze.get_all_accessible_tiles()) - 1), target_count-1)
+        for tile in random_tiles:
+            maze.get_all_accessible_tiles()[tile].tile_type = TileType.TARGET
+
 
     def get_current_tile(self):
         return self.current_tile
+
+    def get_start_tile(self):
+        for tile in self.labyrinth.get_all_accessible_tiles():
+            if tile.get_type() == TileType.START:
+                return tile
+        raise Exception("No start tile found")
 
     def get_tiles(self):
         return self.labyrinth.get_tiles()
@@ -47,8 +64,10 @@ class LabyrinthGame(Game):
         return self.labyrinth.is_accessible_tile(tile)
 
     def reset_game(self):
-        maze = Labyrinth.create_from("./games/labyrinth/test_labyrinth.json")
-        self.__init__(maze)
+        #maze = Labyrinth.create_from("./games/labyrinth/test_labyrinth.json")
+        self.labyrinth = copy.deepcopy(self.maze_copy)
+        self.start_tile = self.get_start_tile()
+        self.current_tile = self.start_tile
 
     def is_done(self):
         return len(self.labyrinth.get_targets()) == 0

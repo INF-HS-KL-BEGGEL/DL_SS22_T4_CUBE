@@ -1,5 +1,4 @@
 from agent.agent_qtable import QTableAgent
-from agent.agent_qnetwork import QNetworkAgent
 from games.labyrinth.env_labyrinth import EnvLabyrinth
 from games.labyrinth.labyrinth_game import LabyrinthGame
 
@@ -13,6 +12,7 @@ def run_qtable_agent(env):
 
 
 def run_qnetwork_agent(env):
+    from agent.agent_qnetwork import QNetworkAgent
     agent = QNetworkAgent(env)
 
     for i in range(0, 20):
@@ -23,8 +23,8 @@ def run_qnetwork_agent(env):
 print('--- Start ---')
 env = EnvLabyrinth(LabyrinthGame.setup_game())
 
-#run_qtable_agent(env)
-run_qnetwork_agent(env)
+run_qtable_agent(env)
+#run_qnetwork_agent(env)
 
 # Use this as a breakpoint to keep the plots open
 print('--- END ---')

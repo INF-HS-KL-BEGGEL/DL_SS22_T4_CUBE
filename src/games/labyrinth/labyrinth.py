@@ -1,5 +1,6 @@
 import json
 from enum import Enum
+from games.labyrinth.random_maze_generator import get_random_maze
 
 
 class TileType(Enum):
@@ -124,9 +125,25 @@ class Labyrinth:
         return None
 
     @staticmethod
-    def generate_from(self, seed):
-        pass
-        # TODO
+    def generate_maze(height, width):
+        
+        maze_map = []
+
+        mapping = {
+            "c": TileType.EMPTY,
+            "w": TileType.BLOCKED,
+            "s": TileType.START,
+            "x": TileType.TARGET
+        }
+        maze = get_random_maze(height, width)
+
+        for x, row in enumerate(maze):
+            map_tmp_row = []
+            for y, tile in enumerate(row):
+                map_tmp_row.append(Tile(mapping[tile], x, y))
+            maze_map.append(map_tmp_row)
+
+        return Labyrinth(maze_map)
 
     @staticmethod
     def create_from(filename):
