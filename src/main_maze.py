@@ -21,7 +21,7 @@ def run_qnetwork_agent(env):
 
 
 print('--- Start ---')
-env = EnvLabyrinth(LabyrinthGame.setup_game())
+env = EnvLabyrinth(LabyrinthGame.setup_game(15, 15, 5))
 
 run_qtable_agent(env)
 #run_qnetwork_agent(env)

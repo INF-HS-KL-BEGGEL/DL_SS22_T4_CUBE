@@ -31,7 +31,8 @@ class Tile:
         return self.x, self.y
 
     def __eq__(self, other):
-        if self.x == other.x and self.y == other.y and self.tile_type == other.tile_type:
+        # TODO tile_type is not checked
+        if self.x == other.x and self.y == other.y: # and self.tile_type == other.tile_type:
             return True
         return False
 

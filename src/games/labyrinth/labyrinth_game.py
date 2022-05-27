@@ -10,17 +10,17 @@ class LabyrinthGame(Game):
     def __init__(self, labyrinth):
         super().__init__()
         self.labyrinth = labyrinth
-        self.current_tile = self.labyrinth.get_tile(0, 0)
-        self.start_tile = self.labyrinth.get_tile(0, 0)
+        self.start_tile = self.get_start_tile()
+        self.current_tile = self.start_tile
         self.maze_copy = copy.deepcopy(self.labyrinth)
 
     @staticmethod
-    def setup_game():
+    def setup_game(heigth = 10, width = 10, target_count = 4):
         """Factory Method"""
         #maze = Labyrinth.create_from("./games/labyrinth/test_labyrinth.json")
 
-        maze = Labyrinth.generate_maze(10,10)
-        #LabyrinthGame.create_targets(maze, 5)
+        maze = Labyrinth.generate_maze(heigth,width)
+        LabyrinthGame.create_targets(maze, target_count)
         return LabyrinthGame(maze)
     
     def create_targets(maze, target_count):
@@ -47,6 +47,9 @@ class LabyrinthGame(Game):
     def get_current_target(self):
         return self.get_targets()[-1]
 
+    def get_current_targets(self):
+        return self.get_targets()
+
     def get_labyrinth(self):
         return self.labyrinth
 
@@ -70,10 +73,14 @@ class LabyrinthGame(Game):
         self.current_tile = self.start_tile
 
     def is_done(self):
-        return len(self.labyrinth.get_targets()) == 0
+        if (len(self.labyrinth.get_targets())) == 1:
+            return False
+        elif(len(self.labyrinth.get_targets()) == 0):
+            return True
+        #return len(self.labyrinth.get_targets()) == 0
 
     def go(self, direction):
-        print(direction)
+        #print(direction)
         tile = self.labyrinth.get_neighbor_tile(self.get_current_tile(), direction)
         if not tile or tile.get_type() == TileType.BLOCKED:
             return TileType.BLOCKED

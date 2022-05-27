@@ -258,15 +258,3 @@ def get_random_maze(height, width):
     printMaze(maze, height, width)
     print(Fore.WHITE, end="")
     return maze
-
-# get_random_maze(10, 10)
-# #print(random.sample(range(1,4), 3))
-# from itertools import chain, combinations
-
-# def powerset(iterable):
-#     s = list(iterable)
-#     return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
-
-# test = [1, 2, 3, 4]
-# set = powerset(test)
-# print(list(set))
