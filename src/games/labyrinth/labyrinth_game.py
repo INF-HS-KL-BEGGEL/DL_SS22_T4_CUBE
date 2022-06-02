@@ -24,9 +24,12 @@ class LabyrinthGame(Game):
         return LabyrinthGame(maze)
     
     def create_targets(maze, target_count):
-        random_tiles = random.sample(range(1, len(maze.get_all_accessible_tiles()) - 1), target_count-1)
-        for tile in random_tiles:
-            maze.get_all_accessible_tiles()[tile].tile_type = TileType.TARGET
+        if(target_count > len(maze.get_all_accessible_tiles())):
+            raise Exception("Not enough accessible tiles")
+        if(target_count > 0):
+            random_tiles = random.sample(range(1, len(maze.get_all_accessible_tiles()) - 1), target_count-1)
+            for tile in random_tiles:
+                maze.get_all_accessible_tiles()[tile].tile_type = TileType.TARGET
 
 
     def get_current_tile(self):

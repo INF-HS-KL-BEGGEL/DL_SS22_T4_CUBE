@@ -23,6 +23,8 @@ class QNetworkAgent(Agent):
         self.epsilon = 0.2
         self.timesteps_per_episode = 10
 
+        self.total_episodes = 0
+
         # Build networks
         self.target_network = QNetwork(self._action_size, self._state_size, optimizer, self.environment)
         self.q_network = QNetwork(self._action_size, self._state_size, optimizer, self.environment)
@@ -113,7 +115,8 @@ class QNetworkAgent(Agent):
                 if len(self.experience_replay) > batch_size:
                     self.retrain(batch_size)
 
-            self.train_plot.write((e, sum_reward))
+            self.train_plot.write((self.total_episodes, sum_reward))
+            self.total_episodes += 1
 
             if (e + 1) % 10 == 0:
                 print("**********************************")
