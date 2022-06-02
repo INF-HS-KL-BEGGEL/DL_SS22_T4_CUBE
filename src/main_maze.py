@@ -21,10 +21,10 @@ def run_qnetwork_agent(env):
 
 
 print('--- Start ---')
-env = EnvLabyrinth(LabyrinthGame.setup_game(5, 5, 2))
+env = EnvLabyrinth(LabyrinthGame.setup_game(4, 4, 1))
 
 #run_qtable_agent(env)
-#run_qnetwork_agent(env)
+run_qnetwork_agent(env)
 
 # Use this as a breakpoint to keep the plots open
 print('--- END ---')

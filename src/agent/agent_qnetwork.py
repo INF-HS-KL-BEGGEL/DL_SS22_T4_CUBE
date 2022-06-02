@@ -83,13 +83,12 @@ class QNetworkAgent(Agent):
                 self.target_network.algin_model(self.q_network)
                 break
 
-        #self.play_plot.write(index, sum_reward)
+        self.play_plot.write((index, sum_reward))
 
     def train(self, num_of_episodes, batch_size=100):
         for e in range(0, num_of_episodes):
             # Reset the enviroment
             state = self.environment.reset_state()
-
             # Initialize variables
             reward = 0
             terminated = False
@@ -99,12 +98,11 @@ class QNetworkAgent(Agent):
             for timestep in range(self.timesteps_per_episode):
                 # Run Action
                 action = self.act(state)
-
                 # Take action
                 next_state, reward, terminated, info = self.environment.step(action)
                 sum_reward += reward
                 self.store(state, action, reward, next_state, terminated)
-                print(action, reward)
+                #print(action, reward)
 
                 state = next_state
 
