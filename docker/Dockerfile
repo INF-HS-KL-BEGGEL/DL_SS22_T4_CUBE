@@ -5,5 +5,5 @@ COPY /src /src
 COPY /testsuite_runner.py /testsuite_runner.py
 COPY /setup.py /setup.py
 WORKDIR /
-CMD [ "pip3", "install", '-e', "."]
+RUN pip3 install -e .
 CMD [ "python3", "testsuite_runner.py"]
