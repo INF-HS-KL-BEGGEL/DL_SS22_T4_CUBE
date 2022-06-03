@@ -1,5 +1,4 @@
-import numpy as np
-from environment.action import Action
+from deeplearning.environment.action import Action
 
 
 class TurnLeftAction(Action):

@@ -1,9 +1,8 @@
 import random
 import time
-from agent.agent_base import Agent
-from agent.qtable import QTable
-from monitoring.monitoring import PlotWriter
-import numpy as np
+from deeplearning.agent.agent_base import Agent
+from deeplearning.agent.qtable import QTable
+from deeplearning.monitoring.monitoring import PlotWriter
 
 
 class QTableAgent(Agent):

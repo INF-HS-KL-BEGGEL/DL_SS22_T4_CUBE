@@ -1,5 +1,5 @@
 import unittest
-from environment.environment import Environment
+from deeplearning.environment.environment import Environment
 
 
 class TestEnv(unittest.TestCase):

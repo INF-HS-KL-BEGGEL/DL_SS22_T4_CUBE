@@ -1,4 +1,4 @@
-from environment.state import StateBase
+from deeplearning.environment.state import StateBase
 
 
 class StateCube(StateBase):

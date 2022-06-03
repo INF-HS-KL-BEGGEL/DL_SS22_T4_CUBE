@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from environment.state import StateBase
+from deeplearning.environment.state import StateBase
 import random
 
 

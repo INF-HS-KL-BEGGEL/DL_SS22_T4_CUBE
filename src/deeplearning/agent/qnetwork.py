@@ -1,7 +1,6 @@
-from tensorflow.keras import Model, Sequential
+from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Dense, Embedding, Reshape
-from tensorflow.keras.optimizers import Adam
-from environment.state import StateBase
+from deeplearning.environment.state import StateBase
 import numpy as np
 
 

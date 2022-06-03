@@ -1,5 +1,5 @@
 import unittest
-from games.cube.cube_game import CubeGame
+from deeplearning.games.cube.cube_game import CubeGame
 
 
 class TestCube(unittest.TestCase):

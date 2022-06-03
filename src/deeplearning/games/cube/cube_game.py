@@ -1,9 +1,9 @@
 import random
 
-from games.cube.cube import Cube
-from games.cube.face import Face
-from games.cube.figure import Direction, Figure
-from games.game import Game
+from deeplearning.games.cube.cube import Cube
+from deeplearning.games.cube.face import Face
+from deeplearning.games.cube.figure import Direction, Figure
+from deeplearning.games.game import Game
 
 
 class CubeGame(Game):

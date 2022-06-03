@@ -1,9 +1,9 @@
 import numpy as np
 import random
 import collections
-from agent.agent_base import Agent
+from deeplearning.agent.agent_base import Agent
 from tensorflow.keras.optimizers import Adam
-from agent.qnetwork import QNetwork
+from deeplearning.agent.qnetwork import QNetwork
 
 class QNetworkAgent(Agent):
 

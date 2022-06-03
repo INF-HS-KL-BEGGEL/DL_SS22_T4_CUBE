@@ -1,6 +1,5 @@
-from games.labyrinth.labyrinth import Direction, Labyrinth, Tile, TileType
-from games.game import Game
-from games.labyrinth.actions import GoAction
+from deeplearning.games.labyrinth.labyrinth import Labyrinth, TileType
+from deeplearning.games.game import Game
 import copy
 import random
 

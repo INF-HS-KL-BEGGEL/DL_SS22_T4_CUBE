@@ -9,7 +9,7 @@ with open('LICENSE') as f:
     license = f.read()
 
 setup(
-    name='DeepLearningBabyCube',
+    name='dlcube',
     version='0.1.0',
     description='DL',
     long_description=readme,
@@ -18,5 +18,5 @@ setup(
     url='',
     license=license,
     package_dir={"": "src"},
-    packages=find_packages(exclude=('test', 'docs'))
+    packages=find_packages(include=['deeplearning','deeplearning.*'])
 )

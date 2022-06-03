@@ -1,0 +1,7 @@
+LICENSE
+README.md
+setup.py
+src/dlcube.egg-info/PKG-INFO
+src/dlcube.egg-info/SOURCES.txt
+src/dlcube.egg-info/dependency_links.txt
+src/dlcube.egg-info/top_level.txt

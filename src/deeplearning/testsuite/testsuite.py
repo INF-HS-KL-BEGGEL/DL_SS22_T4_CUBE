@@ -1,9 +1,9 @@
 import json
-from agent.agent_qnetwork import QNetworkAgent
-from games.labyrinth.env_labyrinth import EnvLabyrinth
-from games.labyrinth.labyrinth_game import LabyrinthGame
+from deeplearning.agent.agent_qnetwork import QNetworkAgent
+from deeplearning.games.labyrinth.env_labyrinth import EnvLabyrinth
+from deeplearning.games.labyrinth.labyrinth_game import LabyrinthGame
 from tensorflow.keras.optimizers import Adam
-from monitoring.monitoring import CsvWriter, PlotWriter, ConsoleWriter
+from deeplearning.monitoring.monitoring import CsvWriter, ConsoleWriter
 from pathlib import Path
 
 class TestSuiteMaze:

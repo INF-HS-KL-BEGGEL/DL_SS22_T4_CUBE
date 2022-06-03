@@ -1,6 +1,6 @@
-from environment.environment import Environment
-from games.cube.actions import TurnRightAction, TurnLeftAction, TryFitAction, RotateFigureAction
-from games.cube.state import StateCube
+from deeplearning.environment.environment import Environment
+from deeplearning.games.cube.actions import TurnRightAction, TurnLeftAction, TryFitAction, RotateFigureAction
+from deeplearning.games.cube.state import StateCube
 
 
 class EnvCube(Environment):

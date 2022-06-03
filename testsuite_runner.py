@@ -1,4 +1,4 @@
-from testsuite.testsuite import TestSuiteMaze
+from deeplearning.testsuite.testsuite import TestSuiteMaze
 
 
 def load_suite(filename):

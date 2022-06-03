@@ -1,8 +1,7 @@
-from environment.environment import Environment
-from games.labyrinth.labyrinth import Direction
-from games.labyrinth.actions import GoAction
-from games.labyrinth.state import StateLabyrinth
-from itertools import chain, combinations
+from deeplearning.environment.environment import Environment
+from deeplearning.games.labyrinth.labyrinth import Direction
+from deeplearning.games.labyrinth.actions import GoAction
+from deeplearning.games.labyrinth.state import StateLabyrinth
 
 
 class EnvLabyrinth(Environment):

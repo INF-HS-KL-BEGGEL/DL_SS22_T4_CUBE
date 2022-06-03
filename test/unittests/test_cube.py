@@ -1,7 +1,7 @@
 import unittest
-from games.cube import Cube
-from games.cube.face import Face
-from games.cube.figure import Figure
+from deeplearning.games.cube import Cube
+from deeplearning.games.cube.face import Face
+from deeplearning.games.cube.figure import Figure
 
 
 class TestCube(unittest.TestCase):

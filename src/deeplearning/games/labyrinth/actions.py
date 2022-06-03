@@ -1,5 +1,5 @@
-from environment.action import Action
-from games.labyrinth.labyrinth import TileType
+from deeplearning.environment.action import Action
+from deeplearning.games.labyrinth.labyrinth import TileType
 
 
 class GoAction(Action):

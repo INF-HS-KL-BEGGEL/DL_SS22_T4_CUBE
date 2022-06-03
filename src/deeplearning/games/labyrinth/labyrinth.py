@@ -1,6 +1,6 @@
 import json
 from enum import Enum
-from games.labyrinth.random_maze_generator import get_random_maze
+from deeplearning.games.labyrinth.random_maze_generator import get_random_maze
 
 
 class TileType(Enum):
