@@ -4,8 +4,10 @@ services:
     image: maze:latest
     ports:
       - "8000:5000"
+    user: root
     volumes:
-      - .:/var/
+      - ./var/:/var/results/
+      - ./suites/:/suites/
     shm_size: '1g'
     ulimits:
         memlock: 1
@@ -15,5 +17,7 @@ services:
         reservations:
           devices:
           - driver: nvidia
-            device_ids: ['0', '3']
+            device_ids: ['2']
             capabilities: [gpu]
+    environment:
+      - "PYTHONUNBUFFERED=1"
