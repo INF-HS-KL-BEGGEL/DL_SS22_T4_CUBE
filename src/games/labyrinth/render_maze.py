@@ -2,49 +2,49 @@ from tkinter import *
 from games.labyrinth.labyrinth import Labyrinth, TileType
 
 
-def setup_window(size):
-    canvas_width = size * 50
-    canvas_height = size * 50
+class LabyrinthRenderer:
+    def __init__(self, labyrinth: Labyrinth, current_tile):
+        self.maze_map = labyrinth.get_maze_map()
 
-    master = Tk()
-    master.title("QLearning Maze")
+        self.master = Tk()
+        self.master.title("QLearning Maze")
 
-    w = Canvas(master,
-               width=canvas_width,
-               height=canvas_height)
-    w.pack()
+        self.pixel_size = 25
 
-    return w
+        canvas_width = len(self.maze_map[0]) * self.pixel_size
+        canvas_height = len(self.maze_map) * self.pixel_size
+        self.canvas = Canvas(self.master,
+                             width=canvas_width,
+                             height=canvas_height)
+        self.canvas.pack()
+        self.draw_maze(self.maze_map, current_tile)
 
+    def draw_maze(self, maze_map, current_tile):
+        current_y = 0
+        for i in maze_map:
+            current_x = 0
+            for j in i:
+                color = LabyrinthRenderer.get_tile_color(j)
+                self.canvas.create_rectangle(current_x, current_y, current_x + self.pixel_size, current_y + self.pixel_size, fill=color)
+                current_x += self.pixel_size
+            current_y += self.pixel_size
 
-def render_maze(canvas: Canvas, labyrinth: Labyrinth):
-    maze = labyrinth.get_maze_map()
+        # draw the current tile when the maze map is drawn
+        self.canvas.create_rectangle(current_tile.y * self.pixel_size, current_tile.x *  self.pixel_size, current_tile.y * self.pixel_size + self.pixel_size,
+                                     current_tile.x * self.pixel_size + self.pixel_size, fill='#03adfc')
 
-    color_start = "#0F0"
-    color_empty = "#EEE"
-    color_blocked = "#000"
-    color_target = "#FF0"
-    color = color_empty
+    @staticmethod
+    def get_tile_color(tile):
+        color_start = "#a134eb"
+        color_empty = "#ffffff"
+        color_blocked = "#000000"
+        color_target = "#03fc7b"
 
-    y = 0
-    for i in maze:
-        x = 0
-        for j in i:
-            print(j)
-            if j.tile_type is TileType.TARGET:
-                color = color_target
-            elif j.tile_type is TileType.EMPTY:
-                color = color_empty
-            elif j.tile_type is TileType.BLOCKED:
-                color = color_blocked
-            elif j.tile_type is TileType.START:
-                color = color_start
-            canvas.create_rectangle(x, y, x + 50, y + 50, fill=color)
-            x += 50
-        y += 50
-
-
-maze_size = 20
-c = setup_window(maze_size)
-render_maze(c, Labyrinth.generate_maze(maze_size, maze_size))
-mainloop()
+        if tile.tile_type is TileType.TARGET:
+            return color_target
+        elif tile.tile_type is TileType.EMPTY:
+            return color_empty
+        elif tile.tile_type is TileType.BLOCKED:
+            return color_blocked
+        elif tile.tile_type is TileType.START:
+            return color_start

@@ -1,3 +1,6 @@
+import time
+from tkinter import mainloop
+
 from agent.agent_qtable import QTableAgent
 from games.labyrinth.env_labyrinth import EnvLabyrinth
 from games.labyrinth.labyrinth_game import LabyrinthGame
@@ -21,10 +24,10 @@ def run_qnetwork_agent(env):
 
 
 print('--- Start ---')
-env = EnvLabyrinth(LabyrinthGame.setup_game(4, 4, 1))
-
-#run_qtable_agent(env)
-run_qnetwork_agent(env)
+env = EnvLabyrinth(LabyrinthGame.setup_game(25, 25, 10))
+run_qtable_agent(env)
+mainloop()
+# run_qnetwork_agent(env)
 
 # Use this as a breakpoint to keep the plots open
 print('--- END ---')
