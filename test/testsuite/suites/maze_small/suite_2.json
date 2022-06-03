@@ -1,8 +1,8 @@
 {
     "result_path": "./var/results/",
-    "testsuite_name": "maze_4_4_test_1",
+    "testsuite_name": "maze_4_4_test_2",
     "agent": {
-        "learning_rate": 0.05,
+        "learning_rate": 0.1,
         "train_epoches": 10,
         "timesteps_per_epoches": 100,
         "gamma": 0.9,

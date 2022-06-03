@@ -66,7 +66,12 @@ class TestSuiteMaze:
         csv_play_writer = CsvWriter(name=testsuite_name, filename=result_path + testsuite_name + "_play.csv")
         csv_play_writer.set_label("Index", "Reward")
 
+        #plot_train_writer = PlotWriter(name=testsuite_name)
+        #plot_train_writer.set_label("Epoche", "Reward")
+        #agent.register_writer_training(plot_train_writer)
+
         agent.register_writer_training(csv_train_writer)
+
         agent.register_writer_play(csv_play_writer)
         agent.register_writer_training(ConsoleWriter("Console Training"))
 
