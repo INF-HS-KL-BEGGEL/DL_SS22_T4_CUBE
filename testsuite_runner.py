@@ -13,7 +13,7 @@ def load_suites(filenames: list):
     return suites
 
 suite_files = [
-    "./suites/suite_1.json",
+    "/suites/suite_1.json",
 ]
 
 suites = load_suites(suite_files)
