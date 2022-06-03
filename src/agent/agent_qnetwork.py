@@ -4,12 +4,10 @@ import collections
 from agent.agent_base import Agent
 from tensorflow.keras.optimizers import Adam
 from agent.qnetwork import QNetwork
-from monitoring.monitoring import PlotWriter
-
 
 class QNetworkAgent(Agent):
 
-    def __init__(self, environment, optimizer=Adam(learning_rate=0.05)):
+    def __init__(self, environment, optimizer=Adam(learning_rate=0.05), epsilon=0.2, gamma=0.9, timesteps_per_episode=10):
 
         super().__init__(environment)
         # Initialize attributes
@@ -19,9 +17,9 @@ class QNetworkAgent(Agent):
         self.experience_replay = collections.deque(maxlen=2000)
 
         # Initialize discount and exploration rate
-        self.gamma = 0.9
-        self.epsilon = 0.2
-        self.timesteps_per_episode = 10
+        self.gamma = gamma
+        self.epsilon = epsilon
+        self.timesteps_per_episode = timesteps_per_episode
 
         self.total_episodes = 0
 
@@ -30,14 +28,6 @@ class QNetworkAgent(Agent):
         self.q_network = QNetwork(self._action_size, self._state_size, optimizer, self.environment)
 
         self.target_network.algin_model(self.q_network)
-
-        self.train_plot = PlotWriter("Training")
-        self.train_plot.set_label("Epoche", "Reward")
-        self.train_plot.show()
-
-        self.play_plot = PlotWriter("Play")
-        self.play_plot.set_label("Epoche", "Reward")
-        self.play_plot.show()
 
     def store(self, state, action, reward, next_state, terminated):
         self.experience_replay.append((state, action, reward, next_state, terminated))
@@ -83,7 +73,7 @@ class QNetworkAgent(Agent):
                 self.target_network.algin_model(self.q_network)
                 break
 
-        self.play_plot.write((index, sum_reward))
+        self.notify_writer_play((index, sum_reward))
 
     def train(self, num_of_episodes, batch_size=100):
         for e in range(0, num_of_episodes):
@@ -113,7 +103,7 @@ class QNetworkAgent(Agent):
                 if len(self.experience_replay) > batch_size:
                     self.retrain(batch_size)
 
-            self.train_plot.write((self.total_episodes, sum_reward))
+            self.notify_writer_training((e, sum_reward))
             self.total_episodes += 1
 
             if (e + 1) % 10 == 0:
