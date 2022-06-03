@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from IPython.display import clear_output
 import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.use('TkAgg')
@@ -34,6 +33,6 @@ class PlotWriter(Writer):
         self.y.append(y)
 
         self.ax.plot(self.x, self.y, 'bo-')
-        clear_output(wait=True)
+        #clear_output(wait=True)
         self.fig.canvas.draw()
         self.fig.canvas.flush_events()

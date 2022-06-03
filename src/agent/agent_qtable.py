@@ -1,6 +1,5 @@
 import random
 import time
-from IPython.display import clear_output
 from agent.agent_base import Agent
 from agent.qtable import QTable
 from monitoring.monitoring import PlotWriter
