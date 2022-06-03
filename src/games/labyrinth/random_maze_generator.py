@@ -36,13 +36,15 @@ def surroundingCells(maze, rand_wall):
 	return s_cells
 
 
-def get_random_maze(height, width):
+def get_random_maze(height, width, seed = 0):
     ## Main code
     # Init variables
     wall = 'w'
     cell = 'c'
     unvisited = 'u'
     maze = []
+    if(seed != 0):
+        random.seed(seed)
 
     # Initialize colorama
     init()
@@ -258,3 +260,4 @@ def get_random_maze(height, width):
     printMaze(maze, height, width)
     print(Fore.WHITE, end="")
     return maze
+    
