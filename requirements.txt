@@ -1,5 +1,6 @@
-numpy
-pandas
 tensorflow
+pandas
+numpy
 matplotlib
 ipython
+tabulate

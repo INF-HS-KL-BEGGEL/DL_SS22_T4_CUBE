@@ -1,23 +1,19 @@
 # Maze generator -- Randomized Prim Algorithm
-
 ## Imports
 import random
-import time
-from colorama import init
-from colorama import Fore, Back, Style
 
 ## Functions
 def printMaze(maze, height, width):
 	for i in range(0, height):
 		for j in range(0, width):
 			if (maze[i][j] == 'u'):
-				print(Fore.WHITE + str(maze[i][j]), end=" ")
+				print(str(maze[i][j]), end=" ")
 			elif (maze[i][j] == 'c'):
-				print(Fore.GREEN + str(maze[i][j]), end=" ")
+				print(str(maze[i][j]), end=" ")
 			elif (maze[i][j] == 's' or maze[i][j] == 'x'):
-				print(Fore.BLUE + str(maze[i][j]), end=" ")
+				print(str(maze[i][j]), end=" ")
 			else:
-				print(Fore.RED + str(maze[i][j]), end=" ")
+				print(str(maze[i][j]), end=" ")
 		print('\n')
 
 
@@ -45,9 +41,6 @@ def get_random_maze(height, width, seed = 0):
     maze = []
     if(seed != 0):
         random.seed(seed)
-
-    # Initialize colorama
-    init()
 
     # Denote all cells as unvisited
     for i in range(0, height):
@@ -258,6 +251,5 @@ def get_random_maze(height, width, seed = 0):
 
     # Print final maze
     printMaze(maze, height, width)
-    print(Fore.WHITE, end="")
     return maze
     

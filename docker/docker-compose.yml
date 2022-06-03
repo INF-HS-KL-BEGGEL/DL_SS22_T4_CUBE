@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  BEGGEL_SERVICE_X001: ## namen ändern
+  image: nvcr.io/nvidia/tensorflow:21.03-tf2-py3
+  container_name: BEGGEL_TEST2 # namen ändern
+  ports:
+    - '28092:8888' # externen port 28092 ändern, internen port 8888 so lassen
+  volumes:
+    - '/home/bastianbeggel/tmp/docker_test2:/workspace' ## verzeichnis ändern. ":/workspace" muss so bleiben
+  environment:
+    - JUPYTER_TOKEN=beggel_secret33 # passwort ändern
+  shm_size: '1g'
+  ulimits:
+  memlock: 1
+  stack: 67108864
+  deploy:
+  resources:
+  reservations:
+  devices:
+    - driver: nvidia
+  # count: 1
+  device_ids: ['0'] # damit kann man die GPU auswählen (Nummer aus nvidia-smi).
+  capabilities: [gpu]
+  command: bash -c "
+    pip install opencv-python
+    && apt-get upgrade
+    && apt update && apt install -y libsm6 libxext6 ffmpeg libfontconfig1 libxrender1 libgl1-mesa-glx
+    && pip install keras
+    && pip install sklearn
+    && pip install matplotlib
+    && pip install albumentations
+    && pip install segmentation_models
+    && jupyter notebook"
