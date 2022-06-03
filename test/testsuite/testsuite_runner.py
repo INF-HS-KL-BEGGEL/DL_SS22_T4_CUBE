@@ -14,9 +14,6 @@ def load_suites(filenames: list):
 
 suite_files = [
     "./suites/suite_1.json",
-    "./suites/suite_2.json",
-    "./suites/suite_3.json",
-    "./suites/suite_4.json",
 ]
 
 suites = load_suites(suite_files)

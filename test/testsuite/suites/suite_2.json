@@ -1,0 +1,22 @@
+{
+    "result_path": "./var/results/",
+    "testsuite_name": "test_2",
+    "agent": {
+        "learning_rate": 0.05,
+        "train_epoches": 10,
+        "timesteps_per_epoches": 10,
+        "gamma": 0.9,
+        "epsilon": 0.2,
+        "batch_size": 100
+    },
+    "play": {
+        "number_of_plays": 1
+    },
+    "maze": {
+        "height": 4,
+        "width": 4,
+        "targets": 2,
+        "seed": "seed"
+    }
+}
+
