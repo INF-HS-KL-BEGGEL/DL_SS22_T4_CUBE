@@ -4,6 +4,8 @@ RUN pip3 install -r requirements.txt
 COPY /src /src
 COPY /testsuite_runner.py /testsuite_runner.py
 COPY /setup.py /setup.py
+COPY /README.md /README.md
+COPY /LICENSE /LICENSE
 WORKDIR /
 RUN pip3 install -e .
 CMD [ "python3", "testsuite_runner.py"]
