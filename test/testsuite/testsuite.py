@@ -26,7 +26,7 @@ class TestSuiteMaze:
         width = maze_conf.get("width")
         targets = maze_conf.get("targets")
         seed = maze_conf.get("seed")
-        return LabyrinthGame.setup_game(height, width, targets)
+        return LabyrinthGame.setup_game(height, width, targets, seed=seed)
 
     @staticmethod
     def from_json_file(filename):
@@ -90,7 +90,7 @@ sample_suite = {
         "height": 4,
         "width": 4,
         "targets": 2,
-        "seed": "seed"
+        "seed": 10
     }
 }
 
