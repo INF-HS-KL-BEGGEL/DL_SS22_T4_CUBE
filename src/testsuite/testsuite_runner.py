@@ -1,4 +1,4 @@
-from test.testsuite.testsuite import TestSuiteMaze
+from testsuite.testsuite import TestSuiteMaze
 
 
 def load_suite(filename):
