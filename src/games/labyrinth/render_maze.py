@@ -33,6 +33,8 @@ class LabyrinthRenderer:
         self.canvas.create_rectangle(current_tile.y * self.pixel_size, current_tile.x *  self.pixel_size, current_tile.y * self.pixel_size + self.pixel_size,
                                      current_tile.x * self.pixel_size + self.pixel_size, fill='#03adfc')
 
+        self.master.update()
+
     @staticmethod
     def get_tile_color(tile):
         color_start = "#a134eb"
