@@ -15,11 +15,11 @@ class LabyrinthGame(Game):
         self.maze_copy = copy.deepcopy(self.labyrinth)
 
     @staticmethod
-    def setup_game(heigth = 10, width = 10, target_count = 4):
+    def setup_game(heigth = 10, width = 10, target_count = 4, seed = 0):
         """Factory Method"""
         #maze = Labyrinth.create_from("./games/labyrinth/test_labyrinth.json")
 
-        maze = Labyrinth.generate_maze(heigth,width)
+        maze = Labyrinth.generate_maze(heigth, width, seed)
         LabyrinthGame.create_targets(maze, target_count)
         return LabyrinthGame(maze)
     

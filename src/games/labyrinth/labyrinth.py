@@ -126,7 +126,7 @@ class Labyrinth:
         return None
 
     @staticmethod
-    def generate_maze(height, width):
+    def generate_maze(height, width, seed):
         
         maze_map = []
 
@@ -136,7 +136,7 @@ class Labyrinth:
             "s": TileType.START,
             "x": TileType.TARGET
         }
-        maze = get_random_maze(height, width)
+        maze = get_random_maze(height, width, seed)
 
         for x, row in enumerate(maze):
             map_tmp_row = []
