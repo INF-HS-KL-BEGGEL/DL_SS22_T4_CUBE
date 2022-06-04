@@ -7,6 +7,7 @@ for device in physical_devices:
 
 
 def load_suite(filename):
+    print(filename)
     return TestSuiteMaze.from_json_file(filename)
 
 
@@ -21,7 +22,12 @@ suite_files = [
     "/suites/suite_1.json",
 ]
 
+
+import os
+os.system("ls /suites -al")
+
 suites = load_suites(suite_files)
+
 
 for suite in suites:
     suite.run()

@@ -1,6 +1,7 @@
 FROM nvcr.io/nvidia/tensorflow:21.03-tf2-py3
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
+RUN apt update && apt install -y libsm6 libxext6 ffmpeg libfontconfig1 libxrender1 libgl1-mesa-glx
 COPY /src /src
 COPY /testsuite_runner.py /testsuite_runner.py
 COPY /setup.py /setup.py
