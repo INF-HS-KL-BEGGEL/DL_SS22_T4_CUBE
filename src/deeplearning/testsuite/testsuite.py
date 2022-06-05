@@ -8,16 +8,20 @@ from pathlib import Path
 
 class TestSuiteMaze:
 
-    def __init__(self, agent, train_epoches, number_of_plays, batch_size):
+    def __init__(self, name, agent, train_epoches, number_of_plays, batch_size):
         self.agent = agent
         self.train_epoches = train_epoches
         self.number_of_plays = number_of_plays # Number of Plays after every train round
         self.batch_size = batch_size
+        self.name = name
 
     def run(self):
         for i in range(self.number_of_plays):
             self.agent.train(self.train_epoches, self.batch_size)
             self.agent.play(i)
+
+    def get_name(self):
+        return self.name
 
     @staticmethod
     def __create_maze(maze_conf: dict):
@@ -37,7 +41,7 @@ class TestSuiteMaze:
     def from_dict(config):
 
         testsuite_name = config.get("testsuite_name")
-        result_path =config.get("result_path")
+        result_path = config.get("result_path")
         agent_conf = config.get("agent")
         game_conf = config.get("maze")
         play_conf = config.get("play")
@@ -75,7 +79,7 @@ class TestSuiteMaze:
         agent.register_writer_play(csv_play_writer)
         agent.register_writer_training(ConsoleWriter("Console Training"))
 
-        return TestSuiteMaze(agent, train_epoches, number_of_plays, batch_size=batch_size)
+        return TestSuiteMaze(testsuite_name, agent, train_epoches, number_of_plays, batch_size=batch_size)
 
 sample_suite = {
     "result_path": "./var/results/",

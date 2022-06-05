@@ -1,5 +1,6 @@
 from deeplearning.testsuite.testsuite import TestSuiteMaze
 import tensorflow as tf
+import os, glob
 
 physical_devices = tf.config.list_physical_devices('GPU')
 for device in physical_devices:
@@ -18,17 +19,14 @@ def load_suites(filenames: list):
 
     return suites
 
-suite_files = [
-    "/suites/suite_1.json",
-]
 
+def get_files_from_path(path="./suites/"):
+    return glob.glob("path*")
 
-import os
-os.system("ls /suites -al")
-
+suite_files = get_files_from_path(os.getenv("SUITEPATH", "./suites/"))
 suites = load_suites(suite_files)
 
 
 for suite in suites:
+    print("### Run Suite %s complete" % suite.get_name())
     suite.run()
-    print("### Suite %s complete")

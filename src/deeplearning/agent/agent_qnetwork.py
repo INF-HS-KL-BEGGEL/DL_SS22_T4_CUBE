@@ -101,6 +101,7 @@ class QNetworkAgent(Agent):
                     break
 
                 if len(self.experience_replay) > batch_size:
+                    print("Retrain")
                     self.retrain(batch_size)
 
             self.notify_writer_training((e, sum_reward))
