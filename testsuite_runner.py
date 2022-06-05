@@ -23,8 +23,9 @@ def load_suites(filenames: list):
 def get_files_from_path(path="./suites/"):
     return glob.glob(path + "*.json")
 
-
-suite_files = get_files_from_path(os.getenv("SUITEPATH", "./suites/"))
+suitepath = os.getenv("SUITEPATH", "./suites/")
+print(suitepath)
+suite_files = get_files_from_path(suitepath)
 print(suite_files)
 suites = load_suites(suite_files)
 
