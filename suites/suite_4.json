@@ -1,13 +1,13 @@
 {
     "result_path": "./var/results/",
-    "testsuite_name": "maze_4_4_test_1",
+    "testsuite_name": "test_1",
     "agent": {
-        "learning_rate": 0.05,
-        "train_epoches": 10,
+        "learning_rate": 0.06,
+        "train_epoches": 100,
         "timesteps_per_epoches": 100,
         "gamma": 0.9,
         "epsilon": 0.2,
-        "batch_size": 100
+        "batch_size": 1000
     },
     "play": {
         "number_of_plays": 1
@@ -16,7 +16,7 @@
         "height": 4,
         "width": 4,
         "targets": 2,
-        "seed": 123
+        "seed": "seed"
     }
 }
 
