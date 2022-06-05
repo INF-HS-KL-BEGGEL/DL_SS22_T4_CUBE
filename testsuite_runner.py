@@ -21,7 +21,7 @@ def load_suites(filenames: list):
 
 
 def get_files_from_path(path="./suites/"):
-    return glob.glob("path*")
+    return glob.glob(path + "*")
 
 suite_files = get_files_from_path(os.getenv("SUITEPATH", "./suites/"))
 suites = load_suites(suite_files)
