@@ -21,11 +21,12 @@ def load_suites(filenames: list):
 
 
 def get_files_from_path(path="./suites/"):
-    return glob.glob(path + "*")
+    return glob.glob(path + "*.json")
+
 
 suite_files = get_files_from_path(os.getenv("SUITEPATH", "./suites/"))
+print(suite_files)
 suites = load_suites(suite_files)
-
 
 for suite in suites:
     print("### Run Suite %s complete" % suite.get_name())
