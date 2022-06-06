@@ -52,7 +52,7 @@ class QNetworkAgent(Agent):
                 t_action, t = self.target_network.predict(next_state)
                 q_values[0][action.id] = reward + self.gamma * np.amax(t)
 
-            self.q_network.fit(state, q_values, epochs=1, verbose=0)
+            self.q_network.fit(state, q_values, epochs=1, verbose=1)
 
     def play(self, index):
         """
