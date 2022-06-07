@@ -1,11 +1,11 @@
-FROM tensorflow/tensorflow:latest-gpu
+FROM tensorflow/tensorflow:latest-py3
+WORKDIR /
 COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
 COPY /src /src
-COPY /testsuite_runner.py /testsuite_runner.py
 COPY /setup.py /setup.py
 COPY /README.md /README.md
 COPY /LICENSE /LICENSE
-WORKDIR /
-RUN pip3 install -e .
+COPY /testsuite_runner.py /testsuite_runner.py
+RUN python3 -m pip install -r requirements.txt
+RUN python3 -m pip install -e .
 CMD [ "python3", "testsuite_runner.py"]
