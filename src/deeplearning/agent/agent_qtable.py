@@ -19,14 +19,6 @@ class QTableAgent(Agent):
 
         self.total_episodes = 0
 
-        self.train_plot = PlotWriter("Train")
-        self.train_plot.set_label("Epoches", "Reward")
-        self.train_plot.show()
-
-        self.play_plot = PlotWriter("Play")
-        self.train_plot.set_label("Epoche", "Reward")
-        self.play_plot.show()
-
     def play(self, game_run_index):
         sum_reward = 0
         state = self.environment.reset_state()
@@ -50,7 +42,7 @@ class QTableAgent(Agent):
 
             state = next_state
             print("Current reward sum: ", sum_reward)
-        self.play_plot.write((game_run_index, sum_reward))
+        self.notify_writer_play((game_run_index, sum_reward))
 
     def train(self, num_of_episodes=100):
 
@@ -93,7 +85,7 @@ class QTableAgent(Agent):
             end_t = time.time()
             self.q_table.print("Episode %s Time: %s" % (episode, end_t - start_t))
 
-            self.train_plot.write((self.total_episodes, sum_reward))
+            self.notify_writer_training((self.total_episodes, sum_reward))
             self.total_episodes += 1
 
             start_t = end_t
