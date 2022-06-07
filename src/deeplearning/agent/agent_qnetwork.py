@@ -104,7 +104,7 @@ class QNetworkAgent(Agent):
                     print("Retrain")
                     self.retrain(batch_size)
 
-            self.notify_writer_training((e, sum_reward))
+            self.notify_writer_training((self.total_episodes, sum_reward))
             self.total_episodes += 1
 
             if (e + 1) % 10 == 0:

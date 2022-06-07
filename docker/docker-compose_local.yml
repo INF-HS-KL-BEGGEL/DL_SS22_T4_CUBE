@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   testrunner:
-    image: maze:latest
+    image: maze_tf:latest
     ports:
       - "8000:5000"
     user: root
@@ -12,12 +12,12 @@ services:
     ulimits:
         memlock: 1
         stack: 67108864
-    deploy:
-      resources:
-        reservations:
-          devices:
-          - driver: nvidia
-            device_ids: ['0']
-            capabilities: [gpu]
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #       - driver: nvidia
+    #         device_ids: ['0']
+    #         capabilities: [gpu]
     environment:
       - "PYTHONUNBUFFERED=1"
