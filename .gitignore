@@ -4,3 +4,4 @@ dist/
 src/DeepLearningBabyCube.egg-info
 __pycache__
 src/deeplearning/testsuite/var/results/test_1_play.csv
+var/

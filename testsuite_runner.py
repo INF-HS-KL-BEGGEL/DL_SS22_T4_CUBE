@@ -7,28 +7,31 @@ for device in physical_devices:
     tf.config.experimental.set_memory_growth(device, True)
 
 
-def load_suite(filename):
-    print(filename)
-    return TestSuiteMaze.from_json_file(filename)
+class TestRunner:
+
+    def __init__(self):
+        self.suitepath = os.getenv("SUITEPATH", "./suites/")
+        self.filenames = self._get_filenames_from_path()
+
+    def _load_suites(self, filenames: list):
+        suites = []
+        for fname in filenames:
+            suites.append(TestSuiteMaze.from_json_file(fname))
+
+        return suites
+
+    def start(self):
+
+        print(self.suitepath)
+        suites = self._load_suites(self.filenames)
+
+        for suite in suites:
+            print("### Run Suite %s complete" % suite.get_name())
+            suite.run()
+
+    def _get_filenames_from_path(self, path="./suites/"):
+        return glob.glob(path + "*.json")
 
 
-def load_suites(filenames: list):
-    suites = []
-    for fname in filenames:
-        suites.append(load_suite(fname))
-
-    return suites
-
-
-def get_files_from_path(path="./suites/"):
-    return glob.glob(path + "*.json")
-
-suitepath = os.getenv("SUITEPATH", "./suites/")
-print(suitepath)
-suite_files = get_files_from_path(suitepath)
-print(suite_files)
-suites = load_suites(suite_files)
-
-for suite in suites:
-    print("### Run Suite %s complete" % suite.get_name())
-    suite.run()
+testrunner = TestRunner()
+testrunner.start()

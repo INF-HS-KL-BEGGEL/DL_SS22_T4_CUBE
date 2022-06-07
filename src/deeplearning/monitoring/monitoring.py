@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 import matplotlib
 import matplotlib.pyplot as plt
-#matplotlib.use('TkAgg')
+matplotlib.use('TkAgg')
 
 
 class Writer(ABC):
@@ -27,7 +27,7 @@ class PlotWriter(Writer):
         self.ax.set_title(name)
         self.x = []
         self.y = []
-        self.show()
+        self.showed = False
 
     def set_label(self, x_label, y_label):
         self.ax.set_xlabel(x_label)
@@ -43,6 +43,11 @@ class PlotWriter(Writer):
 
         self.ax.plot(self.x, self.y, 'bo-')
         #clear_output(wait=True)
+
+        if not self.showed:
+            self.showed = True
+            self.show()
+
         self.fig.canvas.draw()
         self.fig.canvas.flush_events()
 

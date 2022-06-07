@@ -13,12 +13,15 @@ class Agent(ABC):
         pass
 
     def register_writer_training(self, writer):
+        if self.writer_training.get(writer.get_name()):
+            raise Exception("Writer %s schon vorhanden" % writer.get_name())
         self.writer_training[writer.get_name()] = writer
 
     def register_writer_play(self, writer):
         self.writer_play[writer.get_name()] = writer
 
     def notify_writer_training(self, item, name=None):
+
         if not name:
             for w in self.writer_training.values():
                 w.write(item)

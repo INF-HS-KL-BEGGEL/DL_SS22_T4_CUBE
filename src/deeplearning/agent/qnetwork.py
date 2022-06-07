@@ -33,8 +33,7 @@ class QNetwork:
     def predict(self, state: StateBase) -> tuple:
         state = np.reshape(state.get_number(), [1, 1])
         #q_values = self.model.predict(state)
-        q_values = self.model(
-            state).numpy()  # Try https://www.tensorflow.org/api_docs/python/tf/keras/Model#predict
+        q_values = self.model(state).numpy()  # Try https://www.tensorflow.org/api_docs/python/tf/keras/Model#predict
         action_index = np.argmax(q_values[0])
         action = self.environment.action_space[action_index]
 
