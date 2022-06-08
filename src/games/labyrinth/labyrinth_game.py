@@ -11,23 +11,25 @@ from games.labyrinth.render_maze import LabyrinthRenderer
 
 class LabyrinthGame(Game):
 
-    def __init__(self, labyrinth):
+    def __init__(self, labyrinth, with_renderer=False):
         super().__init__()
         self.labyrinth = labyrinth
         self.start_tile = self.get_start_tile()
         self.current_tile = self.start_tile
         self.maze_copy = copy.deepcopy(self.labyrinth)
-        self.labyrinth_renderer = LabyrinthRenderer(labyrinth, self.current_tile)
+        self.with_renderer = with_renderer
+        if self.with_renderer:
+            self.labyrinth_renderer = LabyrinthRenderer(labyrinth, self.current_tile)
 
     @staticmethod
-    def setup_game(height=10, width=10, target_count=4):
+    def setup_game(height=10, width=10, target_count=4, with_renderer=False):
         """Factory Method"""
         # maze = Labyrinth.create_from("./games/labyrinth/test_labyrinth.json")
 
         maze = Labyrinth.generate_maze(height, width)
         LabyrinthGame.create_targets(maze, target_count)
 
-        return LabyrinthGame(maze)
+        return LabyrinthGame(maze, with_renderer)
 
     def create_targets(maze, target_count):
         if target_count > len(maze.get_all_accessible_tiles()):
@@ -79,6 +81,8 @@ class LabyrinthGame(Game):
         self.labyrinth = copy.deepcopy(self.maze_copy)
         self.start_tile = self.get_start_tile()
         self.current_tile = self.start_tile
+        if self.with_renderer:
+            self.labyrinth_renderer.draw_maze(self.labyrinth.get_maze_map())
 
     def is_done(self):
         if (len(self.labyrinth.get_targets())) == 1:
@@ -89,7 +93,8 @@ class LabyrinthGame(Game):
 
     def go(self, direction):
         # print(direction)
-        self.labyrinth_renderer.draw_maze(self.labyrinth.get_maze_map(), self.current_tile)
+        if self.with_renderer:
+            self.labyrinth_renderer.draw_current_tile(self.current_tile)
         tile = self.labyrinth.get_neighbor_tile(self.get_current_tile(), direction)
         if not tile or tile.get_type() == TileType.BLOCKED:
             return TileType.BLOCKED
