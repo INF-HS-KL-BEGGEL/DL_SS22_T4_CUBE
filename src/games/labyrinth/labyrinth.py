@@ -27,6 +27,9 @@ class Tile:
     def get_type(self):
         return self.tile_type
 
+    def set_type(self, ttype):
+        self.tile_type = ttype
+
     def get_pos(self):
         return self.x, self.y
 
@@ -77,6 +80,13 @@ class Labyrinth:
                 if tile.get_type() != TileType.BLOCKED:
                     accessible_tiles.append(tile)
         return accessible_tiles
+
+    def set_target(self, tile):
+
+        if self.is_accessible_tile(tile):
+            self.maze_map[tile.x][tile.y].set_type(TileType.TARGET)
+        else:
+            raise Exception("Tile cannot be set as Target Tile, because Tile is not accessible")
 
     def is_accessible_tile(self, tile):
         """ If position is not blocked"""

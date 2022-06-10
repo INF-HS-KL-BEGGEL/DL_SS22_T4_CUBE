@@ -11,33 +11,35 @@ from games.labyrinth.render_maze import LabyrinthRenderer
 
 class LabyrinthGame(Game):
 
-    def __init__(self, labyrinth, with_renderer=False):
+    def __init__(self, labyrinth):
         super().__init__()
         self.labyrinth = labyrinth
         self.start_tile = self.get_start_tile()
         self.current_tile = self.start_tile
         self.maze_copy = copy.deepcopy(self.labyrinth)
-        self.with_renderer = with_renderer
-        if self.with_renderer:
-            self.labyrinth_renderer = LabyrinthRenderer(labyrinth, self.current_tile)
 
     @staticmethod
-    def setup_game(height=10, width=10, target_count=4, with_renderer=False):
+    def setup_game(height=10, width=10, target_count=4):
         """Factory Method"""
-        # maze = Labyrinth.create_from("./games/labyrinth/test_labyrinth.json")
 
         maze = Labyrinth.generate_maze(height, width)
-        LabyrinthGame.create_targets(maze, target_count)
+        LabyrinthGame.create_random_targets(maze, target_count) # In Out Param on maze
 
-        return LabyrinthGame(maze, with_renderer)
+        return LabyrinthGame(maze)
 
-    def create_targets(maze, target_count):
+    @staticmethod
+    def create_random_targets(maze, target_count):
+        """Maze ist InOut Param"""
+
         if target_count > len(maze.get_all_accessible_tiles()):
             raise Exception("Not enough accessible tiles")
         if target_count > 0:
-            random_tiles = random.sample(range(1, len(maze.get_all_accessible_tiles()) - 1), target_count - 1)
-            for tile in random_tiles:
-                maze.get_all_accessible_tiles()[tile].tile_type = TileType.TARGET
+            random_tiles_index = random.sample(range(1, len(maze.get_all_accessible_tiles()) - 1), target_count - 1)
+
+            for index in random_tiles_index:
+                tile = maze.get_all_accessible_tiles()[index]
+                print(tile)
+                maze.set_target(tile)
 
     def get_current_tile(self):
         return self.current_tile
@@ -81,8 +83,6 @@ class LabyrinthGame(Game):
         self.labyrinth = copy.deepcopy(self.maze_copy)
         self.start_tile = self.get_start_tile()
         self.current_tile = self.start_tile
-        if self.with_renderer:
-            self.labyrinth_renderer.draw_maze(self.labyrinth.get_maze_map())
 
     def is_done(self):
         if (len(self.labyrinth.get_targets())) == 1:
@@ -93,8 +93,6 @@ class LabyrinthGame(Game):
 
     def go(self, direction):
         # print(direction)
-        if self.with_renderer:
-            self.labyrinth_renderer.draw_current_tile(self.current_tile)
         tile = self.labyrinth.get_neighbor_tile(self.get_current_tile(), direction)
         if not tile or tile.get_type() == TileType.BLOCKED:
             return TileType.BLOCKED

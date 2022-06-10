@@ -91,6 +91,7 @@ class QTableAgent(Agent):
 
                 self.q_table.update(state, action, new_q_value)
                 state = next_state
+                self.epsilon = self.epsilon - (self.epsilon/100*2)
 
             end_t = time.time()
             self.q_table.print("Episode %s Time: %s" % (episode, end_t - start_t))

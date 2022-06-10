@@ -1,9 +1,17 @@
 from tkinter import *
 from games.labyrinth.labyrinth import Labyrinth, TileType
 
-
 class LabyrinthRenderer:
+
     def __init__(self, labyrinth: Labyrinth, current_tile):
+        self.color_mapping = {
+            TileType.START: "#a134eb",
+            TileType.EMPTY: "#ffffff",
+            TileType.BLOCKED: "#000000",
+            TileType.TARGET: "#03fc7b"
+        }
+
+
         self.maze_map = labyrinth.get_maze_map()
 
         self.master = Tk()
@@ -27,7 +35,7 @@ class LabyrinthRenderer:
         for i in maze_map:
             current_x = 0
             for j in i:
-                color = LabyrinthRenderer.get_tile_color(j)
+                color = self.get_tile_color(j)
                 self.canvas.create_rectangle(current_x, current_y,
                                              current_x + self.pixel_size,
                                              current_y + self.pixel_size, fill=color)
@@ -49,18 +57,5 @@ class LabyrinthRenderer:
         self.previous_tile = current_tile
         self.master.update()
 
-    @staticmethod
-    def get_tile_color(tile):
-        color_start = "#a134eb"
-        color_empty = "#ffffff"
-        color_blocked = "#000000"
-        color_target = "#03fc7b"
-
-        if tile.tile_type is TileType.TARGET:
-            return color_target
-        elif tile.tile_type is TileType.EMPTY:
-            return color_empty
-        elif tile.tile_type is TileType.BLOCKED:
-            return color_blocked
-        elif tile.tile_type is TileType.START:
-            return color_start
+    def get_tile_color(self, tile):
+        return self.color_mapping[tile.get_type()]
