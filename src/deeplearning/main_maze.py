@@ -1,7 +1,11 @@
+import time
+from tkinter import mainloop
+
 from agent.agent_qtable import QTableAgent
 from games.labyrinth.env_labyrinth import EnvLabyrinth
 from games.labyrinth.labyrinth_game import LabyrinthGame
 from monitoring.monitoring import PlotWriter
+from games.labyrinth.maze_game_gui_adapter import LabyrinthGameGuiAdapter
 
 
 def run_qtable_agent(env):
@@ -18,7 +22,7 @@ def run_qtable_agent(env):
 
 
     for i in range(0, 20):
-        agent.train(50)
+        agent.train(100)
         agent.play(i)
 
 
@@ -42,10 +46,17 @@ def run_qnetwork_agent(env):
 
 print('--- Start ---')
 env = EnvLabyrinth(LabyrinthGame.setup_game(6, 6, 5, 123))
+render_maze = True
 
-#run_qtable_agent(env)
-run_qnetwork_agent(env)
+if render_maze:
+    maze_game = LabyrinthGameGuiAdapter(LabyrinthGame.setup_game(25, 25, 4))
+else:
+    maze_game = LabyrinthGame.setup_game(25, 25, 4)
 
+env = EnvLabyrinth(maze_game)
+run_qtable_agent(env)
+# run_qnetwork_agent(env)
+mainloop()
 # Use this as a breakpoint to keep the plots open
 print('--- END ---')
 print("Input any key to exit...")

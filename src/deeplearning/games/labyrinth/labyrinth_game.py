@@ -1,7 +1,7 @@
-from deeplearning.games.labyrinth.labyrinth import Labyrinth, TileType
-from deeplearning.games.game import Game
 import copy
 import random
+from deeplearning.games.game import Game
+from deeplearning.games.labyrinth.labyrinth import Labyrinth, TileType
 
 
 class LabyrinthGame(Game):
@@ -16,20 +16,23 @@ class LabyrinthGame(Game):
     @staticmethod
     def setup_game(heigth = 10, width = 10, target_count = 4, seed = 0):
         """Factory Method"""
-        #maze = Labyrinth.create_from("./games/labyrinth/test_labyrinth.json")
-
         maze = Labyrinth.generate_maze(heigth, width, seed)
-        LabyrinthGame.create_targets(maze, target_count)
+        LabyrinthGame.create_random_targets(maze, target_count)
         return LabyrinthGame(maze)
-    
-    def create_targets(maze, target_count):
-        if(target_count > len(maze.get_all_accessible_tiles())):
-            raise Exception("Not enough accessible tiles")
-        if(target_count > 0):
-            random_tiles = random.sample(range(1, len(maze.get_all_accessible_tiles()) - 1), target_count-1)
-            for tile in random_tiles:
-                maze.get_all_accessible_tiles()[tile].tile_type = TileType.TARGET
 
+    @staticmethod
+    def create_random_targets(maze, target_count):
+        """Maze ist InOut Param"""
+
+        if target_count > len(maze.get_all_accessible_tiles()):
+            raise Exception("Not enough accessible tiles")
+        if target_count > 0:
+            random_tiles_index = random.sample(range(1, len(maze.get_all_accessible_tiles()) - 1), target_count - 1)
+
+            for index in random_tiles_index:
+                tile = maze.get_all_accessible_tiles()[index]
+                print(tile)
+                maze.set_target(tile)
 
     def get_current_tile(self):
         return self.current_tile
@@ -69,7 +72,7 @@ class LabyrinthGame(Game):
         return self.labyrinth.is_accessible_tile(tile)
 
     def reset_game(self):
-        #maze = Labyrinth.create_from("./games/labyrinth/test_labyrinth.json")
+        # maze = Labyrinth.create_from("./games/labyrinth/test_labyrinth.json")
         self.labyrinth = copy.deepcopy(self.maze_copy)
         self.start_tile = self.get_start_tile()
         self.current_tile = self.start_tile
@@ -77,12 +80,12 @@ class LabyrinthGame(Game):
     def is_done(self):
         if (len(self.labyrinth.get_targets())) == 1:
             return False
-        elif(len(self.labyrinth.get_targets()) == 0):
+        elif len(self.labyrinth.get_targets()) == 0:
             return True
-        #return len(self.labyrinth.get_targets()) == 0
+        # return len(self.labyrinth.get_targets()) == 0
 
     def go(self, direction):
-        #print(direction)
+        # print(direction)
         tile = self.labyrinth.get_neighbor_tile(self.get_current_tile(), direction)
         if not tile or tile.get_type() == TileType.BLOCKED:
             return TileType.BLOCKED

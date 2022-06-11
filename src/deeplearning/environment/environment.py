@@ -1,6 +1,6 @@
+import random
 from abc import ABC, abstractmethod
 from deeplearning.environment.state import StateBase
-import random
 
 
 class Environment(ABC):
