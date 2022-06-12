@@ -54,8 +54,8 @@ else:
     maze_game = LabyrinthGame.setup_game(25, 25, 4)
 
 env = EnvLabyrinth(maze_game)
-run_qtable_agent(env)
-# run_qnetwork_agent(env)
+#run_qtable_agent(env)
+run_qnetwork_agent(env)
 mainloop()
 # Use this as a breakpoint to keep the plots open
 print('--- END ---')

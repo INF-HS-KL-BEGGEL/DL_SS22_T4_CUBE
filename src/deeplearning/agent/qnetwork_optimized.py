@@ -33,13 +33,10 @@ class QNetwork:
 
     #@time_measure
     def predict(self, state: StateBase) -> tuple:
-        state = np.reshape(state.get_number(), [1, 1])
-        #q_values = self.model.predict(state)
-        q_values = self.model(state).numpy()  # Try https://www.tensorflow.org/api_docs/python/tf/keras/Model#predict
-        action_index = np.argmax(q_values[0])
-        action = self.environment.action_space[action_index]
-
-        return action, q_values
+        """
+        TODO
+        """
+        #return action, q_values
 
     # @time_measure
     def predict_many(self, states: list) -> tuple:
