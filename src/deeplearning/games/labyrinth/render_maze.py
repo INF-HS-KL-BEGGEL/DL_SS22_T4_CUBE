@@ -2,6 +2,7 @@ from tkinter import *
 from deeplearning.games.labyrinth.labyrinth import Labyrinth, TileType
 
 
+
 class LabyrinthRenderer:
 
     def __init__(self, labyrinth: Labyrinth, current_tile):
