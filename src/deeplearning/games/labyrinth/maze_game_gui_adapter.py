@@ -51,5 +51,5 @@ class LabyrinthGameGuiAdapter(Game):
         return self.maze_game.is_done()
 
     def go(self, direction):
-        self.labyrinth_renderer.draw_current_tile(self.maze_game.get_current_tile())
+        self.labyrinth_renderer.draw_current_tile(self.maze_game.get_current_tile(), direction)
         return self.maze_game.go(direction)
