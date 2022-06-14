@@ -1,5 +1,6 @@
+import time
 from tkinter import *
-from deeplearning.games.labyrinth.labyrinth import Labyrinth, TileType
+from deeplearning.games.labyrinth.labyrinth import Labyrinth, TileType, Direction
 
 
 class LabyrinthRenderer:
@@ -28,7 +29,7 @@ class LabyrinthRenderer:
         self.draw_maze(self.maze_map)
         # draw the current tile when the maze map is drawn
         self.previous_tile = current_tile
-        self.draw_current_tile(current_tile)
+        self.draw_current_tile(current_tile, Direction.SOUTH)
 
     def draw_maze(self, maze_map):
         current_y = 0
@@ -42,16 +43,19 @@ class LabyrinthRenderer:
                 current_x += self.pixel_size
             current_y += self.pixel_size
 
-    def draw_current_tile(self, current_tile):
+    def draw_current_tile(self, current_tile, direction):
         color = self.get_tile_color(self.previous_tile)
         # reset the previous tile
         self.canvas.create_rectangle(self.previous_tile.y * self.pixel_size, self.previous_tile.x * self.pixel_size,
                                      self.previous_tile.y * self.pixel_size + self.pixel_size,
                                      self.previous_tile.x * self.pixel_size + self.pixel_size, fill=color)
-        # draw the current tile
-        self.canvas.create_rectangle(current_tile.y * self.pixel_size, current_tile.x * self.pixel_size,
-                                     current_tile.y * self.pixel_size + self.pixel_size,
-                                     current_tile.x * self.pixel_size + self.pixel_size, fill='#03adfc')
+
+        # draw the current tile as player
+        ext, start = self.get_direction_angles(direction)
+        self.canvas.create_arc(current_tile.y * self.pixel_size, current_tile.x * self.pixel_size,
+                               current_tile.y * self.pixel_size + self.pixel_size,
+                               current_tile.x * self.pixel_size + self.pixel_size,
+                               extent=ext, start=start, fill='#ffff00')
 
         # update the previous tile for the next iteration
         self.previous_tile = current_tile
@@ -59,3 +63,14 @@ class LabyrinthRenderer:
 
     def get_tile_color(self, tile):
         return self.color_mapping[tile.get_type()]
+
+    def get_direction_angles(self, direction):
+        # returns extent, start angle for the arc
+        if direction is Direction.NORTH:
+            return 300, 15
+        if direction is Direction.EAST:
+            return 300, 105
+        if direction is Direction.SOUTH:
+            return 300, 195
+        if direction is Direction.WEST:
+            return 300, 285
