@@ -4,6 +4,7 @@ import collections
 from deeplearning.agent.agent_base import Agent
 from tensorflow.keras.optimizers import Adam
 from deeplearning.agent.qnetwork import QNetwork
+from deeplearning.testsuite.performance import time_measure
 
 class QNetworkAgent(Agent):
 
@@ -40,6 +41,7 @@ class QNetworkAgent(Agent):
         action, q_values = self.q_network.predict(state)
         return action
 
+    @time_measure
     def retrain(self, batch_size):
         minibatch = random.sample(self.experience_replay, batch_size)
 

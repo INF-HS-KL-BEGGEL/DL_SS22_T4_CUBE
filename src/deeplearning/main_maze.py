@@ -46,7 +46,7 @@ def run_qnetwork_agent(env):
 
 print('--- Start ---')
 env = EnvLabyrinth(LabyrinthGame.setup_game(6, 6, 5, 123))
-render_maze = True
+render_maze = False
 
 if render_maze:
     maze_game = LabyrinthGameGuiAdapter(LabyrinthGame.setup_game(25, 25, 4))

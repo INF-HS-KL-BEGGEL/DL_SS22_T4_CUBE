@@ -245,6 +245,6 @@ def get_random_maze(height, width, seed = 0):
             break
 
     # Print final maze
-    printMaze(maze, height, width)
+    #printMaze(maze, height, width)
     return maze
     

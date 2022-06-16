@@ -5,7 +5,7 @@ from deeplearning.agent.agent_base import Agent
 from tensorflow.keras.optimizers import Adam
 from deeplearning.agent.qnetwork import QNetwork
 
-class QNetworkAgent(Agent):
+class QNetworkAgentOptimizd(Agent):
 
     def __init__(self, environment, optimizer=Adam(learning_rate=0.05), epsilon=0.2, gamma=0.9, timesteps_per_episode=10):
 
@@ -31,7 +31,7 @@ class QNetworkAgent(Agent):
 
     def store(self, state, action, reward, next_state, terminated):
         """TODO"""
-        pass
+        self.experience_replay.append([state, action, reward, next_state, terminated])
 
     def act(self, state):
 
@@ -43,7 +43,28 @@ class QNetworkAgent(Agent):
 
     def retrain(self, batch_size):
         """TODO"""
-        pass
+
+        minibatch = random.sample(self.experience_replay, batch_size)
+        #dt = np.dtype('int,int,float,int,bool')
+        batch = np.array(minibatch)
+        #print(batch)
+        #print(batch[:, 0])
+
+        model = self.q_network.get_model()
+        states = batch[:, 0]
+        next_states = batch[:, 3]
+        rewards = batch[:, 2]
+
+
+        # Generate predictions for samples
+        predictions = model.predict(next_states)
+        action_indizes = np.argmax(predictions, axis=1)
+        predictions[:,action_indizes] = rewards + self.gamma * np.amax(predictions)
+
+        # Generate arg maxes for predictions
+
+
+        model.fit(states, predictions, batch_size=batch_size, verbose=1)
 
     def play(self, index):
         """
@@ -56,7 +77,7 @@ class QNetworkAgent(Agent):
 
             # Take action
             next_state, reward, terminated, info = self.environment.step(action)
-            self.store(state, action, reward, next_state, terminated)
+            self.store(state.get_number(), action.id, reward, next_state.get_number(), terminated)
             sum_reward += reward
             state = next_state
 
@@ -69,7 +90,7 @@ class QNetworkAgent(Agent):
     def train(self, num_of_episodes, batch_size=100):
         for e in range(0, num_of_episodes):
             # Reset the enviroment
-            state = self.environment.reset_state()
+            state = self.environment.reset_environment()
             # Initialize variables
             reward = 0
             terminated = False
@@ -82,20 +103,21 @@ class QNetworkAgent(Agent):
                 # Take action
                 next_state, reward, terminated, info = self.environment.step(action)
                 sum_reward += reward
-                self.store(state, action, reward, next_state, terminated)
                 #print(action, reward)
-
-                state = next_state
 
                 if terminated:
                     self.target_network.algin_model(self.q_network)
+                    self.environment.reset_environment()
                     break
+
+                self.store(state.get_number(), action.id, reward, next_state.get_number(), terminated)
+                state = next_state
 
                 if len(self.experience_replay) > batch_size:
                     print("Retrain")
                     self.retrain(batch_size)
 
-            self.notify_writer_training((e, sum_reward))
+            self.notify_writer_training((self.total_episodes, sum_reward))
             self.total_episodes += 1
 
             if (e + 1) % 10 == 0:

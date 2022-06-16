@@ -21,12 +21,17 @@ class EnvLabyrinth(Environment):
         targets = self.game.get_targets()
 
         states = []
-        print(targets)
         target_combinations = EnvLabyrinth.powerset(targets)
+        print(target_combinations)
         for tile in accessible_tiles:
             for targets in target_combinations:
                 states.append(StateLabyrinth(statecounter, tile, targets))
                 statecounter += 1
+
+        # Empty Target States
+        for tile in accessible_tiles:
+            states.append(StateLabyrinth(statecounter, tile, []))
+            statecounter += 1
 
         return states
 

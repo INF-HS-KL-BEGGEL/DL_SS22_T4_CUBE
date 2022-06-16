@@ -73,16 +73,12 @@ class LabyrinthGame(Game):
 
     def reset_game(self):
         # maze = Labyrinth.create_from("./games/labyrinth/test_labyrinth.json")
-        self.labyrinth = copy.deepcopy(self.maze_copy)
         self.start_tile = self.get_start_tile()
         self.current_tile = self.start_tile
+        self.labyrinth = copy.deepcopy(self.maze_copy)
 
     def is_done(self):
-        if (len(self.labyrinth.get_targets())) == 1:
-            return False
-        elif len(self.labyrinth.get_targets()) == 0:
-            return True
-        # return len(self.labyrinth.get_targets()) == 0
+        return len(self.labyrinth.get_targets()) == 0
 
     def go(self, direction):
         # print(direction)

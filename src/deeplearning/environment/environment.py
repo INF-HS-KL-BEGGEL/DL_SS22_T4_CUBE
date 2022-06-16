@@ -47,12 +47,13 @@ class Environment(ABC):
         return None, reward, done, {}
 
     def reset_state(self) -> StateBase:
-        self.game.reset_game()
-        return self._observation_space[0]
+        self.current_state = self._observation_space[0]
+        return self.current_state
 
     def reset_environment(self):
         self.game.reset_game()
-        self.current_state = self.reset_state()
+        self.reset_state()
+        return self.current_state
 
     def get_random_action(self):
         return random.choice(self.action_space)

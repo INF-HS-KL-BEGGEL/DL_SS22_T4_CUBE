@@ -14,6 +14,9 @@ class QNetwork:
         self.model = self._build_compile_model()
         self.environment = env
 
+    def get_model(self):
+        return self.model
+
     def _build_compile_model(self):
         model = Sequential()
         model.add(Embedding(self._state_size, 10, input_length=1))
@@ -43,13 +46,10 @@ class QNetwork:
 
     # @time_measure
     def predict_many(self, states: list) -> tuple:
-        statenumbers = [s.get_number() for s in states]
-        q_values = self.model.predict(np.reshape(statenumbers, [1, 1]))
-        action_index = np.argmax(q_values[0])
-        action = self.environment.action_space[action_index]
+        q_values = self.model.predict(states)
+        return q_values
 
-        return action, q_values
-
+    #@time_measure
     def fit(self, state, target, epochs=1, verbose=0):
         state = np.reshape(state.get_number(), [1, 1])
         self.model.fit(state, target, epochs=1, verbose=0, use_multiprocessing=True)
