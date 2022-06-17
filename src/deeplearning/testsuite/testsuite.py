@@ -1,5 +1,7 @@
 import json
 from deeplearning.agent.agent_qnetwork import QNetworkAgent
+from deeplearning.agent.agent_qnetwork_optimized import QNetworkAgentOptimizd
+from deeplearning.agent.agent_qtable import QTableAgent
 from deeplearning.games.labyrinth.env_labyrinth import EnvLabyrinth
 from deeplearning.games.labyrinth.labyrinth_game import LabyrinthGame
 from tensorflow.keras.optimizers import Adam
@@ -38,16 +40,32 @@ class TestSuiteMaze:
         return LabyrinthGame.setup_game(height, width, targets, seed=seed)
 
     def __create_agent(agent_conf: dict, game):
+        agent_type = agent_conf.get("type")
+
         learning_rate = agent_conf.get("learning_rate")
         timesteps_per_epoches = agent_conf.get("timesteps_per_epoches")
         gamma = agent_conf.get("gamma")
         epsilon = agent_conf.get("epsilon")
 
-        agent = QNetworkAgent(EnvLabyrinth(game),
+        if agent_type == "QNetworkAgentOptimizd":
+            agent = QNetworkAgentOptimizd(EnvLabyrinth(game),
                               TestSuiteMaze.__get_optimizer(agent_conf.get("optimizer", "Adam"), learning_rate),
                               epsilon=epsilon,
                               gamma=gamma,
                               timesteps_per_episode=timesteps_per_epoches)
+
+        elif agent_type == "QTable":
+            agent = QTableAgent(EnvLabyrinth(game),
+                              epsilon=epsilon,
+                              gamma=gamma,
+                              alpha=learning_rate)
+        else:
+            agent = QNetworkAgent(EnvLabyrinth(game),
+                              TestSuiteMaze.__get_optimizer(agent_conf.get("optimizer", "Adam"), learning_rate),
+                              epsilon=epsilon,
+                              gamma=gamma,
+                              timesteps_per_episode=timesteps_per_epoches)
+
         return agent
 
     @staticmethod
@@ -95,6 +113,7 @@ sample_suite = {
     "result_path": "./var/results/",
     "testsuite_name": "test",
     "agent": {
+        "type": "QNetworkAgentOptimizd", # QNetworkAgent, QTable
         "learning_rate": 0.05,
         "train_epoches": 10,
         "timesteps_per_epoches": 100,
@@ -114,5 +133,5 @@ sample_suite = {
     }
 }
 
-# test = TestSuiteMaze.from_dict(sample_suite)
-# test.run()
+test = TestSuiteMaze.from_dict(sample_suite)
+test.run()

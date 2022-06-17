@@ -6,15 +6,15 @@ from deeplearning.agent.qtable import QTable
 
 class QTableAgent(Agent):
 
-    def __init__(self, environment):
+    def __init__(self, environment, epsilon=0.1, alpha=0.2, gamma=0.6 ):
         super().__init__(environment)
 
         self.environment = environment
         self.q_table = QTable(self.environment, len(self.environment.observation_space),
                               len(self.environment.action_space))
-        self.epsilon = 0.1
-        self.alpha = 0.2
-        self.gamma = 0.6
+        self.epsilon = epsilon
+        self.alpha = alpha
+        self.gamma = gamma
 
         self.total_episodes = 0
 
@@ -50,14 +50,11 @@ class QTableAgent(Agent):
             state = self.environment.reset_state()
 
             # Initialize variables
-            reward = 0
             terminated = False
-
             start_t = time.time()
             sum_reward = 0
 
             while not terminated:
-
                 # Take learned path or explore new actions based on the epsilon
                 if random.uniform(0, 1) < self.epsilon:
                     action = self.environment.get_random_action()
@@ -69,8 +66,6 @@ class QTableAgent(Agent):
                 sum_reward += reward
 
                 if terminated or next_state is None:
-                    # print(self.environment.action_space)
-                    # print(self.env.observation_space)
                     # self.q_table.print("Episode %s" % episode)
                     break
 
@@ -84,12 +79,9 @@ class QTableAgent(Agent):
 
             end_t = time.time()
             self.q_table.print("Episode %s Time: %s" % (episode, end_t - start_t))
-
             self.notify_writer_training((self.total_episodes, sum_reward))
             self.total_episodes += 1
 
-            start_t = end_t
-            sum_reward = 0
             self.environment.reset_environment()
 
         print("**********************************")

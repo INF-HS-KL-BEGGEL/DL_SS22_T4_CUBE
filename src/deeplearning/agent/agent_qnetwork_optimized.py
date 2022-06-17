@@ -14,7 +14,7 @@ class QNetworkAgentOptimizd(Agent):
         self._state_size = len(environment.observation_space)
         self._action_size = len(environment.action_space)
 
-        self.experience_replay = collections.deque(maxlen=2000)
+        self.experience_replay = collections.deque(maxlen=1000)
 
         # Initialize discount and exploration rate
         self.gamma = gamma
@@ -50,21 +50,26 @@ class QNetworkAgentOptimizd(Agent):
         #print(batch)
         #print(batch[:, 0])
 
-        model = self.q_network.get_model()
+        q_model = self.q_network.get_model()
+        t_model = self.target_network.get_model()
         states = batch[:, 0]
         next_states = batch[:, 3]
         rewards = batch[:, 2]
-
-
         # Generate predictions for samples
-        predictions = model.predict(next_states)
-        action_indizes = np.argmax(predictions, axis=1)
-        predictions[:,action_indizes] = rewards + self.gamma * np.amax(predictions)
+        target = q_model.predict(states)
+
+        rows = np.where(batch[:, 4] == True)
+        rewards_terminated_states = batch[rows][:, 2]
+        action_indizes = np.argmax(target[rows], axis=1)
+        target[:, action_indizes] = rewards_terminated_states
+
+        t = t_model.predict(next_states)
+        action_indizes = np.argmax(target, axis=1)
+        target[:,action_indizes] = rewards + self.gamma * np.amax(t)
 
         # Generate arg maxes for predictions
 
-
-        model.fit(states, predictions, batch_size=batch_size, verbose=1)
+        q_model.fit(states, target, batch_size=batch_size, verbose=0)
 
     def play(self, index):
         """
@@ -77,13 +82,14 @@ class QNetworkAgentOptimizd(Agent):
 
             # Take action
             next_state, reward, terminated, info = self.environment.step(action)
-            self.store(state.get_number(), action.id, reward, next_state.get_number(), terminated)
             sum_reward += reward
-            state = next_state
 
             if terminated:
                 self.target_network.algin_model(self.q_network)
                 break
+
+            self.store(state.get_number(), action.id, reward, next_state.get_number(), terminated)
+            state = next_state
 
         self.notify_writer_play((index, sum_reward))
 
@@ -114,13 +120,9 @@ class QNetworkAgentOptimizd(Agent):
                 state = next_state
 
                 if len(self.experience_replay) > batch_size:
-                    print("Retrain")
+                    #print("Retrain")
                     self.retrain(batch_size)
 
             self.notify_writer_training((self.total_episodes, sum_reward))
+            print("Episode: {}, Reward {}".format(self.total_episodes, sum_reward))
             self.total_episodes += 1
-
-            if (e + 1) % 10 == 0:
-                print("**********************************")
-                print("Episode: {}".format(e + 1))
-                print("**********************************")

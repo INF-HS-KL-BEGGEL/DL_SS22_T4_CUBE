@@ -10,12 +10,14 @@ class GoAction(Action):
         self.direction = direction
 
     def execute(self) -> int:
-        result = self.game.go(self.direction)
-        if result == TileType.BLOCKED:
+        result_tile = self.game.go(self.direction)
+        if not result_tile or result_tile.get_type() == TileType.BLOCKED:
             return -2
-        elif result == TileType.EMPTY:
+        elif result_tile == self.game.get_current_tile():
+            return -2
+        elif result_tile.get_type() == TileType.EMPTY:
             return -1
-        elif result == TileType.TARGET:
+        elif result_tile.get_type() == TileType.TARGET:
             return 50
 
 
