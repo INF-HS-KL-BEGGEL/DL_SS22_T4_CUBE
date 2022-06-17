@@ -56,4 +56,4 @@ class Environment(ABC):
         return self.current_state
 
     def get_random_action(self):
-        return random.choice(self.action_space)
+        return random.Random().choice(self.action_space)

@@ -7,14 +7,14 @@ from deeplearning.agent.qnetwork import QNetwork
 
 class QNetworkAgentOptimizd(Agent):
 
-    def __init__(self, environment, optimizer=Adam(learning_rate=0.05), epsilon=0.2, gamma=0.9, timesteps_per_episode=10):
+    def __init__(self, environment, optimizer=Adam(learning_rate=0.01), epsilon=0.2, gamma=0.9, timesteps_per_episode=10):
 
         super().__init__(environment)
         # Initialize attributes
         self._state_size = len(environment.observation_space)
         self._action_size = len(environment.action_space)
 
-        self.experience_replay = collections.deque(maxlen=1000)
+        self.experience_replay = collections.deque(maxlen=2048)
 
         # Initialize discount and exploration rate
         self.gamma = gamma
@@ -44,7 +44,7 @@ class QNetworkAgentOptimizd(Agent):
     def retrain(self, batch_size):
         """TODO"""
 
-        minibatch = random.sample(self.experience_replay, batch_size)
+        minibatch = random.Random().sample(self.experience_replay, batch_size)
         #dt = np.dtype('int,int,float,int,bool')
         batch = np.array(minibatch)
         #print(batch)
@@ -52,10 +52,9 @@ class QNetworkAgentOptimizd(Agent):
 
         q_model = self.q_network.get_model()
         t_model = self.target_network.get_model()
-        states = batch[:, 0]
-        next_states = batch[:, 3]
-        rewards = batch[:, 2]
         # Generate predictions for samples
+        terminated = batch[:, 4]
+        states = batch[:, 0]
         target = q_model.predict(states)
 
         rows = np.where(batch[:, 4] == True)
@@ -63,9 +62,11 @@ class QNetworkAgentOptimizd(Agent):
         action_indizes = np.argmax(target[rows], axis=1)
         target[:, action_indizes] = rewards_terminated_states
 
-        t = t_model.predict(next_states)
-        action_indizes = np.argmax(target, axis=1)
-        target[:,action_indizes] = rewards + self.gamma * np.amax(t)
+        rows = np.where(batch[:, 4] == False)
+        rewards_not_terminated_states = batch[rows][:, 2]
+        t = t_model.predict(batch[rows][:, 3])
+        action_indizes = np.argmax(target[rows], axis=1)
+        target[:,action_indizes] = rewards_not_terminated_states + self.gamma * np.amax(t)
 
         # Generate arg maxes for predictions
 
@@ -74,7 +75,7 @@ class QNetworkAgentOptimizd(Agent):
     def play(self, index):
         """
         """
-        state = self.environment.reset_state()
+        state = self.environment.reset_environment()
         sum_reward = 0
         for timestep in range(self.timesteps_per_episode):
             # Run Action

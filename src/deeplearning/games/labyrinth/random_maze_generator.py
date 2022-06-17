@@ -35,12 +35,13 @@ def surroundingCells(maze, rand_wall):
 def get_random_maze(height, width, seed = 0):
     ## Main code
     # Init variables
+    rnd = random.Random()
     wall = 'w'
     cell = 'c'
     unvisited = 'u'
     maze = []
     if(seed != 0):
-        random.seed(seed)
+        rnd = random.Random(seed)
 
     # Denote all cells as unvisited
     for i in range(0, height):
@@ -50,8 +51,8 @@ def get_random_maze(height, width, seed = 0):
         maze.append(line)
 
     # Randomize starting point and set it a cell
-    starting_height = int(random.random() * height)
-    starting_width = int(random.random() * width)
+    starting_height = int(rnd.random() * height)
+    starting_width = int(rnd.random() * width)
     if starting_height == 0:
         starting_height += 1
     if starting_height == height - 1:
@@ -77,7 +78,7 @@ def get_random_maze(height, width, seed = 0):
 
     while walls:
         # Pick a random wall
-        rand_wall = walls[int(random.random() * len(walls)) - 1]
+        rand_wall = walls[int(rnd.random() * len(walls)) - 1]
 
         # Check if it is a left wall
         if rand_wall[1] != 0:
