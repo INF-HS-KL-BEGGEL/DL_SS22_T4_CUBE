@@ -14,7 +14,7 @@ class TestQNetworkAgentOptimizd(unittest.TestCase):
         #maze_game = LabyrinthGame.setup_game(7, 7, 4, 12)
 
         env = EnvLabyrinth(maze_game)
-        agent = QNetworkAgentOptimizd(env, optimizer=Adam(learning_rate=0.05), timesteps_per_episode=80, epsilon=0.3, gamma=0.9)
+        agent = QNetworkAgentOptimizd(env, optimizer=Adam(learning_rate=0.2), timesteps_per_episode=80, epsilon=0.3, gamma=0.9)
 
         train_plot = PlotWriter("Training")
         train_plot.set_label("Epoche", "Reward")
