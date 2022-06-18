@@ -46,4 +46,4 @@ class EnvLabyrinth(Environment):
                     state.get_current_targets() == self.game.get_current_targets():
                 return state
 
-        return None
+        return StateLabyrinth(-1, None, None)

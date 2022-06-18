@@ -10,9 +10,6 @@ class LabyrinthGameGuiAdapter(Game):
         self.maze_game = maze_game
         self.labyrinth_renderer = LabyrinthRenderer(self.maze_game.get_labyrinth(), self.maze_game.get_current_tile())
 
-    def create_targets(self, maze, target_count):
-        self.maze_game.create_targets(maze, target_count)
-
     def get_current_tile(self):
         return self.maze_game.get_current_tile()
 
@@ -45,12 +42,13 @@ class LabyrinthGameGuiAdapter(Game):
 
     def reset_game(self):
         self.maze_game.reset_game()
-        return self.labyrinth_renderer.draw_maze(self.maze_game.get_labyrinth().get_maze_map())
+        self.labyrinth_renderer.draw_maze(self.maze_game.get_labyrinth().get_maze_map())
 
     def is_done(self):
         return self.maze_game.is_done()
 
     def go(self, direction):
-        self.maze_game.go(direction)
-        return self.labyrinth_renderer.draw_current_tile(self.maze_game.get_current_tile(), direction)
+        reward_tile = self.maze_game.go(direction)
+        self.labyrinth_renderer.draw_current_tile(self.maze_game.get_current_tile(), direction)
+        return reward_tile
     

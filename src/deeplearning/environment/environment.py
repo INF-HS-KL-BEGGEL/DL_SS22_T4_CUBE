@@ -39,12 +39,12 @@ class Environment(ABC):
         # Determine if the game is over
         done = self.game.is_done()
 
-        if not done:
-            current_state = self.get_current_state()
+        #if not done:
+        #    current_state = self.get_current_state()
 
-            return current_state, reward, done, {}
+        #    return current_state, reward, done, {}
 
-        return None, reward, done, {}
+        return self.get_current_state(), reward, done, {}
 
     def reset_state(self) -> StateBase:
         self.current_state = self._observation_space[0]

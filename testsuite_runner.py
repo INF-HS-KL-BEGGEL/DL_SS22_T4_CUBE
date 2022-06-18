@@ -22,6 +22,7 @@ class TestRunner:
 
         for suite in suites:
             print("### Run Suite %s complete" % suite.get_name())
+            print()
             suite.run()
 
     def _get_filenames_from_path(self, path="./suites/"):

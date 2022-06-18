@@ -14,7 +14,7 @@ class QNetworkAgentOptimizd(Agent):
         self._state_size = len(environment.observation_space)
         self._action_size = len(environment.action_space)
 
-        self.experience_replay = collections.deque(maxlen=2048)
+        self.experience_replay = collections.deque(maxlen=1000)
 
         # Initialize discount and exploration rate
         self.gamma = gamma
@@ -89,7 +89,9 @@ class QNetworkAgentOptimizd(Agent):
                 self.target_network.algin_model(self.q_network)
                 break
 
-            self.store(state.get_number(), action.id, reward, next_state.get_number(), terminated)
+            next_state_number = next_state.get_number()
+
+            self.store(state.get_number(), action.id, reward, next_state_number , terminated)
             state = next_state
 
         self.notify_writer_play((index, sum_reward))
@@ -98,6 +100,8 @@ class QNetworkAgentOptimizd(Agent):
         for e in range(0, num_of_episodes):
             # Reset the enviroment
             state = self.environment.reset_environment()
+            print("After Reset", self.environment.game.get_targets())
+
             # Initialize variables
             reward = 0
             terminated = False
@@ -112,12 +116,15 @@ class QNetworkAgentOptimizd(Agent):
                 sum_reward += reward
                 #print(action, reward)
 
+                next_state_number = next_state.get_number()
+                self.store(state.get_number(), action.id, reward, next_state_number, terminated)
+
                 if terminated:
+                    print("Terminated")
                     self.target_network.algin_model(self.q_network)
                     self.environment.reset_environment()
                     break
 
-                self.store(state.get_number(), action.id, reward, next_state.get_number(), terminated)
                 state = next_state
 
                 if len(self.experience_replay) > batch_size:
