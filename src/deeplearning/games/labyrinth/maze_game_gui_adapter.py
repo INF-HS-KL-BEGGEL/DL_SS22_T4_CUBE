@@ -44,12 +44,13 @@ class LabyrinthGameGuiAdapter(Game):
         return self.maze_game.is_accessible(direction)
 
     def reset_game(self):
-        self.labyrinth_renderer.draw_maze(self.maze_game.get_labyrinth().get_maze_map())
-        return self.maze_game.reset_game()
+        self.maze_game.reset_game()
+        return self.labyrinth_renderer.draw_maze(self.maze_game.get_labyrinth().get_maze_map())
 
     def is_done(self):
         return self.maze_game.is_done()
 
     def go(self, direction):
-        self.labyrinth_renderer.draw_current_tile(self.maze_game.get_current_tile(), direction)
-        return self.maze_game.go(direction)
+        self.maze_game.go(direction)
+        return self.labyrinth_renderer.draw_current_tile(self.maze_game.get_current_tile(), direction)
+    
