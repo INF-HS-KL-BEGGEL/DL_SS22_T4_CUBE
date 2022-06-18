@@ -2,7 +2,7 @@
     "result_path": "./var/results/",
     "testsuite_name": "test_2",
     "agent": {
-        "type": "QNetworkAgent",
+        "type": "QNetworkAgentOptimizd",
         "learning_rate": 0.05,
         "train_epoches": 20,
         "timesteps_per_epoches": 100,
@@ -16,7 +16,7 @@
     "maze": {
         "height": 6,
         "width": 6,
-        "targets": 2,
+        "targets": 3,
         "seed": 1337
     }
 }

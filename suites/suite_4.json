@@ -3,9 +3,9 @@
     "testsuite_name": "test_1",
     "agent": {
         "type": "QNetworkAgent",
-        "learning_rate": 0.05,
+        "learning_rate": 0.005,
         "train_epoches": 20,
-        "timesteps_per_epoches": 200,
+        "timesteps_per_epoches": 100,
         "gamma": 0.9,
         "epsilon": 0.3,
         "batch_size": 50
@@ -16,7 +16,7 @@
     "maze": {
         "height": 6,
         "width": 6,
-        "targets": 2,
+        "targets": 3,
         "seed": 1337
     }
 }

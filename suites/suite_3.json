@@ -3,7 +3,7 @@
     "testsuite_name": "test_1",
     "agent": {
         "type": "QNetworkAgentOptimizd",
-        "learning_rate": 0.05,
+        "learning_rate": 0.005,
         "train_epoches": 20,
         "timesteps_per_epoches": 200,
         "gamma": 0.9,
@@ -16,7 +16,7 @@
     "maze": {
         "height": 6,
         "width": 6,
-        "targets": 2,
+        "targets": 3,
         "seed": 1337
     }
 }

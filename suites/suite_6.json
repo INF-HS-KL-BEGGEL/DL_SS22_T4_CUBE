@@ -2,12 +2,12 @@
     "result_path": "./var/results/",
     "testsuite_name": "test_1",
     "agent": {
-        "learning_rate": 0.005,
+        "learning_rate": 0.05,
         "train_epoches": 1000,
-        "timesteps_per_epoches": 100,
+        "timesteps_per_epoches": 200,
         "gamma": 0.9,
-        "epsilon": 0.1,
-        "batch_size": 50
+        "epsilon": 0.3,
+        "batch_size": 100
     },
     "play": {
         "number_of_plays": 1

@@ -14,7 +14,7 @@ class QNetworkAgentOptimizd(Agent):
         self._state_size = len(environment.observation_space)
         self._action_size = len(environment.action_space)
 
-        self.experience_replay = collections.deque(maxlen=1000)
+        self.experience_replay = collections.deque(maxlen=500)
 
         # Initialize discount and exploration rate
         self.gamma = gamma
@@ -53,23 +53,21 @@ class QNetworkAgentOptimizd(Agent):
         q_model = self.q_network.get_model()
         t_model = self.target_network.get_model()
         # Generate predictions for samples
-        terminated = batch[:, 4]
         states = batch[:, 0]
-        target = q_model.predict(states)
+        target = q_model.predict(states, steps=len(states))
 
-        rows = np.where(batch[:, 4] == True)
-        rewards_terminated_states = batch[rows][:, 2]
-        action_indizes = np.argmax(target[rows], axis=1)
+        rows_terminated = np.where(batch[:, 4] == True)
+        rewards_terminated_states = batch[rows_terminated][:, 2]
+        action_indizes = np.argmax(target[rows_terminated], axis=1)
         target[:, action_indizes] = rewards_terminated_states
 
-        rows = np.where(batch[:, 4] == False)
-        rewards_not_terminated_states = batch[rows][:, 2]
-        t = t_model.predict(batch[rows][:, 3])
-        action_indizes = np.argmax(target[rows], axis=1)
-        target[:,action_indizes] = rewards_not_terminated_states + self.gamma * np.amax(t)
-
+        rows_not_terminated = np.where(batch[:, 4] == False)
+        rewards_not_terminated_states = batch[rows_not_terminated][:, 2]
+        next_states = batch[rows_not_terminated][:, 3]
+        t = t_model.predict(next_states, steps=len(next_states))
+        action_indizes = np.argmax(target[rows_not_terminated], axis=1)
+        target[:, action_indizes] = rewards_not_terminated_states + self.gamma * np.amax(t)
         # Generate arg maxes for predictions
-
         q_model.fit(states, target, batch_size=batch_size, verbose=0)
 
     def play(self, index):
