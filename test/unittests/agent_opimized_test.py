@@ -16,7 +16,7 @@ class TestQNetworkAgentOptimizd(unittest.TestCase):
         #maze_game = LabyrinthGame.setup_game(7, 7, 4, 12)
 
         env = EnvLabyrinth(maze_game)
-        agent = QNetworkAgentOptimizd(env, optimizer=Adam(learning_rate=0.05), timesteps_per_episode=200, epsilon=0.1, gamma=0.8)
+        agent = QNetworkAgentOptimizd(env, optimizer=Adam(learning_rate=0.05), timesteps_per_episode=100, epsilon=0.2, gamma=0.9)
 
         train_plot = PlotWriter("Training")
         train_plot.set_label("Epoche", "Reward")
@@ -28,30 +28,30 @@ class TestQNetworkAgentOptimizd(unittest.TestCase):
         agent.register_writer_play(play_plot)
 
         for i in range(0, 50):
-            agent.train(20, batch_size=100)
+            agent.train(20, batch_size=50)
             agent.play(i)
 
 
-    def test_qtable(self):
-        maze_game = LabyrinthGameGuiAdapter(LabyrinthGame.setup_game(10, 10, 2, 12))
-        #maze_game = LabyrinthGame.setup_game(7, 7, 4, 12)
+    # def test_qtable(self):
+    #     maze_game = LabyrinthGameGuiAdapter(LabyrinthGame.setup_game(10, 10, 2, 12))
+    #     #maze_game = LabyrinthGame.setup_game(7, 7, 4, 12)
 
-        env = EnvLabyrinth(maze_game)
-        #agent = QNetworkAgentOptimizd(env, optimizer=Adam(learning_rate=0.01), timesteps_per_episode=250, epsilon=0.4, gamma=0.99)
-        agent = QTableAgent(env, epsilon=0.4, gamma=0.99)
+    #     env = EnvLabyrinth(maze_game)
+    #     #agent = QNetworkAgentOptimizd(env, optimizer=Adam(learning_rate=0.01), timesteps_per_episode=250, epsilon=0.4, gamma=0.99)
+    #     agent = QTableAgent(env, epsilon=0.4, gamma=0.99)
 
-        train_plot = PlotWriter("Training")
-        train_plot.set_label("Epoche", "Reward")
+    #     train_plot = PlotWriter("Training")
+    #     train_plot.set_label("Epoche", "Reward")
 
-        play_plot = PlotWriter("Play")
-        play_plot.set_label("Epoche", "Reward")
+    #     play_plot = PlotWriter("Play")
+    #     play_plot.set_label("Epoche", "Reward")
 
-        agent.register_writer_training(train_plot)
-        agent.register_writer_play(play_plot)
+    #     agent.register_writer_training(train_plot)
+    #     agent.register_writer_play(play_plot)
 
-        for i in range(0, 50):
-            agent.train(50)
-            agent.play(i)
+    #     for i in range(0, 50):
+    #         agent.train(50)
+    #         agent.play(i)
 
 
 
