@@ -1,4 +1,4 @@
-from deeplearning.testsuite.testsuite import TestSuiteMaze
+from deeplearning.testsuite.testsuite_maze import TestSuiteMaze
 import tensorflow as tf
 import os, glob
 

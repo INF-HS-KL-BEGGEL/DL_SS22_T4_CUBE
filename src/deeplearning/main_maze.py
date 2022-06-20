@@ -1,11 +1,9 @@
 import time
 from tkinter import mainloop
 
-from agent.agent_qtable import QTableAgent
-from games.labyrinth.env_labyrinth import EnvLabyrinth
-from games.labyrinth.labyrinth_game import LabyrinthGame
+from agent import QTableAgent
+from games.labyrinth import EnvLabyrinth, LabyrinthGame, LabyrinthGameGuiAdapter
 from monitoring.monitoring import PlotWriter
-from games.labyrinth.maze_game_gui_adapter import LabyrinthGameGuiAdapter
 
 
 def run_qtable_agent(env):

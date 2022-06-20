@@ -1,0 +1,4 @@
+from deeplearning.games.labyrinth.labyrinth_game import LabyrinthGame
+from deeplearning.games.labyrinth.labyrinth import Labyrinth
+from deeplearning.games.labyrinth.env_labyrinth import EnvLabyrinth
+from deeplearning.games.labyrinth.maze_game_gui_adapter import LabyrinthGameGuiAdapter

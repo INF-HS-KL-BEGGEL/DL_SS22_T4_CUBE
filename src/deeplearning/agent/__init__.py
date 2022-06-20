@@ -1,0 +1,4 @@
+from deeplearning.agent.agent_qtable import QTableAgent
+from deeplearning.agent.agent_qnetwork import QNetworkAgent
+from deeplearning.agent.agent_qnetwork_optimized import QNetworkAgentOptimizd
+

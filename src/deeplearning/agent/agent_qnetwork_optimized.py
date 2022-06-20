@@ -1,9 +1,11 @@
-import numpy as np
 import random
 import collections
-from deeplearning.agent.agent_base import Agent
+import numpy as np
 from tensorflow.keras.optimizers import Adam
+
+from deeplearning.agent.agent_base import Agent
 from deeplearning.agent.qnetwork import QNetwork
+
 
 class QNetworkAgentOptimizd(Agent):
 
@@ -45,10 +47,7 @@ class QNetworkAgentOptimizd(Agent):
         """TODO"""
 
         minibatch = random.Random().sample(self.experience_replay, batch_size)
-        #dt = np.dtype('int,int,float,int,bool')
         batch = np.array(minibatch)
-        #print(batch)
-        #print(batch[:, 0])
 
         q_model = self.q_network.get_model()
         t_model = self.target_network.get_model()
@@ -56,17 +55,20 @@ class QNetworkAgentOptimizd(Agent):
         states = batch[:, 0]
         target = q_model.predict(states, steps=len(states))
 
+        # Zeilen für Spiele die erfolgreich waren
         rows_terminated = np.where(batch[:, 4] == True)
         rewards_terminated_states = batch[rows_terminated][:, 2]
         action_indizes = np.argmax(target[rows_terminated], axis=1)
         target[:, action_indizes] = rewards_terminated_states
 
+        # Zeilen für Spiele die nicht erfolgreich waren
         rows_not_terminated = np.where(batch[:, 4] == False)
         rewards_not_terminated_states = batch[rows_not_terminated][:, 2]
         next_states = batch[rows_not_terminated][:, 3]
         t = t_model.predict(next_states, steps=len(next_states))
         action_indizes = np.argmax(target[rows_not_terminated], axis=1)
         target[:, action_indizes] = rewards_not_terminated_states + self.gamma * np.amax(t)
+
         # Generate arg maxes for predictions
         q_model.fit(states, target, batch_size=batch_size, verbose=0)
 
@@ -95,14 +97,13 @@ class QNetworkAgentOptimizd(Agent):
         self.notify_writer_play((index, sum_reward))
 
     def train(self, num_of_episodes, batch_size=100):
+        """
+        """
         for e in range(0, num_of_episodes):
             # Reset the enviroment
             state = self.environment.reset_environment()
-            print("After Reset", self.environment.game.get_targets())
 
             # Initialize variables
-            reward = 0
-            terminated = False
             sum_reward = 0
 
             #self.timesteps_per_episode = 1
