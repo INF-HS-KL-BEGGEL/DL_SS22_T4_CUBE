@@ -31,7 +31,16 @@ class PlotWriter(Writer):
         self.y = []
         self.showed = False
 
+        self.ax.set_xlabel("Epoch")
+        self.ax.set_ylabel("Reward")
+
     def set_label(self, x_label, y_label):
+        """
+        Change the Axis Label
+        :param x_label: Label of the x-axis
+        :param y_label: Label of the y-axis
+        :return:
+        """
         self.ax.set_xlabel(x_label)
         self.ax.set_ylabel(y_label)
 

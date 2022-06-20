@@ -12,12 +12,10 @@ def run_qtable_agent(env):
     train_plot = PlotWriter("QTable Training " + str(env.game.get_labyrinth().width) +
                             " x " + str(env.game.get_labyrinth().height) + " Maze with " +
                             str(len(env.game.get_labyrinth().get_targets())) + " Targets")
-    train_plot.set_label("Epoch", "Reward")
 
     play_plot = PlotWriter("QTable Playing " + str(env.game.get_labyrinth().width) +
                            " x " + str(env.game.get_labyrinth().height) + " Maze with " +
                            str(len(env.game.get_labyrinth().get_targets())) + " Targets")
-    play_plot.set_label("Epoch", "Reward")
 
     agent.register_writer_training(train_plot)
     agent.register_writer_play(play_plot)
@@ -34,12 +32,10 @@ def run_qnetwork_agent(env):
     train_plot = PlotWriter("QNetwork Training " + str(env.game.get_labyrinth().width) +
                             " x " + str(env.game.get_labyrinth().height) + " Maze with " +
                             str(len(env.game.get_labyrinth().get_targets())) + " Targets")
-    train_plot.set_label("Epoch", "Reward")
 
     play_plot = PlotWriter("QNetwork Playing " + str(env.game.get_labyrinth().width) +
                            " x " + str(env.game.get_labyrinth().height) + " Maze with " +
                            str(len(env.game.get_labyrinth().get_targets())) + " Targets")
-    play_plot.set_label("Epoch", "Reward")
 
     agent.register_writer_training(train_plot)
     agent.register_writer_play(play_plot)
