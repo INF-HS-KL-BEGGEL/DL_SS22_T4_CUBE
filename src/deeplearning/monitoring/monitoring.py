@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
-import matplotlib.pyplot as plt
-#matplotlib.use('TkAgg')
 
+import matplotlib
+import matplotlib.pyplot as plt
+matplotlib.use('TkAgg')
 
 class Writer(ABC):
 
@@ -22,8 +23,10 @@ class PlotWriter(Writer):
         super().__init__(name)
 
         self.fig = plt.figure()
+        self.fig.canvas.set_window_title(name)
         self.ax = self.fig.add_subplot(111)
-        self.ax.set_title(name)
+        self.ax.grid(axis='y')
+
         self.x = []
         self.y = []
         self.showed = False
@@ -31,6 +34,9 @@ class PlotWriter(Writer):
     def set_label(self, x_label, y_label):
         self.ax.set_xlabel(x_label)
         self.ax.set_ylabel(y_label)
+
+    def set_title(self, title):
+        self.ax.set_title(title,  loc='left')
 
     def show(self):
         self.fig.show()
@@ -41,7 +47,6 @@ class PlotWriter(Writer):
         self.y.append(y)
 
         self.ax.plot(self.x, self.y, 'bo-')
-        #clear_output(wait=True)
 
         if not self.showed:
             self.showed = True

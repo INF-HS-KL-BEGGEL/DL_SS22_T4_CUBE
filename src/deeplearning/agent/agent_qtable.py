@@ -6,7 +6,7 @@ from deeplearning.agent.qtable import QTable
 
 class QTableAgent(Agent):
 
-    def __init__(self, environment, epsilon=0.1, alpha=0.2, gamma=0.6 ):
+    def __init__(self, environment, epsilon=0.1, alpha=0.2, gamma=0.6):
         super().__init__(environment)
 
         self.environment = environment
@@ -22,6 +22,9 @@ class QTableAgent(Agent):
         sum_reward = 0
         state = self.environment.reset_state()
         terminated = False
+        self.update_writer_title_playing(title="Epsilon: " + str(self.epsilon)
+                                               + ", Gamma: " + str(self.gamma)
+                                               + ", Alpha: " + str(self.alpha))
         while not terminated:
 
             action = self.q_table.get_action_with_max_reward(state)
@@ -44,6 +47,9 @@ class QTableAgent(Agent):
         self.notify_writer_play((game_run_index, sum_reward))
 
     def train(self, num_of_episodes=100):
+        self.update_writer_title_training(title="Epsilon: " + str(self.epsilon)
+                                                + ", Gamma: " + str(self.gamma)
+                                                + ", Alpha: " + str(self.alpha))
 
         for episode in range(0, num_of_episodes):
             # Reset the environment
@@ -75,7 +81,7 @@ class QTableAgent(Agent):
 
                 self.q_table.update(state, action, new_q_value)
                 state = next_state
-                self.epsilon = self.epsilon - (self.epsilon/100*2)
+                self.epsilon = self.epsilon - (self.epsilon / 100 * 2)
 
             end_t = time.time()
             self.q_table.print("Episode %s Time: %s" % (episode, end_t - start_t))

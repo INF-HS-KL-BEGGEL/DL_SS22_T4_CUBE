@@ -33,7 +33,6 @@ class Agent(ABC):
         return self.writer_training[name]
 
     def notify_writer_training(self, item, name=None):
-
         if not name:
             for w in self.writer_training.values():
                 w.write(item)
@@ -46,3 +45,17 @@ class Agent(ABC):
                 w.write(item)
         else:
             self.writer_play[name].write(item)
+
+    def update_writer_title_training(self, title, name=None):
+        if not name:
+            for w in self.writer_training.values():
+                w.set_title(title)
+        else:
+            self.writer_training[name].set_title(title)
+
+    def update_writer_title_playing(self, title, name=None):
+        if not name:
+            for w in self.writer_play.values():
+                w.set_title(title)
+        else:
+            self.writer_play[name].set_title(title)

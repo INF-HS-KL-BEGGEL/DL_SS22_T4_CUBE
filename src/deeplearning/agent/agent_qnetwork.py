@@ -6,9 +6,11 @@ from tensorflow.keras.optimizers import Adam
 from deeplearning.agent.qnetwork import QNetwork
 from deeplearning.testsuite.performance import time_measure
 
+
 class QNetworkAgent(Agent):
 
-    def __init__(self, environment, optimizer=Adam(learning_rate=0.05), epsilon=0.2, gamma=0.9, timesteps_per_episode=10):
+    def __init__(self, environment, optimizer=Adam(learning_rate=0.05), epsilon=0.2, gamma=0.9,
+                 timesteps_per_episode=10):
 
         super().__init__(environment)
         # Initialize attributes
@@ -57,8 +59,9 @@ class QNetworkAgent(Agent):
             self.q_network.fit(state, q_values, epochs=1, verbose=1)
 
     def play(self, index):
-        """
-        """
+        self.update_writer_title_playing(title="Epsilon: " + str(self.epsilon)
+                                               + ", Gamma: " + str(self.gamma)
+                                               + ", Timesteps per Episode: " + str(self.timesteps_per_episode))
         state = self.environment.reset_state()
         sum_reward = 0
         for timestep in range(self.timesteps_per_episode):
@@ -78,6 +81,9 @@ class QNetworkAgent(Agent):
         self.notify_writer_play((index, sum_reward))
 
     def train(self, num_of_episodes, batch_size=100):
+        self.update_writer_title_training(title="Epsilon: " + str(self.epsilon)
+                                                + ", Gamma: " + str(self.gamma)
+                                                + ", Timesteps per Episode: " + str(self.timesteps_per_episode))
         for e in range(0, num_of_episodes):
             # Reset the enviroment
             state = self.environment.reset_state()
@@ -86,7 +92,7 @@ class QNetworkAgent(Agent):
             terminated = False
             sum_reward = 0
 
-            #self.timesteps_per_episode = 1
+            # self.timesteps_per_episode = 1
             for timestep in range(self.timesteps_per_episode):
                 # Run Action
                 action = self.act(state)
@@ -94,7 +100,7 @@ class QNetworkAgent(Agent):
                 next_state, reward, terminated, info = self.environment.step(action)
                 sum_reward += reward
                 self.store(state, action, reward, next_state, terminated)
-                #print(action, reward)
+                # print(action, reward)
 
                 state = next_state
 
@@ -106,7 +112,7 @@ class QNetworkAgent(Agent):
                     print("Retrain")
                     self.retrain(batch_size)
 
-            self.notify_writer_training((e, sum_reward))
+            self.notify_writer_training((self.total_episodes, sum_reward))
             self.total_episodes += 1
 
             if (e + 1) % 10 == 0:
