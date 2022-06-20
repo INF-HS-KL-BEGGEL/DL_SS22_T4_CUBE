@@ -34,13 +34,15 @@ class Figure:
             self.direction = directions[current_index + 1]
 
     def __eq__(self, other) -> bool:
+        if not other:
+            return False
         return self.name == other.name and self.direction == other.direction
 
     def __ne__(self, other) -> bool:
         return self.name != other.name or self.direction != other.direction
 
     def __str__(self):
-        return self.name
+        return self.name + " " + str(self.direction)
 
     def __repr__(self):
         return str(self)

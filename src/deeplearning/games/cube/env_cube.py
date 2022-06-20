@@ -1,6 +1,7 @@
 from deeplearning.environment.environment import Environment
 from deeplearning.games.cube.actions import TurnRightAction, TurnLeftAction, TryFitAction, RotateFigureAction
 from deeplearning.games.cube.state import StateCube
+from deeplearning.games.cube.figure import Direction
 
 
 class EnvCube(Environment):
@@ -16,8 +17,10 @@ class EnvCube(Environment):
         states = []
         for face in faces:
             for fig in figures:
-                states.append(StateCube(face, fig, statecounter))
-                statecounter += 1
+                for i in range(len(Direction)):
+                    fig.rotate()
+                    states.append(StateCube(face, fig, statecounter))
+                    statecounter += 1
 
         return states
 
@@ -37,8 +40,10 @@ class EnvCube(Environment):
 
     def get_current_state(self):
         for state in self.observation_space:
+            if not self.game.get_top_of_figure_stack():
+                print("NONE")
             if state.get_current_figure() == self.game.get_top_of_figure_stack() and \
                     state.get_current_face() == self.game.get_current_face():
                 return state
 
-        return None
+        return StateCube(None, None, -1)
