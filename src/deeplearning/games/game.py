@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class Game:
+class Game(ABC):
 
     def __init__(self):
         pass
