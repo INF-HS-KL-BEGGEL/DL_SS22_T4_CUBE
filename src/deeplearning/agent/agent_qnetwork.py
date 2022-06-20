@@ -59,9 +59,6 @@ class QNetworkAgent(Agent):
             self.q_network.fit(state, q_values, epochs=1, verbose=1)
 
     def play(self, index):
-        self.update_writer_title_playing(title="Epsilon: " + str(self.epsilon)
-                                               + ", Gamma: " + str(self.gamma)
-                                               + ", Timesteps per Episode: " + str(self.timesteps_per_episode))
         state = self.environment.reset_state()
         sum_reward = 0
         for timestep in range(self.timesteps_per_episode):
@@ -81,9 +78,6 @@ class QNetworkAgent(Agent):
         self.notify_writer_play((index, sum_reward))
 
     def train(self, num_of_episodes, batch_size=100):
-        self.update_writer_title_training(title="Epsilon: " + str(self.epsilon)
-                                                + ", Gamma: " + str(self.gamma)
-                                                + ", Timesteps per Episode: " + str(self.timesteps_per_episode))
         for e in range(0, num_of_episodes):
             # Reset the enviroment
             state = self.environment.reset_state()

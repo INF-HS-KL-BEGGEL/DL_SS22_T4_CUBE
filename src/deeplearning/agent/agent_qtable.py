@@ -22,13 +22,11 @@ class QTableAgent(Agent):
         sum_reward = 0
         state = self.environment.reset_state()
         terminated = False
-        self.update_writer_title_playing(title="Epsilon: " + str(self.epsilon)
-                                               + ", Gamma: " + str(self.gamma)
-                                               + ", Alpha: " + str(self.alpha))
+
         while not terminated:
 
             action = self.q_table.get_action_with_max_reward(state)
-            print(action.__class__)
+            # print(action.__class__)
             # Take action
             next_state, reward, terminated, info = self.environment.step(action)
 
@@ -43,14 +41,10 @@ class QTableAgent(Agent):
                 break
 
             state = next_state
-            print("Current reward sum: ", sum_reward)
+            # print("Current reward sum: ", sum_reward)
         self.notify_writer_play((game_run_index, sum_reward))
 
     def train(self, num_of_episodes=100):
-        self.update_writer_title_training(title="Epsilon: " + str(self.epsilon)
-                                                + ", Gamma: " + str(self.gamma)
-                                                + ", Alpha: " + str(self.alpha))
-
         for episode in range(0, num_of_episodes):
             # Reset the environment
             state = self.environment.reset_state()

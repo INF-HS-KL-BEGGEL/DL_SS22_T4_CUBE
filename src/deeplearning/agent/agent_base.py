@@ -46,16 +46,11 @@ class Agent(ABC):
         else:
             self.writer_play[name].write(item)
 
-    def update_writer_title_training(self, title, name=None):
-        if not name:
-            for w in self.writer_training.values():
-                w.set_title(title)
-        else:
-            self.writer_training[name].set_title(title)
-
-    def update_writer_title_playing(self, title, name=None):
-        if not name:
-            for w in self.writer_play.values():
-                w.set_title(title)
-        else:
-            self.writer_play[name].set_title(title)
+    def save_plots(self, writer_names, path="./var/results/"):
+        for writer in writer_names:
+            if self.writer_play.get(writer):
+                self.writer_play[writer].save(path)
+            elif self.writer_training.get(writer):
+                self.writer_training[writer].save(path)
+            else:
+                raise Exception("Could not find writer for %s", writer)
