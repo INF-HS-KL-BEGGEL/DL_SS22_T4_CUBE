@@ -4,8 +4,8 @@
     "agent": {
         "type": "QNetworkAgentOptimizd",
         "learning_rate": 0.05,
-        "train_epoches": 20,
-        "timesteps_per_epoches": 100,
+        "train_epochs": 20,
+        "timesteps_per_episode": 100,
         "gamma": 0.8,
         "epsilon": 0.3,
         "batch_size": 50

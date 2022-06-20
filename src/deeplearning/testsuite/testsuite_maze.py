@@ -8,8 +8,8 @@ from deeplearning.testsuite.testsuite_base import TestSuiteBase
 
 class TestSuiteMaze(TestSuiteBase):
 
-    def __init__(self, name, agent, train_epoches, number_of_plays, batch_size):
-        super().__init__(name, agent, train_epoches, number_of_plays, batch_size)
+    def __init__(self, name, agent, train_epochs, number_of_plays, plot_names, batch_size):
+        super().__init__(name, agent, train_epochs, number_of_plays, plot_names, batch_size)
 
     @staticmethod
     def from_json_file(filename):
@@ -25,55 +25,74 @@ class TestSuiteMaze(TestSuiteBase):
         return LabyrinthGame.setup_game(height, width, targets, seed=seed)
 
     @staticmethod
+    def get_plot_name(agent_type, game, is_training=True):
+        """ Return a readable name for the plot """
+        mode = is_training and "Training" or "Playing"
+        return "" + agent_type + ", " + mode + ", " + str(game.get_labyrinth().width) + " x " + str(
+            game.get_labyrinth().height) + " Maze with " + str(len(game.get_labyrinth().get_targets())) + " Targets"
+
+    @staticmethod
+    def get_agent_information(agent):
+        """ Helper method to output QLearning parameters on plot """
+        plot_information = "Epsilon: " + str(agent.epsilon) + ", Gamma: " + str(agent.gamma)
+
+        # distinguish QTable from QNetwork
+        if hasattr(agent, "timesteps_per_episode"):
+            plot_information += ", Timesteps per Episode: " + str(agent.timesteps_per_episode)
+        if hasattr(agent, "alpha"):
+            plot_information += ", Learning rate: " + str(agent.alpha)
+        return plot_information
+
+    @staticmethod
     def from_dict(config):
         testsuite_name = config.get("testsuite_name")
         result_path = config.get("result_path")
         Path(result_path).mkdir(parents=True, exist_ok=True)
 
         agent_conf = config.get("agent")
+        agent_type = agent_conf.get("type")
         game_conf = config.get("maze")
         play_conf = config.get("play")
         number_of_plays = play_conf.get("number_of_plays", 1)
 
-        batch_size = agent_conf.get("batch_size", 1000)
-        train_epoches = agent_conf.get("train_epoches")
+        batch_size = agent_conf.get("batch_size")
+        train_epochs = agent_conf.get("train_epochs")
 
         game = TestSuiteMaze.__create_maze(game_conf)
         agent = TestSuiteMaze._create_agent(agent_conf, EnvLabyrinth(game))
 
-        csv_train_writer = CsvWriter(name=testsuite_name, filename=result_path + testsuite_name + "_training.csv")
-        csv_train_writer.set_label("Epoches", "Reward")
-        csv_play_writer = CsvWriter(name=testsuite_name, filename=result_path + testsuite_name + "_play.csv")
-        csv_play_writer.set_label("Index", "Reward")
+        plot_name_training = TestSuiteMaze.get_plot_name(agent_type=agent_type, game=game, is_training=True)
+        plot_name_playing = TestSuiteMaze.get_plot_name(agent_type=agent_type, game=game, is_training=False)
 
-        # plot_train_writer = PlotWriter(name=testsuite_name + "Plot")
-        # plot_train_writer.set_label("Epoche", "Reward")
-        # agent.register_writer_training(plot_train_writer)
+        train_plot = PlotWriter(name=plot_name_training, plot_information=TestSuiteMaze.get_agent_information(agent),
+                                should_render=False)
+        play_plot = PlotWriter(name=plot_name_playing, plot_information=TestSuiteMaze.get_agent_information(agent),
+                               should_render=False)
 
-        agent.register_writer_training(csv_train_writer)
-        agent.register_writer_play(csv_play_writer)
-        agent.register_writer_training(ConsoleWriter("Console Training"))
+        agent.register_writer_training(train_plot)
+        agent.register_writer_play(play_plot)
 
-        return TestSuiteMaze(testsuite_name, agent, train_epoches, number_of_plays, batch_size=batch_size)
+        return TestSuiteMaze(testsuite_name, agent, train_epochs, number_of_plays,
+                             plot_names=[plot_name_training, plot_name_playing], batch_size=batch_size)
 
 
-### Sample Config ###
+# ---- Sample Config ----- #
 
 sample_suite = {
     "result_path": "./var/results/",
     "testsuite_name": "test",
     "agent": {
-        "type": "QNetworkAgentOptimizd",  # QNetworkAgent, QTable
-        "learning_rate": 0.05,
-        "train_epoches": 10,
-        "timesteps_per_epoches": 100,
-        "gamma": 0.9,
-        "epsilon": 0.2,
-        "batch_size": 100,
+        "type": "QTable",  # QNetworkAgent, QNetworkAgentOptimizd, QTable
+        "learning_rate": 0.2,
+        "train_epochs": 20,
+        "timesteps_per_episode": 100,
+        "gamma": 0.6,
+        "epsilon": 0.1,
+        # "batch_size": 100, # Should be removed when type is QTable
         "optimizer": "Adam"
     },
     "play": {
-        "number_of_plays": 1  # Number of Plays after every train round
+        "number_of_plays": 10  # Number of Plays after every train round
     },
     "maze": {
         "height": 4,

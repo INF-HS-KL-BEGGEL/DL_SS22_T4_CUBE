@@ -1,3 +1,4 @@
+import time
 from abc import ABC, abstractmethod
 
 import matplotlib
@@ -19,13 +20,17 @@ class Writer(ABC):
 
 class PlotWriter(Writer):
 
-    def __init__(self, name=""):
+    def __init__(self, name="", plot_information="", should_render=False):
         super().__init__(name)
+        self.name = name
+        self.should_render = should_render
 
         self.fig = plt.figure()
         self.fig.canvas.set_window_title(name)
+
         self.ax = self.fig.add_subplot(111)
         self.ax.grid(axis='y')
+        self.ax.set_title(plot_information + '\n' + name,  loc='center')
 
         self.x = []
         self.y = []
@@ -44,11 +49,15 @@ class PlotWriter(Writer):
         self.ax.set_xlabel(x_label)
         self.ax.set_ylabel(y_label)
 
+    def save(self, path=""):
+        self.fig.savefig(path + self.name + "@" + str(time.time()) + '.png')
+
     def set_title(self, title):
-        self.ax.set_title(title,  loc='left')
+        self.ax.set_title(self.name + '\n' + title,  loc='center')
 
     def show(self):
-        self.fig.show()
+        if self.should_render:
+            self.fig.show()
 
     def write(self, item: tuple):
         x, y = item
