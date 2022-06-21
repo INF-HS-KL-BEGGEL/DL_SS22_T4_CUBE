@@ -1,6 +1,6 @@
 {
     "result_path": "./var/results/",
-    "testsuite_name": "test_1",
+    "testsuite_name": "test_5",
     "agent": {
         "learning_rate": 0.005,
         "train_epochs": 100,

@@ -1,6 +1,6 @@
 {
     "result_path": "./var/results/",
-    "testsuite_name": "test_1",
+    "testsuite_name": "test_3",
     "agent": {
         "type": "QNetworkAgentOptimizd",
         "learning_rate": 0.01,
