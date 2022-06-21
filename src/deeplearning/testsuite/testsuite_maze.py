@@ -28,7 +28,7 @@ class TestSuiteMaze(TestSuiteBase):
     def get_plot_name(agent_type, game, is_training=True):
         """ Return a readable name for the plot """
         mode = is_training and "Training" or "Playing"
-        return "" + agent_type + ", " + str(mode) + ", " + str(game.get_labyrinth().width) + " x " + str(
+        return "" + str(agent_type) + ", " + str(mode) + ", " + str(game.get_labyrinth().width) + " x " + str(
             game.get_labyrinth().height) + " Maze with " + str(len(game.get_labyrinth().get_targets())) + " Targets"
 
     @staticmethod
