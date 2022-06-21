@@ -2,6 +2,7 @@ from deeplearning.environment.environment import Environment
 from deeplearning.games.cube.actions import TurnRightAction, TurnLeftAction, TryFitAction, RotateFigureAction
 from deeplearning.games.cube.state import StateCube
 from deeplearning.games.cube.figure import Direction
+import copy
 
 
 class EnvCube(Environment):
@@ -17,11 +18,14 @@ class EnvCube(Environment):
         states = []
         for face in faces:
             for fig in figures:
+                figure = copy.deepcopy(fig)
                 for i in range(len(Direction)):
-                    fig.rotate()
-                    states.append(StateCube(face, fig, statecounter))
+                    figure = copy.deepcopy(figure)
+                    figure.rotate()
+                    states.append(StateCube(face, figure, statecounter))
                     statecounter += 1
-
+        for s in states:
+            print(s.get_current_face(), s.get_current_figure())
         return states
 
     def calc_action_space(self):
@@ -36,12 +40,12 @@ class EnvCube(Environment):
             action_space.append(TurnLeftAction(action_id, self.game, i + 1))
         action_id += 1
         action_space.append(RotateFigureAction(action_id, self.game))
+        #print(action_space)
         return action_space
 
     def get_current_state(self):
+        print()
         for state in self.observation_space:
-            if not self.game.get_top_of_figure_stack():
-                print("NONE")
             if state.get_current_figure() == self.game.get_top_of_figure_stack() and \
                     state.get_current_face() == self.game.get_current_face():
                 return state

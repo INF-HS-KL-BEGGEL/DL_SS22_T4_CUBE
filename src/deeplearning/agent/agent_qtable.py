@@ -6,7 +6,7 @@ from deeplearning.agent.qtable import QTable
 
 class QTableAgent(Agent):
 
-    def __init__(self, environment, epsilon=0.1, alpha=0.2, gamma=0.6):
+    def __init__(self, environment, epsilon=0.1, alpha=0.2, gamma=0.8):
         super().__init__(environment)
 
         self.environment = environment
@@ -32,7 +32,7 @@ class QTableAgent(Agent):
 
             sum_reward += reward
             if terminated or next_state is None:
-                self.q_table.print("Playing Done!")
+                #self.q_table.print("Playing Done!")
                 break
 
             # Too few data from training, cannot solve the game
@@ -45,6 +45,7 @@ class QTableAgent(Agent):
         self.notify_writer_play((game_run_index, sum_reward))
 
     def train(self, num_of_episodes=100):
+        print("Start training")
         for episode in range(0, num_of_episodes):
             # Reset the environment
             state = self.environment.reset_state()
@@ -53,7 +54,6 @@ class QTableAgent(Agent):
             terminated = False
             start_t = time.time()
             sum_reward = 0
-
             while not terminated:
                 # Take learned path or explore new actions based on the epsilon
                 if random.uniform(0, 1) < self.epsilon:
@@ -78,7 +78,7 @@ class QTableAgent(Agent):
                 self.epsilon = self.epsilon - (self.epsilon / 100 * 2)
 
             end_t = time.time()
-            self.q_table.print("Episode %s Time: %s" % (episode, end_t - start_t))
+            #self.q_table.print("Episode %s Time: %s" % (episode, end_t - start_t))
             self.notify_writer_training((self.total_episodes, sum_reward))
             self.total_episodes += 1
 

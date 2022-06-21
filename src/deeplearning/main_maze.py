@@ -11,11 +11,11 @@ def run_qtable_agent(env):
 
     train_plot = PlotWriter("QTable Training " + str(env.game.get_labyrinth().width) +
                             " x " + str(env.game.get_labyrinth().height) + " Maze with " +
-                            str(len(env.game.get_labyrinth().get_targets())) + " Targets")
+                            str(len(env.game.get_labyrinth().get_targets())) + " Targets", "Test", True)
 
     play_plot = PlotWriter("QTable Playing " + str(env.game.get_labyrinth().width) +
                            " x " + str(env.game.get_labyrinth().height) + " Maze with " +
-                           str(len(env.game.get_labyrinth().get_targets())) + " Targets")
+                           str(len(env.game.get_labyrinth().get_targets())) + " Targets", "Test", True)
 
     agent.register_writer_training(train_plot)
     agent.register_writer_play(play_plot)
@@ -54,8 +54,8 @@ else:
     maze_game = LabyrinthGame.setup_game(10, 10, 4)
 
 env = EnvLabyrinth(maze_game)
-# run_qtable_agent(env)
-run_qnetwork_agent(env)
+run_qtable_agent(env)
+#run_qnetwork_agent(env)
 mainloop()
 # Use this as a breakpoint to keep the plots open
 print('--- END ---')

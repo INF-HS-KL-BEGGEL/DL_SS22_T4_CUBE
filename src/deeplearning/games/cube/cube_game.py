@@ -82,8 +82,8 @@ class CubeGame(Game):
     def reset_game(self):
         """Resets the game"""
         self.figure_stack = self.figure_stack_copy.copy()
-        random.shuffle(self.figure_stack)
-        self.current_face = random.randint(0, len(self.faces) - 1)
+        #random.shuffle(self.figure_stack)
+        self.current_face = 0 #random.randint(0, len(self.faces) - 1)
 
     def is_done(self):
         return len(self.figure_stack) == 0

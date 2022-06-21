@@ -44,7 +44,7 @@ class TryFitAction(Action):
         if fits:
             # Square the length as reward plus give back negative reward from turn action
             # np.power(len(self.game.faces), 2) + len(self.game.faces)
-            return 50
+            return 20
         # return -len(self.game.faces)
         return -2
 

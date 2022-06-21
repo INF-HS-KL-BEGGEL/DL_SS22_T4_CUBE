@@ -23,6 +23,8 @@ class Figure:
     def get_name(self):
         """Returns the name of the figure"""
         return self.name
+    def get_direction(self):
+        return self.direction
 
     def rotate(self):
         """Rotates the figure"""
