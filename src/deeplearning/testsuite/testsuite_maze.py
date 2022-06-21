@@ -102,5 +102,5 @@ sample_suite = {
     }
 }
 
-test = TestSuiteMaze.from_dict(sample_suite)
-test.run()
+#test = TestSuiteMaze.from_dict(sample_suite)
+#test.run()

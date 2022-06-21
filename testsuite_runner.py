@@ -1,6 +1,6 @@
 from deeplearning.testsuite.testsuite_maze import TestSuiteMaze
-import tensorflow as tf
 import os, glob
+
 
 class TestRunner:
 
@@ -18,6 +18,7 @@ class TestRunner:
     def start(self):
 
         print(self.suitepath)
+        print(self.filenames)
         suites = self._load_suites(self.filenames)
 
         for suite in suites:
