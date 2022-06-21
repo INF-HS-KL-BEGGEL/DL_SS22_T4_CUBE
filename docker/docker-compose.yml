@@ -1,10 +1,9 @@
 version: '3.8'
 services:
   testrunner:
-    image: maze:latest
+    image: maze_tf:latest
     ports:
       - "8000:5000"
-    user: root
     volumes:
       - ../var:/var/results
       - ../suites:/suites
