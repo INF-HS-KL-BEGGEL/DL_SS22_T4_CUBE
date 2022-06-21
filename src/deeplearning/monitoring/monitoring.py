@@ -3,7 +3,11 @@ from abc import ABC, abstractmethod
 
 import matplotlib
 import matplotlib.pyplot as plt
-matplotlib.use('TkAgg')
+from sys import platform
+
+if not platform == "linux" or platform == "linux2":
+    matplotlib.use('TkAgg')
+
 
 class Writer(ABC):
 
