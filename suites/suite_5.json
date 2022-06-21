@@ -3,14 +3,14 @@
     "testsuite_name": "test_1",
     "agent": {
         "learning_rate": 0.005,
-        "train_epochs": 1000,
+        "train_epochs": 100,
         "timesteps_per_episode": 100,
         "gamma": 0.9,
         "epsilon": 0.1,
         "batch_size": 50
     },
     "play": {
-        "number_of_plays": 1
+        "number_of_plays": 100
     },
     "maze": {
         "height": 10,

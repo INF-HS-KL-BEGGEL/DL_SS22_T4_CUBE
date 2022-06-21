@@ -4,19 +4,19 @@
     "agent": {
         "type": "QNetworkAgentOptimizd",
         "learning_rate": 0.05,
-        "train_epochs": 20,
-        "timesteps_per_episode": 100,
-        "gamma": 0.8,
-        "epsilon": 0.3,
+        "train_epochs": 50,
+        "timesteps_per_episode": 75,
+        "gamma": 0.95,
+        "epsilon": 0.1,
         "batch_size": 50
     },
     "play": {
-        "number_of_plays": 100
+        "number_of_plays": 500
     },
     "maze": {
-        "height": 6,
-        "width": 6,
-        "targets": 3,
+        "height": 10,
+        "width": 10,
+        "targets": 5,
         "seed": 1337
     }
 }

@@ -3,20 +3,20 @@
     "testsuite_name": "test_1",
     "agent": {
         "type": "QNetworkAgentOptimizd",
-        "learning_rate": 0.005,
-        "train_epoches": 20,
+        "learning_rate": 0.01,
+        "train_epoches": 50,
         "timesteps_per_episode": 200,
-        "gamma": 0.9,
-        "epsilon": 0.3,
+        "gamma": 0.95,
+        "epsilon": 0.1,
         "batch_size": 50
     },
     "play": {
-        "number_of_plays": 100
+        "number_of_plays": 500
     },
     "maze": {
-        "height": 6,
-        "width": 6,
-        "targets": 3,
+        "height": 10,
+        "width": 10,
+        "targets": 5,
         "seed": 1337
     }
 }
