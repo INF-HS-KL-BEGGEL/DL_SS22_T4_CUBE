@@ -6,7 +6,7 @@ services:
       - "8000:5000"
     user: root
     volumes:
-      - ../var:/var/results
+      - ../var:/var/results:rw
       - ../suites:/suites
     shm_size: '1g'
     ulimits:

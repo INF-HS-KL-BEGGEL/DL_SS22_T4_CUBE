@@ -9,7 +9,7 @@ class GoAction(Action):
         super().__init__(id, game)
         self.direction = direction
 
-    def execute(self) -> int:
+    def execute(self) -> float:
         tile_type = self.game.go(self.direction)
         if tile_type == TileType.BLOCKED:
             return -0.75

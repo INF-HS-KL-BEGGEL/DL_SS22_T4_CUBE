@@ -115,8 +115,6 @@ class QNetworkAgentOptimizd(Agent):
                 # Take action
                 next_state, reward, terminated, info = self.environment.step(action)
                 sum_reward += reward
-                #print(action, reward)
-                print(action)
                 next_state_number = next_state.get_number()
                 self.store(state.get_number(), action.id, reward, next_state_number, terminated)
 
