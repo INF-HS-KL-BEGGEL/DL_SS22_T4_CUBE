@@ -40,11 +40,9 @@ class EnvCube(Environment):
             action_space.append(TurnLeftAction(action_id, self.game, i + 1))
         action_id += 1
         action_space.append(RotateFigureAction(action_id, self.game))
-        #print(action_space)
         return action_space
 
     def get_current_state(self):
-        print()
         for state in self.observation_space:
             if state.get_current_figure() == self.game.get_top_of_figure_stack() and \
                     state.get_current_face() == self.game.get_current_face():

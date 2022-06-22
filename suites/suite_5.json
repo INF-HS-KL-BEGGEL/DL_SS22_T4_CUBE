@@ -1,7 +1,9 @@
 {
     "result_path": "./var/results/",
     "testsuite_name": "test_5",
+    "deactivated": true,
     "agent": {
+        "type": "QNetworkAgentOptimizd",
         "learning_rate": 0.005,
         "train_epochs": 100,
         "timesteps_per_episode": 100,

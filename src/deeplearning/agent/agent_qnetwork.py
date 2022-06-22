@@ -43,7 +43,7 @@ class QNetworkAgent(Agent):
         action, q_values = self.q_network.predict(state)
         return action
 
-    @time_measure
+
     def retrain(self, batch_size):
         minibatch = random.sample(self.experience_replay, batch_size)
 
@@ -103,7 +103,7 @@ class QNetworkAgent(Agent):
                     break
 
                 if len(self.experience_replay) > batch_size:
-                    print("Retrain")
+                    #print("Retrain")
                     self.retrain(batch_size)
 
             self.notify_writer_training((self.total_episodes, sum_reward))

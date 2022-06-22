@@ -22,6 +22,8 @@ class TestRunner:
         suites = self._load_suites(self.filenames)
 
         for suite in suites:
+            if suite.is_deactivated():
+                break
             print("### Run Suite %s complete" % suite.get_name())
             print()
             suite.run()

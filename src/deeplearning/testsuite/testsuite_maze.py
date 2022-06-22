@@ -8,8 +8,8 @@ from deeplearning.testsuite.testsuite_base import TestSuiteBase
 
 class TestSuiteMaze(TestSuiteBase):
 
-    def __init__(self, name, agent, train_epochs, number_of_plays, plot_names, batch_size):
-        super().__init__(name, agent, train_epochs, number_of_plays, plot_names, batch_size)
+    def __init__(self, name, agent, train_epochs, number_of_plays, plot_names, batch_size, deactivated):
+        super().__init__(name, agent, train_epochs, number_of_plays, plot_names, batch_size, deactivated)
 
     @staticmethod
     def from_json_file(filename):
@@ -49,6 +49,8 @@ class TestSuiteMaze(TestSuiteBase):
         result_path = config.get("result_path")
         Path(result_path).mkdir(parents=True, exist_ok=True)
 
+        deactivated = config.get("deactivated", False)
+
         agent_conf = config.get("agent")
         agent_type = agent_conf.get("type")
         game_conf = config.get("maze")
@@ -73,7 +75,7 @@ class TestSuiteMaze(TestSuiteBase):
         agent.register_writer_play(play_plot)
 
         return TestSuiteMaze(testsuite_name, agent, train_epochs, number_of_plays,
-                             plot_names=[plot_name_training, plot_name_playing], batch_size=batch_size)
+                             plot_names=[plot_name_training, plot_name_playing], batch_size=batch_size, deactivated=deactivated)
 
 
 # ---- Sample Config ----- #

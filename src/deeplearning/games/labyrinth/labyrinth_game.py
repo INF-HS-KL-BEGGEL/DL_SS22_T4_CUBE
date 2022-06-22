@@ -31,7 +31,6 @@ class LabyrinthGame(Game):
 
             for index in random_tiles_index:
                 tile = maze.get_all_accessible_tiles()[index]
-                print(tile)
                 maze.set_target(tile)
 
     def get_current_tile(self):
@@ -81,7 +80,6 @@ class LabyrinthGame(Game):
         return len(self.labyrinth.get_targets()) == 0
 
     def go(self, direction):
-        # print(direction)
         tile = self.labyrinth.get_neighbor_tile(self.get_current_tile(), direction)
         if not tile or tile.get_type() == TileType.BLOCKED:
             return TileType.BLOCKED

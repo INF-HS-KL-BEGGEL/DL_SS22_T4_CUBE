@@ -5,13 +5,14 @@ from deeplearning.agent import QNetworkAgent, QTableAgent, QNetworkAgentOptimizd
 
 class TestSuiteBase(ABC):
 
-    def __init__(self, name, agent, train_epochs, number_of_plays, plot_names, batch_size):
+    def __init__(self, name, agent, train_epochs, number_of_plays, plot_names, batch_size, deactivated):
         self.agent = agent
         self.train_epochs = train_epochs
         self.number_of_plays = number_of_plays  # Number of Plays after every train round
         self.batch_size = batch_size
         self.name = name
         self.plot_names = plot_names  # array of plot names
+        self.deactivated = deactivated
 
     def run(self):
         for i in range(self.number_of_plays):
@@ -64,3 +65,6 @@ class TestSuiteBase(ABC):
                                   timesteps_per_episode=timesteps_per_episode)
 
         return agent
+
+    def is_deactivated(self):
+        return self.deactivated

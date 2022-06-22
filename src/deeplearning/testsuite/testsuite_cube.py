@@ -9,8 +9,8 @@ from deeplearning.testsuite.testsuite_base import TestSuiteBase
 
 class TestSuiteCube(TestSuiteBase):
 
-    def __init__(self, name, agent, train_epoches, number_of_plays, batch_size):
-        super().__init__(name, agent, train_epoches, number_of_plays, batch_size)
+    def __init__(self, name, agent, train_epoches, number_of_plays, batch_size, deactivated):
+        super().__init__(name, agent, train_epoches, number_of_plays, batch_size, deactivated)
 
     @staticmethod
     def from_json_file(filename):
@@ -34,6 +34,10 @@ class TestSuiteCube(TestSuiteBase):
         testsuite_name = config.get("testsuite_name")
         result_path = config.get("result_path")
         Path(result_path).mkdir(parents=True, exist_ok=True)
+
+    
+        deactivated = config.get("deactivated", False)
+
 
         game_conf = config.get("maze")
         agent_conf = config.get("agent")
@@ -59,7 +63,7 @@ class TestSuiteCube(TestSuiteBase):
         agent.register_writer_play(csv_play_writer)
         agent.register_writer_training(ConsoleWriter("Console Training"))
 
-        return TestSuiteCube(testsuite_name, agent, train_epoches, number_of_plays, batch_size=batch_size)
+        return TestSuiteCube(testsuite_name, agent, train_epoches, number_of_plays, batch_size=batch_size, deactivated=deactivated)
 
 
 ### Sample Config ###
