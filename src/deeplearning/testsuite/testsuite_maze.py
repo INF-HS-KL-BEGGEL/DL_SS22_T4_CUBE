@@ -71,7 +71,10 @@ class TestSuiteMaze(TestSuiteBase):
         play_plot = PlotWriter(name=plot_name_playing, plot_information=TestSuiteMaze.get_agent_information(agent),
                                should_render=False)
 
+        train_console_writer = ConsoleWriter("test")
+
         agent.register_writer_training(train_plot)
+        agent.register_writer_training(train_console_writer)
         agent.register_writer_play(play_plot)
 
         return TestSuiteMaze(testsuite_name, agent, train_epochs, number_of_plays,
