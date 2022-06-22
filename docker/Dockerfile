@@ -4,10 +4,10 @@ RUN apt-get -y install python3-tk
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 COPY /src /src
-COPY /testsuite_runner.py /testsuite_runner.py
+COPY /testsuite_runner.py /app/testsuite_runner.py
 COPY /setup.py /setup.py
 COPY /README.md /README.md
 COPY /LICENSE /LICENSE
 WORKDIR /
 RUN pip3 install -e .
-CMD [ "python3", "testsuite_runner.py"]
+CMD [ "python3", "/app/testsuite_runner.py"]

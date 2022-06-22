@@ -20,10 +20,12 @@ class TestRunner:
         print(self.suitepath)
         print(self.filenames)
         suites = self._load_suites(self.filenames)
-
+        print("---------------------------------------------------------")
         for suite in suites:
+            print(suite)
+            print(suite.is_deactivated())
             if suite.is_deactivated():
-                break
+                continue
             print("### Run Suite %s complete" % suite.get_name())
             print()
             suite.run()

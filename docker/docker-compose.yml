@@ -6,7 +6,7 @@ services:
       - "8000:5000"
     volumes:
       - ../var:/var/results:rw
-      - ../suites:/suites
+      - ../suites:/suites:rw
     shm_size: '1g'
     ulimits:
         memlock: 1
