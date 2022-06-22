@@ -31,14 +31,6 @@ class QNetwork:
     def algin_model(self, qnetwork):
         self.model.set_weights(qnetwork.get_weights())
 
-    # @time_measure
-    def predict_many(self, states: list) -> tuple:
-        """
-        TODO
-        """
-        # return action, q_values
-
-        #return action, q_values
 
     def fit(self, state, target, epochs=1, verbose=0):
         state = np.reshape(state.get_number(), [1, 1])

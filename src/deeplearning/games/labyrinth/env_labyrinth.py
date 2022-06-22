@@ -22,7 +22,6 @@ class EnvLabyrinth(Environment):
 
         states = []
         target_combinations = EnvLabyrinth.powerset(targets)
-        print(target_combinations)
         for tile in accessible_tiles:
             for targets in target_combinations:
                 states.append(StateLabyrinth(statecounter, tile, targets))

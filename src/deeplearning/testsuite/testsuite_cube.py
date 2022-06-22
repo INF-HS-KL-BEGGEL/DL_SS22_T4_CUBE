@@ -44,7 +44,7 @@ class TestSuiteCube(TestSuiteBase):
         train_epoches = agent_conf.get("train_epoches")
 
         game = TestSuiteCube.__create_cube(game_conf)
-        agent = TestSuiteCube.__create_agent(agent_conf, EnvCube(game))
+        agent = TestSuiteCube._create_agent(agent_conf, EnvCube(game))
 
         csv_train_writer = CsvWriter(name=testsuite_name, filename=result_path + testsuite_name + "_training.csv")
         csv_train_writer.set_label("Epoches", "Reward")
