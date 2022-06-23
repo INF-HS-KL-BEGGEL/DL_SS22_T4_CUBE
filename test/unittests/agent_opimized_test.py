@@ -13,14 +13,14 @@ from tensorflow.keras.optimizers import Adam
 class TestQNetworkAgentOptimizd(unittest.TestCase):
 
     def test(self):
-        maze_game = LabyrinthGameGuiAdapter(LabyrinthGame.setup_game(10, 10, 5, 12))
+        maze_game = LabyrinthGameGuiAdapter(LabyrinthGame.setup_game(6, 6, 3, 12))
         #maze_game = LabyrinthGame.setup_game(7, 7, 4, 12)
 
         env = EnvLabyrinth(maze_game)
 
-        eps = 0.1
+        eps = 0.15
         timesteps_per_episode = 75
-        learning_rate = 0.02
+        learning_rate = 0.01
         agent = QNetworkAgentOptimizd(env, optimizer=Adam(learning_rate=learning_rate), timesteps_per_episode=timesteps_per_episode, epsilon=eps, gamma=0.95)
 
         train_plot = PlotWriter("Training", plot_information="LearningRate: %s, TimeStepsPerEpisode:%s, Epsilon: %s" % (learning_rate, timesteps_per_episode, eps),

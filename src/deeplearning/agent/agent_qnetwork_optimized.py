@@ -17,7 +17,7 @@ class QNetworkAgentOptimizd(Agent):
         self._state_size = len(environment.observation_space)
         self._action_size = len(environment.action_space)
 
-        self.episodes_in_history = 10
+        self.episodes_in_history = 15
         self.experience_replay = collections.deque(maxlen=timesteps_per_episode*self.episodes_in_history)
 
         # Initialize discount and exploration rate
@@ -130,6 +130,9 @@ class QNetworkAgentOptimizd(Agent):
             if len(self.experience_replay) > batch_size:
                 #print("Retrain")
                 self.retrain(batch_size)
+
+            if e % 20 == 0:
+                self.target_network.algin_model(self.q_network)
 
             self.notify_writer_training((self.total_episodes, sum_reward))
             print("Episode: {}, Reward {}".format(self.total_episodes, sum_reward))

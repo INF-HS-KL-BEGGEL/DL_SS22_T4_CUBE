@@ -38,5 +38,3 @@ Kapitel mit Code Snippets
 2. Der Agent erhält einen positiven Reward, wenn er die richtige Figur findet
 3. Der Agent erhält einen negativen Reward, wenn er die falsche Seite des Würfels findet
 4. Der Agent erhält einen negativen Reward, wenn er die falsche Figur findet
- 
-

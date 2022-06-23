@@ -43,7 +43,7 @@ class QNetworkAgent(Agent):
         action, q_values = self.q_network.predict(state)
         return action
 
-
+    @time_measure
     def retrain(self, batch_size):
         minibatch = random.sample(self.experience_replay, batch_size)
 
@@ -110,6 +110,7 @@ class QNetworkAgent(Agent):
             self.total_episodes += 1
 
             if (e + 1) % 10 == 0:
+                self.target_network.algin_model(self.q_network)
                 print("**********************************")
                 print("Episode: {}".format(e + 1))
                 print("**********************************")
