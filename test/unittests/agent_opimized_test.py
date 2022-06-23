@@ -18,8 +18,8 @@ class TestQNetworkAgentOptimizd(unittest.TestCase):
 
         env = EnvLabyrinth(maze_game)
 
-        eps = 0.15
-        timesteps_per_episode = 75
+        eps = 0.2
+        timesteps_per_episode = 1000
         learning_rate = 0.01
         agent = QNetworkAgentOptimizd(env, optimizer=Adam(learning_rate=learning_rate), timesteps_per_episode=timesteps_per_episode, epsilon=eps, gamma=0.95)
 

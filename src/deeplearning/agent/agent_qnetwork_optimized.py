@@ -131,7 +131,7 @@ class QNetworkAgentOptimizd(Agent):
                 #print("Retrain")
                 self.retrain(batch_size)
 
-            if e % 20 == 0:
+            if e % 10 == 0:
                 self.target_network.algin_model(self.q_network)
 
             self.notify_writer_training((self.total_episodes, sum_reward))
