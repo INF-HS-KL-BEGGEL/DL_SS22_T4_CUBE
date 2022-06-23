@@ -66,5 +66,17 @@ class TestSuiteBase(ABC):
 
         return agent
 
+    @staticmethod
+    def get_agent_information(agent):
+        """ Helper method to output QLearning parameters on plot """
+        plot_information = "Epsilon: " + str(agent.epsilon) + ", Gamma: " + str(agent.gamma)
+
+        # distinguish QTable from QNetwork
+        if hasattr(agent, "timesteps_per_episode"):
+            plot_information += ", Timesteps per Episode: " + str(agent.timesteps_per_episode)
+        if hasattr(agent, "alpha"):
+            plot_information += ", Learning rate: " + str(agent.alpha)
+        return plot_information
+
     def is_deactivated(self):
         return self.deactivated

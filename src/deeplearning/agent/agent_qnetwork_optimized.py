@@ -5,6 +5,7 @@ from tensorflow.keras.optimizers import Adam
 
 from deeplearning.agent.agent_base import Agent
 from deeplearning.agent.qnetwork import QNetwork
+from deeplearning.testsuite.performance import time_measure
 
 
 class QNetworkAgentOptimizd(Agent):

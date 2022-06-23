@@ -1,24 +1,21 @@
 {
     "result_path": "./var/results/",
-    "testsuite_name": "test_1",
-    "deactivated": true,
+    "testsuite_name": "test_7",
+    "deactivated": false,
     "agent": {
         "type": "QNetworkAgentOptimizd",
         "learning_rate": 0.05,
-        "train_epochs": 5,
+        "train_epochs": 20,
         "timesteps_per_episode": 75,
         "gamma": 0.95,
         "epsilon": 0.1,
         "batch_size": 50
     },
     "play": {
-        "number_of_plays": 2
+        "number_of_plays": 10
     },
-    "maze": {
-        "height": 5,
-        "width": 5,
-        "targets": 2,
-        "seed": 1337
+    "cube": {
+        "facesize": 2
     }
 }
 

@@ -24,8 +24,6 @@ class EnvCube(Environment):
                     figure.rotate()
                     states.append(StateCube(face, figure, statecounter))
                     statecounter += 1
-        for s in states:
-            print(s.get_current_face(), s.get_current_figure())
         return states
 
     def calc_action_space(self):

@@ -1,4 +1,6 @@
 from deeplearning.testsuite.testsuite_maze import TestSuiteMaze
+from deeplearning.testsuite.testsuite_cube import TestSuiteCube
+from deeplearning.testsuite.testsuite_base import TestSuiteBase
 import os, glob
 
 
@@ -12,7 +14,7 @@ class TestRunner:
         suites = []
         for fname in filenames:
             suites.append(TestSuiteMaze.from_json_file(fname))
-
+            suites.append(TestSuiteCube.from_json_file(fname))
         return suites
 
     def start(self):
@@ -22,9 +24,7 @@ class TestRunner:
         suites = self._load_suites(self.filenames)
         print("---------------------------------------------------------")
         for suite in suites:
-            print(suite)
-            print(suite.is_deactivated())
-            if suite.is_deactivated():
+            if (not suite or suite.is_deactivated()):
                 continue
             print("### Run Suite %s complete" % suite.get_name())
             print()

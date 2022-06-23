@@ -14,7 +14,8 @@ class TestSuiteMaze(TestSuiteBase):
     @staticmethod
     def from_json_file(filename):
         json_data = json.load(open(filename, "r"))
-        return TestSuiteMaze.from_dict(json_data)
+        if json_data.get("maze"):
+            return TestSuiteMaze.from_dict(json_data)
 
     @staticmethod
     def __create_maze(maze_conf: dict):
@@ -28,20 +29,9 @@ class TestSuiteMaze(TestSuiteBase):
     def get_plot_name(agent_type, game, is_training=True):
         """ Return a readable name for the plot """
         mode = is_training and "Training" or "Playing"
-        return "" + str(agent_type) + ", " + str(mode) + ", " + str(game.get_labyrinth().width) + " x " + str(
-            game.get_labyrinth().height) + " Maze with " + str(len(game.get_labyrinth().get_targets())) + " Targets"
+        return "" + str(agent_type) + ", " + str(mode) + ", Maze " + str(game.get_labyrinth().width) + " x " + str(
+            game.get_labyrinth().height) + " with " + str(len(game.get_labyrinth().get_targets())) + " Targets"
 
-    @staticmethod
-    def get_agent_information(agent):
-        """ Helper method to output QLearning parameters on plot """
-        plot_information = "Epsilon: " + str(agent.epsilon) + ", Gamma: " + str(agent.gamma)
-
-        # distinguish QTable from QNetwork
-        if hasattr(agent, "timesteps_per_episode"):
-            plot_information += ", Timesteps per Episode: " + str(agent.timesteps_per_episode)
-        if hasattr(agent, "alpha"):
-            plot_information += ", Learning rate: " + str(agent.alpha)
-        return plot_information
 
     @staticmethod
     def from_dict(config):
@@ -71,7 +61,7 @@ class TestSuiteMaze(TestSuiteBase):
         play_plot = PlotWriter(name=plot_name_playing, plot_information=TestSuiteMaze.get_agent_information(agent),
                                should_render=False)
 
-        train_console_writer = ConsoleWriter("test")
+        train_console_writer = ConsoleWriter("Maze Writer")
 
         agent.register_writer_training(train_plot)
         agent.register_writer_training(train_console_writer)
