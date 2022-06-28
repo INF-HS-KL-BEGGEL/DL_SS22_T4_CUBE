@@ -63,6 +63,9 @@ die noch nicht vollständig erlernt wurden mit einer gewissen Wahrscheinlichkeit
 TODO Lernraten
 TODO Zufall
 TODO Beispiel
+TODO Was ist relu?
+TODO Was ist Loss mse?
+
 
 ----
 # Technische Dokumentation
@@ -71,11 +74,26 @@ Im Folgenden soll ein Einblick in die genutzten Werkzeuge und den Aufbau der Anw
 
 ## Verwendete Werkzeuge (Kai)
 Für die Umsetzung das Projekt wurde die Programmiersprache Python in der Version 3.6 verwendet. Darauf aufbauend wurden die Pakete 
-TensorFlow (Version ) und matplotlib (Version) verwendet.
+TensorFlow (2.6) und matplotlib (3.5.2) verwendet.
 
-### Tensorflow / Numpy (Kai)
+### Tensorflow(Kai)
+Tensorflow ist eine Open-Source-Platform für maschinelles Lernen. Tensorflow bündelt unterschiedliche Bibliotheken und Werkzeuge,
+die für den Einsatz von maschinellem Lernen häufig benötigt werden. Mit der High Level AI Keras wird das Erstellen und Trainieren von 
+Modellen für neuronalen Netzen ermöglicht.
+Innerhalb dieses Projekts wurde in Tensorflow ein Neuronales Netz mit 5 Layern erstellt, welche die Zustände der 
+Umgebung auf die Aktionen mappt. Mit der predict-Methode kann ein Netzwerk Vorhersagen zu den gemachten eingaben treffen.
+Hier gibt es Möglichkeiten batches direkt in Tensorflow einzugeben. Wie mit dieser Batch umgegangen wird lässt sich durch
+unterschiedliche Parameter konfigurieren. 
+Mit der fit-Methode lassen sich Eingabe und gewünschte Ausgaben in das Model eingeben, mit welchen das Model trainiert werden kann. 
+Auch hier ist batch-Verarbeitung möglich. 
+
+TODO Link
 
 ### matplotlib (Kai)
+Matplotlib ist eine Pythonbibliothek, die es ermöglicht Diagramme via Desktop-Fenster zu plotten oder diese al Bild zu speichern. 
+In dem Projekt wird matplotlib zum Plotten der Lernfortschritte der Agenten verwendet. 
+
+TODO Link
 
 ### docker und docker-compose
 
@@ -90,6 +108,8 @@ Weiter ist es möglich über die entsprechenden Befehle Umgebungsvariablen in de
 
 Mithilfe von docker-compose können Konfigurationsdateien erstellt werden, die dann mithilfe des
 gleichnamigen Befehlt verwaltet (gebaut, gestartet, gestoppt, etc.) werden können.
+
+TODO Link
 
 ### sonstige (Kai)
 TODO
@@ -202,15 +222,15 @@ TODO
 ## TestSuite (Kai)
 TODO 
 
-## Docker (Kai)
-TODO
-
 ### Dockerfile (Kai)
-TODO 
+Die Dockerfile zum Erstellen eines passenden Images ist unte /docker/Dockerfile zu finden. 
+Die Dockerfile wird benötigt um ein Image zu erzeugen, welches von der Docker-Compose Datei herangezogen werden kann.
+
+das Skript unter deploy_skynet.py enthält zur das Bauen und Starten der Container die entsprechenden Befehle.
 
 ### docker-compose (Kai)
-TODO Beschreibung
-TODO Referenz zu datei wenn möglich 
+Die docker-compose ist im /docker/docker-compose.yml zu finden. 
+
 
     version: '3.8'
     services:
