@@ -1,0 +1,28 @@
+<diagram program="umletino" version="15.0.0"><zoom_level>11</zoom_level><element><id>UMLClass</id><coordinates><x>352</x><y>121</y><w>275</w><h>187</h></coordinates><panel_attributes>AgentBase
+--
+- environment: Environment
+- writer_training: dict
+- writer_play: dict
+--
++ train(self, batch_size)
++ register_writer_training(self, writer)
++ register_writer_play(self, writer)
++ notify_writer_training(self, item, name)
++ notify_writer_play(self, item, name)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>297</x><y>374</y><w>374</w><h>275</h></coordinates><panel_attributes>QNetworkAgent
+--
+- __init__(environment, optimizer, epsilon, gamma, 
+                  timesteps_per_episode)
+- environment: Environment
+- experience_replay: deque
+- epsilon: int
+- gamma:int
+- timesteps_per_episode:int
+- total_episodes
+- q_network
+- target_network
+--
++ store(self, state, action, reward, next_state, terminated)
++ act(self, state)
++ train(self, num_of_episodes)
++ retrain(batch_size)
++ play(self, game_run_index)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>473</x><y>297</y><w>33</w><h>99</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element></diagram>
