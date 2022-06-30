@@ -1,8 +1,5 @@
 ----
 # Fachliche Dokumentation (Kai)
-TODO 
-
-## Aufgabenstellung / Ziele
 TODO
 
 ## Spiele (Chris)
@@ -76,24 +73,24 @@ Im Folgenden soll ein Einblick in die genutzten Werkzeuge und den Aufbau der Anw
 Für die Umsetzung das Projekt wurde die Programmiersprache Python in der Version 3.6 verwendet. Darauf aufbauend wurden die Pakete 
 TensorFlow (2.6) und matplotlib (3.5.2) verwendet.
 
-### Tensorflow(Kai)
+### Tensorflow
 Tensorflow ist eine Open-Source-Platform für maschinelles Lernen. Tensorflow bündelt unterschiedliche Bibliotheken und Werkzeuge,
 die für den Einsatz von maschinellem Lernen häufig benötigt werden. Mit der High Level AI Keras wird das Erstellen und Trainieren von 
 Modellen für neuronalen Netzen ermöglicht.
-Innerhalb dieses Projekts wurde in Tensorflow ein Neuronales Netz mit 5 Layern erstellt, welche die Zustände der 
-Umgebung auf die Aktionen mappt. Mit der predict-Methode kann ein Netzwerk Vorhersagen zu den gemachten eingaben treffen.
+Innerhalb dieses Projekts wurde in Tensorflow ein neuronales Netz mit 5 Layern erstellt, welche die Zustände der 
+Umgebung auf die Aktionen mappt. Mit der predict-Methode kann ein Netzwerk Vorhersagen, zu den gemachten eingaben treffen.
 Hier gibt es Möglichkeiten batches direkt in Tensorflow einzugeben. Wie mit dieser Batch umgegangen wird lässt sich durch
 unterschiedliche Parameter konfigurieren. 
 Mit der fit-Methode lassen sich Eingabe und gewünschte Ausgaben in das Model eingeben, mit welchen das Model trainiert werden kann. 
 Auch hier ist batch-Verarbeitung möglich. 
 
-TODO Link
+[https://www.tensorflow.org/](https://www.tensorflow.org/)
 
-### matplotlib (Kai)
+### matplotlib
 Matplotlib ist eine Pythonbibliothek, die es ermöglicht Diagramme via Desktop-Fenster zu plotten oder diese al Bild zu speichern. 
 In dem Projekt wird matplotlib zum Plotten der Lernfortschritte der Agenten verwendet. 
 
-TODO Link
+[https://matplotlib.org/stable/index.html](https://matplotlib.org/stable/index.html)
 
 ### docker und docker-compose
 
@@ -109,10 +106,8 @@ Weiter ist es möglich über die entsprechenden Befehle Umgebungsvariablen in de
 Mithilfe von docker-compose können Konfigurationsdateien erstellt werden, die dann mithilfe des
 gleichnamigen Befehlt verwaltet (gebaut, gestartet, gestoppt, etc.) werden können.
 
-TODO Link
+[https://docs.docker.com/compose/](https://docs.docker.com/compose/)
 
-### sonstige (Kai)
-TODO
 
 ## Anwendnungsübersicht
 Die Kernanwendung setzt sich abstrakt aus einer Game-Klasse, Environment-Klasse und Agenten-Klasse zusammen. 
@@ -127,7 +122,6 @@ mit den Umgebungen eingesetzt werden.
 
 Im Folgenden ist der grobe Ablauf der Anwendung zum Lernen der Modelle der Agenten
 ![Grober Ablauf der Anwendung](/docs/images/ablauf.png "Grober Ablauf der Anwendung")
-
 
 
 ## Game-Klassen
@@ -193,14 +187,32 @@ TODO Infos zu Parameter
 
 ### QNetworkAgent (Kai)
 
+Der QNetworkAgent ist die der Name verrät ein Agenten mit der Implementierung eines neuronalen Netzes.
+Das Netz wird mithilfe von Tensorflow aufgebaut und ist nochmal in eine eigene Klasse
+QNetwork gekapselt, welche als Input die Instanzen der State-Klassen und als Ausgabe Instanzen der 
+Action-Klassen enthält.
+
+Der Agent ist über den Konstruktor mit verschiedenen Werten konfigurierbar. 
+Unter diese Werte fällt:
+
+- Optimizer + learning rate
+- epsilon
+- gamma
+- timesteps per episode
+
+TODO Infos zu Parameter genauer beschreiben
+
+Über die Methode train lässt sie noch die Anzahl der zu spielenden Episoden angeben.
+
 ![QNetwork Agent](/docs/images/deep_learning_qnetworkagent_uml.png "Q Network Agent")
 
-TODO
-TODO Infos zu Parameter
 TODO Infos zu Netz/Model
 
 ### QNetworkAgentOptimized (Kai)
-TODO
+
+Da der QNetworkAgent Probleme in der Performance hat, da jedes 
+
+
 TODO Infos zu Parameter
 TODO Infos zu Netz/Model
 TODO Infos zu historie und unterschiede zu Optimized
@@ -222,13 +234,13 @@ TODO
 ## TestSuite (Kai)
 TODO 
 
-### Dockerfile (Kai)
+### Dockerfile
 Die Dockerfile zum Erstellen eines passenden Images ist unte /docker/Dockerfile zu finden. 
 Die Dockerfile wird benötigt um ein Image zu erzeugen, welches von der Docker-Compose Datei herangezogen werden kann.
 
 das Skript unter deploy_skynet.py enthält zur das Bauen und Starten der Container die entsprechenden Befehle.
 
-### docker-compose (Kai)
+### docker-compose
 Die docker-compose ist im /docker/docker-compose.yml zu finden. 
 
 
@@ -270,7 +282,7 @@ TestFälle ausführt und die Ergebnisse in Writer abspeichert.
 Die Testsuite ermöglicht es eine Reihe unterschiedlich konfigurierten Setups des Agenten und der Umgebung innerhalb eines 
 Docker-Containers auf einem leistungsstärkeren Server mit entsprechender NVIDIA-GPU für Tensorflow auszuführen.
 
-# Erfahrungen, Probleme, Dissussion und Ausblick
+# Erfahrungen, Probleme, Dissussion und Ausblick (Blogbeitrag)
 
 TODO Q-Table funktioniert gut und lern bei beiden Spielen schnell
 
