@@ -6,51 +6,50 @@ TODO
 TODO
 
 ## Spiele (Chris)
-Für das Projekt wurden zwei einfache Spiele implementiert. Hierbei handelt es sich bei dem Spiel 
-Cube um ein Würfel mit verschiedenen Seiten, inden der Spieler Figuren durch die dazu vorgesehenen Löscher
+Für das Projekt wurden zwei einfache Spiele implementiert. Hierbei handelt es sich bei dem Spiel Cube um einen Würfel mit verschiedenen Seiten, in den der Spieler Figuren durch die dazu vorgesehenen Löscher
 steckt.
-Bei dem Spiel Maze handelt es sich in dieser Implementierung um ein Labyrinth, in welchem der Spieler 
-Ziele einsammeln soll. Ziel dieses Spiels ist der den kürzest möglichen Weg zu wählen.
+Bei dem Spiel Maze handelt es sich in dieser Implementierung um ein Labyrinth, in welchem der Spieler Ziele einsammeln soll. Ziel dieses Spiels ist es den kürzesten Weg zu wählen.
 
 ### Cube (Chris)
 Ziel dieses Spiels ist es in möglichst wenigen Schritten alle Figuren unterschiedlicher Formen durch 
 die Seiten mit entsprechenden Löschern zu bekommen.
 Hierbei ist die Reihenfolge der verfügbaren Figuren vorgegeben. Der Spieler kann den Würfel
 nach Links oder nach rechts drehen und dabei auch mehrere Schritte auf einmal gehen. 
-Der Spieler hat muss zudem die Figur so rotieren, dass diese in die entsprechende 
-Form der Würfelseite passt. Sind alle Figuren durch den Spieler in den Würfel gelangt, ist 
-das Spiel beendet.
+Der Spieler muss zudem die Figur so rotieren, dass diese in die entsprechende Form der Würfelseite passt. Alle Figuren haben vier verschiedene Seiten. Sind alle Figuren durch den Spieler in den Würfel gelangt, ist das Spiel beendet.
 
 ### Maze (Chris)
 Ziel dieses Spiels ist es in möglichst wenigen Schritten die Ziele im Labyrinth einzusammeln.
-Der Spieler startet immer von der gleichen Position aus das Spiel und hat immer mindestens eine 
+Der Spieler startet immer von der gleichen Position das Spiel und hat immer mindestens eine 
 Möglichkeit alle Ziele im Labyrinth zu erreichen.
-Hat der Spieler alle Ziele innerhalb des Labyrinths eingesammelt, ist das Spiel beendet.
+Hat der Spieler alle Ziele innerhalb des Labyrinths eingesammelt, ist das Spiel beendet. Das Labyrinth kann zufällig erzeugt werden, oder mit einem seed kontrolliert erzeugt werden. Des Weiteren besteht die Möglichkeit, ein Labyrinth mithilfe einer JSON Datei einzulesen.
 
 ## Reinforcement Learning mit Q-Learning (Chris)
-Mithilfe eines Reinforcement Learning Agenten kann dieser in Rolle des Spielers das Spiel bedienen
-und so viele Runden spielen bis dieser das Spiel mit möglichst wenigen Schritten beendet.
+Mithilfe eines Reinforcement Learning Agenten kann dieser in die Rolle des Spielers das Spiel bedienen und so viele Runden spielen bis dieser das Spiel mit möglichst wenigen Schritten beendet.
 Hierfür wurden innerhalb des Projekts Q-Learning Algorithmen als Agenten implementiert.
 Diese Agenten besitzen die Möglichkeit sich in einer Umgebung Aktionen auszuführen und erhalten eine Belohnung
-oder Bestrafung, je nachdem ob diese Aktion innerhalb eines bestimmten Zustands der Umgebung als Gut 
-oder Schlecht definiert wurde.
-
-TODO Parameter
-TODO Network 
+oder Bestrafung, je nachdem ob diese Aktion innerhalb eines bestimmten Zustands der Umgebung als gut 
+oder schlecht definiert wurde.
+Dem Agenten können folgende Parameter mitgegeben werden:
+- environment (gibt die Umbebung mit, in der der Agent spielen soll)
+- optimizer (TODO)
+- epsilon range:0-1 (ist eine Zufallsvariable um in x % der Fällen nicht die optimale, sondern eine zufällige Aktion zu tätigen)
+- gamma range:0-1 (discount, wie stark der reward mit der Zeit abnimmt)
+- timesteps_per_episode range:0-infinity (Anzahl der Schritte, die der Agent maximal pro Spiel tätigen kann)
 
 ### QTable (Chris)
-Bei der Q-Table handelt es sich um eine Tabelle mit allen in der Umgebung möglichen Zuständen, die mithilfe
-von den möglichen Aktionen erreicht werden können.
-Die Tabelle selbst beinhaltet für jeden Zustand und Aktion die Belohnung/Bestrafung als Erfahrungswert und 
-wird nach jeder Runde angepasst.
+Bei der Q-Table handelt es sich um eine Tabelle mit allen in der Umgebung möglichen Zuständen, die mithilfe von den möglichen Aktionen erreicht werden können.
+Die Tabelle selbst beinhaltet für jeden Zustand und Aktion die Belohnung/Bestrafung als Erfahrungswert und  wird nach jeder Runde angepasst.
 Befindet der Agent sich in einem bestimmten Zustand und muss die nächste Aktion wählen, 
 dann kann er unter den möglichen Aktionen die mit dem vielversprechendsten Reward wählen.
 Voraussetzung für das Erlernen des Spiels ist es, dass sich die Umgebung nicht nach jeder Runde ändert
 und es sich um einen überschaubaren Zustands-Raum mit einer überschaubaren Anzahl an Aktionen handelt.
+Dem Agenten können folgende Parameter mitgegeben werden:
+- environment (gibt die Umbebung mit, in der der Agent spielen soll)
+- epsilon rage:0-1 (ist eine Zufallsvariable um in epsilon % der Fällen nicht die optimale, sondern eine zufällige Aktion zu tätigen)
+- alpha range:0-1 (learning_rate)
+- gamma range:0-1 (discount, wie stark der reward mit der Zeit abnimmt)
 
 TODO Beispiel
-TODO Lernraten
-TODO Zufall
 
 ### QNetwork
 Bei der Q-Network Variante wird die Funktion zwischen Zustand und Aktion nicht durch eine Tabelle ermittelt,
@@ -111,48 +110,77 @@ Im Folgenden ist der grobe Ablauf der Anwendung zum Lernen der Modelle der Agent
 
 
 ## Game-Klassen
-Die Game-Klassen Repräsentieren ein bestimmtes Spiel und werden von den Umgebung-Klassen verwendet. Die besitzen eine Reihe an Funktionen die den Spielzustand verändern
+Die Game-Klassen repräsentieren ein bestimmtes Spiel und werden von den Umgebungs-Klassen verwendet. Sie besitzen eine Reihe an Funktionen die den Spielzustand verändern.
 Jede Game-Klasse benötigt eine is_done-Methode und eine reset_game-Methode um das Spiel auf Beendigung zu prüfen bzw.
 das Spiel zurückzusetzen.
 
 ### Cube (Chris)
-TODO 
-Die Cube-Klasse enthält 
+Der Cube hat wie alle Spiele die folgenden Klassen: *actions.py, env_cube.py, cube_game.py und state.py*.
+TODO passt nicht in diesen Teil?: Das Cube-Spiel besteht aus einem Cube, der verschiedene Seite hat, in denen entsprechende Figuren hineinpassen. Das Spiel hat einen Stack an Figuren, bei dem nur die oberste Figur gesehen werden kann. Diese hat vier verschiedene orientierungen. Sie muss in die richtige Position gedreht werden, um in den Würfel zu passen)
 
-1. Der Agent erhält einen positiven Reward, wenn er die richtige Seite des Würfels findet
-2. Der Agent erhält einen positiven Reward, wenn er die richtige Figur findet
-3. Der Agent erhält einen negativen Reward, wenn er die falsche Seite des Würfels findet
-4. Der Agent erhält einen negativen Reward, wenn er die falsche Figur findet
 
-Welche Aufgaben soll das Spiel lösen?
+### Reward
+
+1. Der Agent erhält einen positiven Reward, wenn er die richtige Seite des Würfels findet (20)
+2. Der Agent erhält einen negativen Reward, wenn die Figur nicht in den Würfel passt (-2)
+3. Der Agent erhält einen leichten negativen Reward, wenn er den Würfel dreht (-1)
+4. Der Agent erhält einen leichten negativen Reward, wenn er die Figur dreht (-1)
+
+### Welche Aufgaben soll das Spiel lösen?
 
 1. Drehen des Würfels schnellstmöglich in die richtige Richtung
 2. Finde die passende Seite des Würfels zur aktuellen Figur
-3. Finde die passende Figur zur aktuellen Seite des Würfels
+3. Drehe die Figur, sodass sie in den Würfel passt
 
-State
+### State
 
 1. Die aktuelle Seite des Würfels
-2. Die aktuelle Figur auf der Seite des Würfel
-3. Die aktuell ausgewählte Figur die in die aktuelle Seite passen soll
+2. Die aktuelle Figur
+3. Die Richtung, in welche die Figure gedreht ist
 
-Action Space
+### Action Space
 
-1. Drehen des Würfels nach links
-2. Drehen des Würfels nach rechts
-3. Auswahl einer Figur
-4. Schauen ob Figur in die aktuelle Seite passt
+1. Drehen des Würfels nach links (mehere Schritte)
+2. Drehen des Würfels nach rechts (mehere Schritte)
+3. Drehen der Figur
+4. Schauen ob Figur in die aktuelle Seite des Würfels passt
 
 
 TODO Generierung
 
 ### Maze (Chris)
 
+Das Maze hat wie alle Spiele die folgenden Klassen: *actions.py, env_labyrinth.py, labyrinth_game.py und state.py*.
+Ein Maze besteht aus einer zweidimensionalen Liste, mit *Tile*-Elementen. Ein *Tile* besitzt die Parameter *x, y* und *TileType*.
+
+Mithilfe der Klasse *random_maze_generator.py*, welche sich stark an [Fun With Python #1: Maze Generator](https://medium.com/swlh/fun-with-python-1-maze-generator-931639b4fb7e) orientiert, konnten zufällig erzeugte Labyrinthe erzeugt werden. Um ein Game zu erstellen, können als Eingabeparamenter die Höhe, Breite, Anzahl der Targets im Labyrinth und optional ein seed mitgegeben werden. Ebenfalls ist es möglich, ein Labyrinth aus einer JSON-Datei zu laden, welche die Konventionen von der Methode *create_from(filename)* in *labyrinth.py* erfüllen muss.
+Des Weiteren wurde eine GUI für das Labyrinth geschrieben.Diese kann mithilfe der *maze_game_gui_adapter.py* Klasse gestartet werden. Dabei wird die LabyrinthRenerer-Klasse in *render_maze.py* erzeugt.
+
 TODO Zufallgenerierung
 TODO Statisch aus Datei
-TODO GUI#
+TODO GUI# (schon grob beschrieben)
 
-TODO Actionspace, States, Rewards, Welche Aufgaben soll das Spiel lösen?
+### Reward
+
+1. Der Agent erhält einen positiven Reward, wenn er ein Target einsammelt (10)
+2. Der Agent erhält einen leicht negativen Reward, wenn er auf eine leere Zelle läuft (-0.05)
+3. Der Agent erhält einen negativen Reward, wenn er auf eine blockierte Zelle läuft (-0.75)
+
+### Welche Aufgaben soll das Spiel lösen?
+
+1. Alle Targets im Labyrinth so effizient wie möglich einsammeln
+
+### State
+
+1. Die aktuelle Position
+2. Die Liste an Targets, die noch nicht eingesammelt wurden
+
+### Action Space
+
+1. Die Spielfigur nach Norden bewegen, falls dies möglich ist
+2. Die Spielfigur nach Osten bewegen, falls dies möglich ist
+3. Die Spielfigur nach Süden bewegen, falls dies möglich ist
+4. Die Spielfigur nach Westen bewegen, falls dies möglich ist
 
 ## Agenten 
 Innerhalb des Projekts sind zwei Implementierungen von Agenten realisiert worden. Die Basisklasse erfordert eine train und play Methode
@@ -167,9 +195,18 @@ in einem Server-Modus in eine CSV-Datei wegzuschreiben.
 Mithilfe von QTable Learning kann der Agent für alle Zustände der Umgebung und den verfügbaren Aktionen 
 und den Belohnungen tabellarisch die besten Aktionen für einen gegebenen Zustand erlernen.
 
-![QNetwork Agent](/docs/images/uml_qtableagent.png "Q Network Agent")
+![QNetwork Agent](/docs/images/uml_qtableagent.png "Q Table Agent")
 
-TODO Infos zu Parameter
+Dem Agenten können folgende Parameter mitgegeben werden:
+- environment (gibt die Umbebung mit, in der der Agent spielen soll)
+- epsilon (ist eine Zufallsvariable um in x % der Fällen nicht die optimale, sondern eine zufällige Aktion durchzuführen)
+- alpha (learning_rate)
+- gamma (discount, wie stark der reward mit der Zeit abnimmt)
+  
+Methoden wurden folgende umgesetzt:
+- train(): trainiert die QTable mithilfe der *recalculate()* Methode
+- play(): spielt das Spiel mit der aktuellen QTable
+- recalculate(): berechnet den Wert, der in die neue Zelle der Tabelle geschrieben werden soll.
 
 ### QNetworkAgent (Kai)
 
@@ -187,17 +224,17 @@ TODO Infos zu historie und unterschiede zu Optimized
 
 ## Environment (Chris)
 Die Basis Klasse Environment stellt die Schnittstellen zur Verfügung, mit welcher der Agent mit der Umgebung 
-und somit mit dem Spiel interagiert. Für jedes Spiel müssen eigene abgeleitete Environment-Klassen erstellt werden, 
-welche die konkreten Actions-Spaces und Observation-Spaces definieren.
+und somit mit dem Spiel interagiert. Für jedes Spiel müssen eigene abgeleitete Environment-Klassen erstellt werden, welche die konkreten Actions-Spaces und Observation-Spaces definieren.
 
 ![environment](/docs/images/environment.png "environment")
 
 TODO
+Bei der Erstellung eines Environments wird der oberservation_space und der action_space angelegt. Zusätzlich wird der current_state mit *reset_state()* zurückgesetzt.
 
 ### Action (Chris)
-TODO
+Jede Action muss eine ID und ein Spiel haben. Mit der Methode *execute()* wird die Aktion in der Game-Klasse ausgeführt und je nach Ausgang ein entsprechender Reward zurückgegeben. Jede Action wird in der Klasse *deeplearning/environment/environment.py* in der Methode *step()* aufgerufen.
 ### States (Chris)
-TODO
+Jeder State hat eine Nummer, die individuell für jeden State beim Erstellen eines Environments in der *environment.py* Klasse angelegt wird. Das Anlegen passiert mit der Methode *calc_observation_space()*.
 
 ## TestSuite (Kai)
 TODO 
