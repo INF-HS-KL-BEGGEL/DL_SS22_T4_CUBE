@@ -46,8 +46,6 @@ Dem Agenten können folgende Parameter mitgegeben werden:
 - alpha range:0-1 (learning_rate)
 - gamma range:0-1 (discount, wie stark der reward mit der Zeit abnimmt)
 
-TODO Beispiel
-
 ### QNetwork
 Bei der Q-Network Variante wird die Funktion zwischen Zustand und Aktion nicht durch eine Tabelle ermittelt,
 sondern durch wahrscheinlichkeitswerte, die durch ein Deep Neuronal Network (DQN) ermittelt wurden. 
@@ -55,13 +53,6 @@ Das Netzwerk erlernt wie der Q-Table Agent die Umgebung kennen und gibt Wahrsche
 welche Aktion für welchen Zustand am sinnvollsten erscheinen. 
 Dieser Art von Agent hat die im Vergleich zu Q-Table Agenten den Vorteil in größeren Zustandsräumen, 
 die noch nicht vollständig erlernt wurden mit einer gewissen Wahrscheinlichkeit zu agieren.
-
-TODO Lernraten
-TODO Zufall
-TODO Beispiel
-TODO Was ist relu?
-TODO Was ist Loss mse?
-
 
 ----
 # Technische Dokumentation
@@ -249,7 +240,6 @@ TODO Infos zu Netz/Model
 
 Da der QNetworkAgent Probleme in der Performance hat, da jedes 
 
-
 TODO Infos zu Parameter
 TODO Infos zu Netz/Model
 TODO Infos zu historie und unterschiede zu Optimized
@@ -268,8 +258,14 @@ Jede Action muss eine ID und ein Spiel haben. Mit der Methode *execute()* wird d
 ### States (Chris)
 Jeder State hat eine Nummer, die individuell für jeden State beim Erstellen eines Environments in der *environment.py* Klasse angelegt wird. Das Anlegen passiert mit der Methode *calc_observation_space()*.
 
-## TestSuite (Kai)
-TODO 
+## TestSuite
+Die TestSuite ist ein Modul welches die Definition von Testläufen zum Trainieren der Agenten in den implementierten Spielen
+ermöglicht. Die Definitionen für die Testläufe werden in JSON-Dateien gespeichert. Dort können unterschiedliche Parameter
+zum Test, Spiel und Agenten definiert werden. 
+Der TestRunner sucht sich die Dateien aus einem konfigurierbaren Ordner und erstellt TestSuite Instanzen, welche die 
+TestFälle ausführt und die Ergebnisse in Writer abspeichert. 
+Die Testsuite ermöglicht es eine Reihe unterschiedlich konfigurierten Setups des Agenten und der Umgebung innerhalb eines 
+Docker-Containers auf einem leistungsstärkeren Server mit entsprechender NVIDIA-GPU für Tensorflow auszuführen.
 
 ### Dockerfile
 Die Dockerfile zum Erstellen eines passenden Images ist unte /docker/Dockerfile zu finden. 
@@ -311,13 +307,7 @@ TODO
 ## Aufbau eines Spiels mit Agent
 TODO
 ## TestSuite
-Die TestSuite ist ein Modul welches die Definition von Testläufen zum Trainieren der Agenten in den implementierten Spielen
-ermöglicht. Die Definitionen für die Testläufe werden in JSON-Dateien gespeichert. Dort können unterschiedliche Parameter
-zum Test, Spiel und Agenten definiert werden. 
-Der TestRunner sucht sich die Dateien aus einem konfigurierbaren Ordner und erstellt TestSuite Instanzen, welche die 
-TestFälle ausführt und die Ergebnisse in Writer abspeichert. 
-Die Testsuite ermöglicht es eine Reihe unterschiedlich konfigurierten Setups des Agenten und der Umgebung innerhalb eines 
-Docker-Containers auf einem leistungsstärkeren Server mit entsprechender NVIDIA-GPU für Tensorflow auszuführen.
+
 
 # Erfahrungen, Probleme, Dissussion und Ausblick (Blogbeitrag)
 
