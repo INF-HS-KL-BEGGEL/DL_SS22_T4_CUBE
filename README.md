@@ -27,8 +27,8 @@ Diese Agenten besitzen die Möglichkeit sich in einer Umgebung Aktionen auszufü
 oder Bestrafung, je nachdem ob diese Aktion innerhalb eines bestimmten Zustands der Umgebung als gut 
 oder schlecht definiert wurde.
 Dem Agenten können folgende Parameter mitgegeben werden:
-- environment (gibt die Umbebung mit, in der der Agent spielen soll)
-- optimizer (TODO)
+- environment (gibt die Umgebung mit, in der der Agent spielen soll)
+- optimizer (Der Optimizer ist ein Algorithmus, der zum Verringern des losses verwendet wird)
 - epsilon range:0-1 (ist eine Zufallsvariable um in x % der Fällen nicht die optimale, sondern eine zufällige Aktion zu tätigen)
 - gamma range:0-1 (discount, wie stark der reward mit der Zeit abnimmt)
 - timesteps_per_episode range:0-infinity (Anzahl der Schritte, die der Agent maximal pro Spiel tätigen kann)
@@ -41,14 +41,14 @@ dann kann er unter den möglichen Aktionen die mit dem vielversprechendsten Rewa
 Voraussetzung für das Erlernen des Spiels ist es, dass sich die Umgebung nicht nach jeder Runde ändert
 und es sich um einen überschaubaren Zustands-Raum mit einer überschaubaren Anzahl an Aktionen handelt.
 Dem Agenten können folgende Parameter mitgegeben werden:
-- environment (gibt die Umbebung mit, in der der Agent spielen soll)
+- environment (gibt die Umgebung mit, in der der Agent spielen soll)
 - epsilon rage:0-1 (ist eine Zufallsvariable um in epsilon % der Fällen nicht die optimale, sondern eine zufällige Aktion zu tätigen)
 - alpha range:0-1 (learning_rate)
 - gamma range:0-1 (discount, wie stark der reward mit der Zeit abnimmt)
 
 ### QNetwork
 Bei der Q-Network Variante wird die Funktion zwischen Zustand und Aktion nicht durch eine Tabelle ermittelt,
-sondern durch wahrscheinlichkeitswerte, die durch ein Deep Neuronal Network (DQN) ermittelt wurden. 
+sondern durch Wahrscheinlichkeitswerte, die durch ein Deep Neuronal Network (DQN) ermittelt wurden. 
 Das Netzwerk erlernt wie der Q-Table Agent die Umgebung kennen und gibt Wahrscheinlichkeiten zurück,
 welche Aktion für welchen Zustand am sinnvollsten erscheinen. 
 Dieser Art von Agent hat die im Vergleich zu Q-Table Agenten den Vorteil in größeren Zustandsräumen, 
@@ -62,9 +62,10 @@ Im Folgenden soll ein Einblick in die genutzten Werkzeuge und den Aufbau der Anw
 ## Verwendete Werkzeuge (Kai)
 Für die Umsetzung das Projekt wurde die Programmiersprache Python in der Version 3.6 verwendet. Darauf aufbauend wurden die Pakete 
 TensorFlow (2.6) und matplotlib (3.5.2) verwendet.
+TODO alle requirements?
 
 ### Tensorflow
-Tensorflow ist eine Open-Source-Platform für maschinelles Lernen. Tensorflow bündelt unterschiedliche Bibliotheken und Werkzeuge,
+Tensorflow ist eine Open-Source-Plattform für maschinelles Lernen. Tensorflow bündelt unterschiedliche Bibliotheken und Werkzeuge,
 die für den Einsatz von maschinellem Lernen häufig benötigt werden. Mit der High Level AI Keras wird das Erstellen und Trainieren von 
 Modellen für neuronalen Netzen ermöglicht.
 Innerhalb dieses Projekts wurde in Tensorflow ein neuronales Netz mit 5 Layern erstellt, welche die Zustände der 
@@ -121,7 +122,7 @@ das Spiel zurückzusetzen.
 
 ### Cube (Chris)
 Der Cube hat wie alle Spiele die folgenden Klassen: *actions.py, env_cube.py, cube_game.py und state.py*.
-TODO passt nicht in diesen Teil?: Das Cube-Spiel besteht aus einem Cube, der verschiedene Seite hat, in denen entsprechende Figuren hineinpassen. Das Spiel hat einen Stack an Figuren, bei dem nur die oberste Figur gesehen werden kann. Diese hat vier verschiedene orientierungen. Sie muss in die richtige Position gedreht werden, um in den Würfel zu passen)
+TODO passt nicht in diesen Teil?: (Das Cube-Spiel besteht aus einem Cube, der verschiedene Seite hat, in denen entsprechende Figuren hineinpassen. Das Spiel hat einen Stack an Figuren, bei dem nur die oberste Figur gesehen werden kann. Diese hat vier verschiedene Orientierungen. Sie muss in die richtige Position gedreht werden, um in den Würfel zu passen)
 
 
 ### Reward
@@ -145,13 +146,32 @@ TODO passt nicht in diesen Teil?: Das Cube-Spiel besteht aus einem Cube, der ver
 
 ### Action Space
 
-1. Drehen des Würfels nach links (mehere Schritte)
-2. Drehen des Würfels nach rechts (mehere Schritte)
+1. Drehen des Würfels nach links (mehrere Schritte)
+2. Drehen des Würfels nach rechts (mehrere Schritte)
 3. Drehen der Figur
 4. Schauen ob Figur in die aktuelle Seite des Würfels passt
 
+### Anlegen eines Spiels
+Um das Cube-Spiel anzulegen und es mit einem Agenten zu spielen, kann folgender Code verwendet werden:
+[src/deeplearning/main_cube.py](src/deeplearning/main_cube.py)
 
-TODO Generierung
+```python
+env = EnvCube(CubeGame.setup_game(10)) # Setup des Spiels
+agent = QNetworkAgentOptimized(env) # Erzeugung des Agenten
+
+# Optional: Erzeugung eines Loggers, um die Daten zu visualisieren
+train_plot = PlotWriter("Training", "", True)
+train_plot.set_label("Epoche", "Reward")
+play_plot = PlotWriter("Play", "", True)
+play_plot.set_label("Epoche", "Reward")
+agent.register_writer_training(train_plot)
+agent.register_writer_play(play_plot)
+
+# Training und Spiel des Agenten (20*50 = 1000 Epochen)
+for i in range(0, 20):
+        agent.train(50)
+        agent.play(i)
+```
 
 ### Maze (Chris)
 
@@ -161,10 +181,6 @@ Ein Maze besteht aus einer zweidimensionalen Liste, mit *Tile*-Elementen. Ein *T
 Mithilfe der Klasse *random_maze_generator.py*, welche sich stark an [Fun With Python #1: Maze Generator](https://medium.com/swlh/fun-with-python-1-maze-generator-931639b4fb7e) orientiert, konnten zufällig erzeugte Labyrinthe erzeugt werden. Um ein Game zu erstellen, können als Eingabeparamenter die Höhe, Breite, Anzahl der Targets im Labyrinth und optional ein seed mitgegeben werden. Ebenfalls ist es möglich, ein Labyrinth aus einer JSON-Datei zu laden, welche die Konventionen von der Methode *create_from(filename)* in *labyrinth.py* erfüllen muss.
 Des Weiteren wurde eine GUI für das Labyrinth geschrieben.Diese kann mithilfe der *maze_game_gui_adapter.py* Klasse gestartet werden. Dabei wird die LabyrinthRenerer-Klasse in *render_maze.py* erzeugt.
 
-TODO Zufallgenerierung
-TODO Statisch aus Datei
-TODO GUI# (schon grob beschrieben)
-
 ### Reward
 
 1. Der Agent erhält einen positiven Reward, wenn er ein Target einsammelt (10)
@@ -173,7 +189,8 @@ TODO GUI# (schon grob beschrieben)
 
 ### Welche Aufgaben soll das Spiel lösen?
 
-1. Alle Targets im Labyrinth so effizient wie möglich einsammeln
+1. Alle Targets im Labyrinth einsammeln
+2. So wenig wie möglich Schritte tätigen
 
 ### State
 
@@ -186,6 +203,19 @@ TODO GUI# (schon grob beschrieben)
 2. Die Spielfigur nach Osten bewegen, falls dies möglich ist
 3. Die Spielfigur nach Süden bewegen, falls dies möglich ist
 4. Die Spielfigur nach Westen bewegen, falls dies möglich ist
+
+### Anlegen des Spiels
+
+Um das Spiel zu starten, muss zuerst das Spiel angelegt werden, danach wird es in eine Umgebung gegen. Nun muss ein Agent erstellt werden, der mit dem Environment spielt. 
+Der auszuführende Code ist in [src/deeplearning/main_maze.py](src/deeplearning/main_maze.py) zu finden.
+
+```python
+maze_game = LabyrinthGame.setup_game(height, width, target_count, seed) #  Anlegen ohne GUI
+maze_game = LabyrinthGameGuiAdapter(LabyrinthGame.setup_game(10, 10, 4)) # Anlegen mit GUI
+
+env = EnvLabyrinth(maze_game) # Environment mit dem Spiel erstellen
+```
+Das Erstellen und Spielen des Agenten ist gleich wie bei dem Cube-Spiel. 
 
 ## Agenten 
 Innerhalb des Projekts sind zwei Implementierungen von Agenten realisiert worden. Die Basisklasse erfordert eine train und play Methode
@@ -203,7 +233,7 @@ und den Belohnungen tabellarisch die besten Aktionen für einen gegebenen Zustan
 ![QNetwork Agent](/docs/images/uml_qtableagent.png "Q Table Agent")
 
 Dem Agenten können folgende Parameter mitgegeben werden:
-- environment (gibt die Umbebung mit, in der der Agent spielen soll)
+- environment (gibt die Umgebung mit, in der der Agent spielen soll)
 - epsilon (ist eine Zufallsvariable um in x % der Fällen nicht die optimale, sondern eine zufällige Aktion durchzuführen)
 - alpha (learning_rate)
 - gamma (discount, wie stark der reward mit der Zeit abnimmt)
@@ -234,15 +264,38 @@ TODO Infos zu Parameter genauer beschreiben
 
 ![QNetwork Agent](/docs/images/deep_learning_qnetworkagent_uml.png "Q Network Agent")
 
-TODO Infos zu Netz/Model
 
-### QNetworkAgentOptimized (Kai)
+### QNetworkAgentOptimized
 
-Da der QNetworkAgent Probleme in der Performance hat, da jedes 
+Da der QNetworkAgent Probleme in der Performance hat, wurde ein optimierter Agent erstellt. Die Performance-Probleme lassen sich auf das iterative füttern der batch in die *predict()* und *fit()* zurückführen. Da diese Methoden in Tensorflow direkt mit einer batch gefüttert werden kann, wurde dies umgesetzt. Dadurch lies sich der Zeitaufwand für die Methode *retrain()*, in der die oben genannten Methoden aufgerufen wurden, deutlich verringern. Ebenfalls wurde nicht nur ein zufälliger Teil der Erfahrungswerte, sondern alle letzten Agentenschritte für das Training verwendet. Grund dafür ist, dass 
 
-TODO Infos zu Parameter
-TODO Infos zu Netz/Model
-TODO Infos zu historie und unterschiede zu Optimized
+Der Agent ist über den Konstruktor mit verschiedenen Werten konfigurierbar. 
+Unter diese Werte fällt:
+
+- Optimizer + learning rate
+- epsilon (Zufallsvariable)
+- gamma (discount)
+- timesteps per episode (Anzahl der Schritte, die der Agent maximal pro Spiel tätigen kann)
+
+
+### QNetwork (optimized)
+QNetwork und QNetwork (optimized) verwenden zwar unterschiedliche Klassen, beinhalten allerdings das gleiche Netzwerk mit gleichen Layers. 
+
+Als Neuronales Netz wurde ...TODO
+
+Daraufhin wurden zwei relu (Rectified Linear Unit) Schichten mit jeweils 50 Neuronen eingefügt.
+Als loss wurde der mean squared error verwendet.
+
+Der Codeausschnitt ist in [src/deeplearning/agent/qnetwork_optimized.py](src/deeplearning/agent/qnetwork_optimized.py) zu finden.
+```python
+  model = Sequential()
+  model.add(Embedding(self._state_size, 10, input_length=1))
+  model.add(Reshape((10,)))
+  model.add(Dense(50, activation='relu'))
+  model.add(Dense(50, activation='relu'))
+  model.add(Dense(self._action_size, activation='linear'))
+  model.compile(loss='mse', optimizer=self._optimizer)
+```
 
 ## Environment (Chris)
 Die Basis Klasse Environment stellt die Schnittstellen zur Verfügung, mit welcher der Agent mit der Umgebung 
@@ -250,11 +303,10 @@ und somit mit dem Spiel interagiert. Für jedes Spiel müssen eigene abgeleitete
 
 ![environment](/docs/images/environment.png "environment")
 
-TODO
-Bei der Erstellung eines Environments wird der oberservation_space und der action_space angelegt. Zusätzlich wird der current_state mit *reset_state()* zurückgesetzt.
+Bei der Erstellung eines Environments wird der observation_space und der action_space angelegt. Zusätzlich wird der current_state mit *reset_state()* zurückgesetzt.
 
 ### Action (Chris)
-Jede Action muss eine ID und ein Spiel haben. Mit der Methode *execute()* wird die Aktion in der Game-Klasse ausgeführt und je nach Ausgang ein entsprechender Reward zurückgegeben. Jede Action wird in der Klasse *deeplearning/environment/environment.py* in der Methode *step()* aufgerufen.
+Jede Action muss eine ID und ein Spiel haben. Mit der Methode *execute()* wird die Aktion in der Game-Klasse ausgeführt und je nach Ausgang ein entsprechender Reward zurückgegeben. Jede Action wird in der Klasse [src/deeplearning/environment/environment.py](src/deeplearning/environment/environment.py) in der Methode *step()* aufgerufen.
 ### States (Chris)
 Jeder State hat eine Nummer, die individuell für jeden State beim Erstellen eines Environments in der *environment.py* Klasse angelegt wird. Das Anlegen passiert mit der Methode *calc_observation_space()*.
 
@@ -268,7 +320,7 @@ Die Testsuite ermöglicht es eine Reihe unterschiedlich konfigurierten Setups de
 Docker-Containers auf einem leistungsstärkeren Server mit entsprechender NVIDIA-GPU für Tensorflow auszuführen.
 
 ### Dockerfile
-Die Dockerfile zum Erstellen eines passenden Images ist unte /docker/Dockerfile zu finden. 
+Die Dockerfile zum Erstellen eines passenden Images ist unter /docker/Dockerfile zu finden. 
 Die Dockerfile wird benötigt um ein Image zu erzeugen, welches von der Docker-Compose Datei herangezogen werden kann.
 
 das Skript unter deploy_skynet.py enthält zur das Bauen und Starten der Container die entsprechenden Befehle.
@@ -284,7 +336,7 @@ Die docker-compose ist im /docker/docker-compose.yml zu finden.
         ports:
           - "8000:5000"
         volumes:
-          - ../var:/var/results:rw // wichtig zum Abholen der Ergebniss Dateien
+          - ../var:/var/results:rw // wichtig zum Abholen der Ergebnis-Dateien
           - ../suites:/suites:rw // Hier ließt die Anwendung die Test-Dateien ein
         shm_size: '1g'  // Hardwareanforderungen für Tensorflow begrenzen
         ulimits:        // ULimits setzen
@@ -309,7 +361,7 @@ TODO
 ## TestSuite
 
 
-# Erfahrungen, Probleme, Dissussion und Ausblick (Blogbeitrag)
+# Erfahrungen, Probleme, Diskussion und Ausblick (Blogbeitrag)
 
 TODO Q-Table funktioniert gut und lern bei beiden Spielen schnell
 
