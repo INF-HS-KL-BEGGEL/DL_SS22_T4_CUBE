@@ -46,8 +46,6 @@ Dem Agenten können folgende Parameter mitgegeben werden:
 - alpha range:0-1 (learning_rate)
 - gamma range:0-1 (discount, wie stark der reward mit der Zeit abnimmt)
 
-TODO Beispiel
-
 ### QNetwork
 Bei der Q-Network Variante wird die Funktion zwischen Zustand und Aktion nicht durch eine Tabelle ermittelt,
 sondern durch Wahrscheinlichkeitswerte, die durch ein Deep Neuronal Network (DQN) ermittelt wurden. 
@@ -55,13 +53,6 @@ Das Netzwerk erlernt wie der Q-Table Agent die Umgebung kennen und gibt Wahrsche
 welche Aktion für welchen Zustand am sinnvollsten erscheinen. 
 Dieser Art von Agent hat die im Vergleich zu Q-Table Agenten den Vorteil in größeren Zustandsräumen, 
 die noch nicht vollständig erlernt wurden mit einer gewissen Wahrscheinlichkeit zu agieren.
-
-TODO Lernraten
-TODO Zufall
-TODO Beispiel
-TODO Was ist relu?
-TODO Was ist Loss mse?
-
 
 ----
 # Technische Dokumentation
@@ -273,7 +264,7 @@ TODO Infos zu Parameter genauer beschreiben
 ![QNetwork Agent](/docs/images/deep_learning_qnetworkagent_uml.png "Q Network Agent")
 
 
-### QNetworkAgentOptimized (Kai)
+### QNetworkAgentOptimized
 
 Da der QNetworkAgent Probleme in der Performance hat, wurde ein optimierter Agent erstellt. Die Performance-Probleme lassen sich auf das iterative füttern der batch in die *predict()* und *fit()* zurückführen. Da diese Methoden in Tensorflow direkt mit einer batch gefüttert werden kann, wurde dies umgesetzt. Dadurch lies sich der Zeitaufwand für die Methode *retrain()*, in der die oben genannten Methoden aufgerufen wurden, deutlich verringern. Ebenfalls wurde nicht nur ein zufälliger Teil der Erfahrungswerte, sondern alle letzten Agentenschritte für das Training verwendet. Grund dafür ist, dass 
 
@@ -285,7 +276,6 @@ Unter diese Werte fällt:
 - gamma (discount)
 - timesteps per episode (Anzahl der Schritte, die der Agent maximal pro Spiel tätigen kann)
 
-TODO Infos zu historie und unterschiede zu Optimized
 
 ### QNetwork (optimized)
 QNetwork und QNetwork (optimized) verwenden zwar unterschiedliche Klassen, beinhalten allerdings das gleiche Netzwerk mit gleichen Layers. 
@@ -312,7 +302,6 @@ und somit mit dem Spiel interagiert. Für jedes Spiel müssen eigene abgeleitete
 
 ![environment](/docs/images/environment.png "environment")
 
-TODO
 Bei der Erstellung eines Environments wird der observation_space und der action_space angelegt. Zusätzlich wird der current_state mit *reset_state()* zurückgesetzt.
 
 ### Action (Chris)
