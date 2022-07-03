@@ -71,7 +71,6 @@ Im Folgenden soll ein Einblick in die genutzten Werkzeuge und den Aufbau der Anw
 ## Verwendete Werkzeuge (Kai)
 Für die Umsetzung das Projekt wurde die Programmiersprache Python in der Version 3.6 verwendet. Darauf aufbauend wurden die Pakete 
 TensorFlow (2.6) und matplotlib (3.5.2) verwendet.
-TODO alle requirements?
 
 ### Tensorflow
 Tensorflow ist eine Open-Source-Plattform für maschinelles Lernen. Tensorflow bündelt unterschiedliche Bibliotheken und Werkzeuge,
@@ -322,7 +321,13 @@ Jede Action muss eine ID und ein Spiel haben. Mit der Methode *execute()* wird d
 Jeder State hat eine Nummer, die individuell für jeden State beim Erstellen eines Environments in der *environment.py* Klasse angelegt wird. Das Anlegen passiert mit der Methode *calc_observation_space()*.
 
 ## TestSuite (Kai)
-TODO 
+Die TestSuite ist ein Modul, welches die Definition von Testläufen zum Trainieren der Agenten in den implementierten Spielen
+ermöglicht. Die Definitionen für die Testläufe werden in JSON-Dateien gespeichert. Dort können unterschiedliche Parameter
+zum Test, Spiel und Agenten definiert werden. 
+Der TestRunner sucht sich die Dateien aus einem konfigurierbaren Ordner und erstellt TestSuite Instanzen, welche die 
+TestFälle ausführt und die Ergebnisse in Writer abspeichert. 
+Die Testsuite ermöglicht es eine Reihe unterschiedlich konfigurierten Setups des Agenten und der Umgebung innerhalb eines 
+Docker-Containers auf einem leistungsstärkeren Server mit entsprechender NVIDIA-GPU für Tensorflow auszuführen.
 
 ### Dockerfile
 Die Dockerfile zum Erstellen eines passenden Images ist unter /docker/Dockerfile zu finden. 
@@ -362,15 +367,84 @@ Die docker-compose ist im /docker/docker-compose.yml zu finden.
 # Bedienung
 TODO
 ## Aufbau eines Spiels mit Agent
-TODO
+Um das Cube-Spiel anzulegen und es mit einem Agenten zu spielen, kann folgender Code verwendet werden:
+[src/deeplearning/main_cube.py](src/deeplearning/main_cube.py)
+
+```python
+env = EnvCube(CubeGame.setup_game(10)) # Setup des Spiels
+agent = QNetworkAgentOptimizd(env) # Erzeugung des Optimierten QNetwork-Agenten
+# agent = QNetworkAgent(env) # Erzeugung des QNetwork-Agenten
+# agent = QTableAgent(env) # Erzeugung des QTable-Agenten
+
+# Optional: Erzeugung eines Loggers, um die Daten zu visualisieren
+train_plot = PlotWriter("Training", "", True)
+train_plot.set_label("Epoche", "Reward")
+play_plot = PlotWriter("Play", "", True)
+play_plot.set_label("Epoche", "Reward")
+agent.register_writer_training(train_plot)
+agent.register_writer_play(play_plot)
+
+# Training und Spiel des Agenten (20*50 = 1000 Epochen)
+for i in range(0, 20):
+        agent.train(50)
+        agent.play(i)
+```
+
+Um das Maze-Spiel anzulegen und es mit einem Agenten zu spielen, kann folgender Code verwendet werden:
+[src/deeplearning/main_maze.py](src/deeplearning/main_maze.py)
+
+```python
+maze_game = LabyrinthGame.setup_game(height, width, target_count, seed) #  Anlegen ohne GUI
+maze_game = LabyrinthGameGuiAdapter(LabyrinthGame.setup_game(10, 10, 4)) # Anlegen mit GUI
+
+env = EnvLabyrinth(maze_game) # Environment mit dem Spiel erstellen
+```
+Das Erstellen und Spielen des Agenten ist wie bei dem Cube-Spiel.
+
 ## TestSuite
-Die TestSuite ist ein Modul welches die Definition von Testläufen zum Trainieren der Agenten in den implementierten Spielen
-ermöglicht. Die Definitionen für die Testläufe werden in JSON-Dateien gespeichert. Dort können unterschiedliche Parameter
-zum Test, Spiel und Agenten definiert werden. 
-Der TestRunner sucht sich die Dateien aus einem konfigurierbaren Ordner und erstellt TestSuite Instanzen, welche die 
-TestFälle ausführt und die Ergebnisse in Writer abspeichert. 
-Die Testsuite ermöglicht es eine Reihe unterschiedlich konfigurierten Setups des Agenten und der Umgebung innerhalb eines 
-Docker-Containers auf einem leistungsstärkeren Server mit entsprechender NVIDIA-GPU für Tensorflow auszuführen.
+Die TestSuite kann durch Ausführen der Datei [testsuite.py](testsuite.py) gestartet werden. Um die Suites zu konfigurieren, können die Dateien in /suites/ geändert werden. Alle Suite-Dateien werden ausgeführt, falls das Attribut *deactivated* nicht auf *true* gesetzt ist.
+
+Eine Suite hat folgende Struktur:
+
+```json
+{
+    "result_path": "./var/results/",
+    "testsuite_name": "test_1",
+    "deactivated": false,
+    "agent": {
+        "type": "QNetworkAgentOptimizd",
+        "learning_rate": 0.05,
+        "train_epochs": 50,
+        "timesteps_per_episode": 100,
+        "gamma": 0.9,
+        "epsilon": 0.1,
+        "batch_size": 50
+    },
+    "play": {
+        "number_of_plays": 50
+    },
+    "maze": {
+        "height": 10,
+        "width": 10,
+        "targets": 5,
+        "seed": 1337
+    }
+    // Cube mit Parameter "facesize"
+    //"cube": {
+    //    "facesize": 2
+    //}
+}
+```
+
+## Docker
+Um einen Docker-Container mit den Testsuites zu starten muss nur die Datei [deploy_skynet.py](deploy_skynet.py) ausgeführt werden. Sie sieht folgendermaßen aus:
+```python
+import os
+os.system("docker-compose -f docker/docker-compose.yml down -v --rmi all") # Container herunterfahren und Images löschen
+os.system("docker build -f docker/Dockerfile -t maze_tf .") # Image erzeugen
+os.system("docker-compose -f docker/docker-compose.yml up -d") # Container im Hintergrund starten
+os.system("docker logs docker_testrunner_1 -f") # Logs des Containers anzeigen
+```
 
 # Erfahrungen, Probleme, Diskussion und Ausblick (Blogbeitrag)
 
