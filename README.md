@@ -1,5 +1,6 @@
 ----
 # Fachliche Dokumentation
+
 ## Spiele
 Für das Projekt wurden zwei einfache Spiele implementiert. Hierbei handelt es sich bei dem Spiel Cube um einen Würfel mit verschiedenen Seiten, in den der Spieler Figuren durch die dazu vorgesehenen Löscher
 steckt.
@@ -58,24 +59,25 @@ die noch nicht vollständig erlernt wurden mit einer gewissen Wahrscheinlichkeit
 Im Folgenden soll ein Einblick in die genutzten Werkzeuge und den Aufbau der Anwendung gegeben werden.
 
 ## Verwendete Werkzeuge
+
 Für die Umsetzung das Projekt wurde die Programmiersprache Python in der Version 3.6 verwendet. Darauf aufbauend wurden die Pakete 
 TensorFlow (2.6) und matplotlib (3.5.2) verwendet.
 
 ### Tensorflow
 Tensorflow ist eine Open-Source-Plattform für maschinelles Lernen. Tensorflow bündelt unterschiedliche Bibliotheken und Werkzeuge,
 die für den Einsatz von maschinellem Lernen häufig benötigt werden. Mit der High Level AI Keras wird das Erstellen und Trainieren von 
-Modellen für neuronalen Netzen ermöglicht.
+Modellen für neuronale Netze ermöglicht.
 Innerhalb dieses Projekts wurde in Tensorflow ein neuronales Netz mit 5 Layern erstellt, welche die Zustände der 
-Umgebung auf die Aktionen mappt. Mit der predict-Methode kann ein Netzwerk Vorhersagen, zu den gemachten eingaben treffen.
-Hier gibt es Möglichkeiten batches direkt in Tensorflow einzugeben. Wie mit dieser Batch umgegangen wird lässt sich durch
+Umgebung auf die Aktionen mappt. Mit der predict-Methode kann ein Netzwerk Vorhersagen zu den gemachten Eingaben treffen.
+Hier gibt es Möglichkeiten Batches direkt in Tensorflow einzugeben. Wie mit dieser Batch umgegangen wird lässt sich durch
 unterschiedliche Parameter konfigurieren. 
-Mit der fit-Methode lassen sich Eingabe und gewünschte Ausgaben in das Model eingeben, mit welchen das Model trainiert werden kann. 
+Mit der fit-Methode lassen sich Eingaben und gewünschte Ausgaben in das Model eingeben, mit welchen das Model trainiert werden kann. 
 Auch hier ist batch-Verarbeitung möglich. 
 
 [https://www.tensorflow.org/](https://www.tensorflow.org/)
 
 ### matplotlib
-Matplotlib ist eine Pythonbibliothek, die es ermöglicht Diagramme via Desktop-Fenster zu plotten oder diese al Bild zu speichern. 
+Matplotlib ist eine Pythonbibliothek, die es ermöglicht Diagramme via Desktop-Fenster zu plotten oder diese als Bild zu speichern. 
 In dem Projekt wird matplotlib zum Plotten der Lernfortschritte der Agenten verwendet. 
 
 [https://matplotlib.org/stable/index.html](https://matplotlib.org/stable/index.html)
@@ -85,14 +87,14 @@ In dem Projekt wird matplotlib zum Plotten der Lernfortschritte der Agenten verw
 Docker ist eines der gängigen Tools zur Container-Virtualisierung.
 Mithilfe von Docker können Prozesse in einer jeweils eigenen isolierten Umgebung erzeugt und gestartet
 werden. 
-Hierfür werden Images bereitgestellt, welche die nötigen Schritte enthält,
-um dieses als Container zu starten. Mithilfe von Ports können Netzwerkschnittstellen 
-nach außen gemappt werden. Volumens ermöglichen es Dateipfade von der Host-Umgebung 
+Hierfür werden Images bereitgestellt, welche die nötigen Schritte enthalten,
+um diese als Container zu starten. Mithilfe von Ports können Netzwerkschnittstellen 
+nach Außen gemappt werden. Volumes ermöglichen es Dateipfade von der Host-Umgebung 
 in die des Containers zu mappen und Daten so in den Container hineinzulegen oder herauszuschreiben. 
 Weiter ist es möglich über die entsprechenden Befehle Umgebungsvariablen in den Container hineinzugeben.
 
 Mithilfe von docker-compose können Konfigurationsdateien erstellt werden, die dann mithilfe des
-gleichnamigen Befehlt verwaltet (gebaut, gestartet, gestoppt, etc.) werden können.
+gleichnamigen Befehls verwaltet (gebaut, gestartet, gestoppt, etc.) werden können.
 
 [https://docs.docker.com/compose/](https://docs.docker.com/compose/)
 
@@ -101,7 +103,7 @@ gleichnamigen Befehlt verwaltet (gebaut, gestartet, gestoppt, etc.) werden könn
 Die Kernanwendung setzt sich abstrakt aus einer Game-Klasse, Environment-Klasse und Agenten-Klasse zusammen. 
 Die Game-Klasse und deren Implementierungen repräsentieren ein Spiel, welches vom Agenten gespielt werden soll. 
 Die konkreten Implementierungen der Environment-Klassen fügen dem Game mithilfe von Actions und States 
-eine Umgebung hinzu mit, welcher ein Agent interagieren kann. Der Agent besitzt aktuell zwei Implementierungen. 
+eine Umgebung hinzu, mit welcher ein Agent interagieren kann. Der Agent besitzt aktuell zwei Implementierungen. 
 Eine Implementierung mithilfe von QTable-Learning und eine mit QNetwork-Learning. Die Agenten können beliebig
 mit den Umgebungen eingesetzt werden. 
 
@@ -172,10 +174,10 @@ for i in range(0, 20):
 ### Maze
 
 Das Maze hat wie alle Spiele die folgenden Klassen: *actions.py, env_labyrinth.py, labyrinth_game.py und state.py*.
-Ein Maze besteht aus einer zweidimensionalen Liste, mit *Tile*-Elementen. Ein *Tile* besitzt die Parameter *x, y* und *TileType*.
+Ein Maze besteht aus einer zweidimensionalen Liste mit *Tile*-Elementen. Ein *Tile* besitzt die Parameter *x, y* und *TileType*. x und y stehen für die Position. TileType beschreibt den Typ des Tiles (start, target, blocked, empty).
 
-Mithilfe der Klasse *random_maze_generator.py*, welche sich stark an [Fun With Python #1: Maze Generator](https://medium.com/swlh/fun-with-python-1-maze-generator-931639b4fb7e) orientiert, konnten zufällig erzeugte Labyrinthe erzeugt werden. Um ein Game zu erstellen, können als Eingabeparamenter die Höhe, Breite, Anzahl der Targets im Labyrinth und optional ein seed mitgegeben werden. Ebenfalls ist es möglich, ein Labyrinth aus einer JSON-Datei zu laden, welche die Konventionen von der Methode *create_from(filename)* in *labyrinth.py* erfüllen muss.
-Des Weiteren wurde eine GUI für das Labyrinth geschrieben.Diese kann mithilfe der *maze_game_gui_adapter.py* Klasse gestartet werden. Dabei wird die LabyrinthRenerer-Klasse in *render_maze.py* erzeugt.
+Mithilfe der Klasse *random_maze_generator.py*, welche sich stark an [Fun With Python #1: Maze Generator](https://medium.com/swlh/fun-with-python-1-maze-generator-931639b4fb7e) orientiert, konnten zufällig erzeugte Labyrinthe erzeugt werden. Um ein Game zu erstellen, können als Eingabeparamenter die Höhe, Breite, Anzahl der Targets im Labyrinth und optional ein seed mitgegeben werden. Ebenfalls ist es möglich, ein Labyrinth aus einer JSON-Datei zu laden, welche die Konventionen von der Methode *create_from(filename)* in [labyrinth.py](src/deeplearning/games/labyrinth/labyrinth.py) erfüllen muss.
+Des Weiteren wurde eine GUI für das Labyrinth geschrieben. Diese kann mithilfe der *maze_game_gui_adapter.py* Klasse gestartet werden. Dabei wird die LabyrinthRenerer-Klasse in *render_maze.py* erzeugt.
 
 ### Reward
 
@@ -219,7 +221,7 @@ für die konkreten Implementierungen.
 Die Implementierungen leiten von der Basisklasse AgentBase ab und erben somit weitere Funktionalitäten. 
 Hier können sich mithilfe eines Observer-Patterns Writer Objekte registrieren.
 Diese leiten die Daten an entsprechende Ziele weiter. 
-Aktuell wird das genutzt, um die Daten entweder mithilfe eines Plotters anzuzeigen oder 
+Aktuell wird dies genutzt, um die Daten entweder mithilfe eines Plotters anzuzeigen oder 
 in einem Server-Modus in eine CSV-Datei wegzuschreiben.
 
 ### QTableAgent
@@ -241,7 +243,7 @@ Methoden wurden folgende umgesetzt:
 
 ### QNetworkAgent
 
-Der QNetworkAgent ist die der Name verrät ein Agenten mit der Implementierung eines neuronalen Netzes.
+Der QNetworkAgent ist wie der Name verrät ein Agent mit der Implementierung eines neuronalen Netzes.
 Das Netz wird mithilfe von Tensorflow aufgebaut und ist nochmal in eine eigene Klasse
 QNetwork gekapselt, welche als Input die Instanzen der State-Klassen und als Ausgabe Instanzen der 
 Action-Klassen enthält.
@@ -250,11 +252,10 @@ Der Agent ist über den Konstruktor mit verschiedenen Werten konfigurierbar.
 Unter diese Werte fällt:
 
 - Optimizer + learning rate
-- epsilon
-- gamma
-- timesteps per episode
+- epsilon (Zufallsvariable)
+- gamma (discount)
+- timesteps_per_episode (Anzahl der Schritte, die der Agent maximal pro Spiel tätigen kann)
 
-TODO Infos zu Parameter genauer beschreiben
 
 Über die Methode train lässt sie noch die Anzahl der zu spielenden Episoden angeben.
 
@@ -263,7 +264,7 @@ TODO Infos zu Parameter genauer beschreiben
 
 ### QNetworkAgentOptimized
 
-Da der QNetworkAgent Probleme in der Performance hat, wurde ein optimierter Agent erstellt. Die Performance-Probleme lassen sich auf das iterative füttern der batch in die *predict()* und *fit()* zurückführen. Da diese Methoden in Tensorflow direkt mit einer batch gefüttert werden kann, wurde dies umgesetzt. Dadurch lies sich der Zeitaufwand für die Methode *retrain()*, in der die oben genannten Methoden aufgerufen wurden, deutlich verringern. Ebenfalls wurde nicht nur ein zufälliger Teil der Erfahrungswerte, sondern alle letzten Agentenschritte für das Training verwendet. Grund dafür ist, dass 
+Da der QNetworkAgent Probleme in der Performance hat, wurde ein optimierter Agent erstellt. Die Performance-Probleme lassen sich auf das iterative füttern der batch in die *predict()* und *fit()*-Methode zurückführen. Da diese Methoden in Tensorflow direkt mit einer batch gefüttert werden können, wurde dies umgesetzt. Dadurch lies sich der Zeitaufwand für die Methode *retrain()*, in der die oben genannten Methoden aufgerufen wurden, deutlich verringern. Ebenfalls wurde nicht nur ein zufälliger Teil der Erfahrungswerte, sondern alle letzten Agentenschritte für das Training verwendet.
 
 Der Agent ist über den Konstruktor mit verschiedenen Werten konfigurierbar. 
 Unter diese Werte fällt:
@@ -271,15 +272,13 @@ Unter diese Werte fällt:
 - Optimizer + learning rate
 - epsilon (Zufallsvariable)
 - gamma (discount)
-- timesteps per episode (Anzahl der Schritte, die der Agent maximal pro Spiel tätigen kann)
+- timesteps_per_episode (Anzahl der Schritte, die der Agent maximal pro Spiel tätigen kann)
 
 
-### QNetwork (optimized)
+### QNetwork
 QNetwork und QNetwork (optimized) verwenden zwar unterschiedliche Klassen, beinhalten allerdings das gleiche Netzwerk mit gleichen Layers. 
 
-Als Neuronales Netz wurde ...TODO
-
-Daraufhin wurden zwei relu (Rectified Linear Unit) Schichten mit jeweils 50 Neuronen eingefügt.
+Als Neuronales Netz wurden zwei relu (Rectified Linear Unit) Schichten mit jeweils 50 Neuronen eingefügt.
 Als loss wurde der mean squared error verwendet.
 
 Der Codeausschnitt ist in [src/deeplearning/agent/qnetwork_optimized.py](src/deeplearning/agent/qnetwork_optimized.py) zu finden.
@@ -295,34 +294,35 @@ Der Codeausschnitt ist in [src/deeplearning/agent/qnetwork_optimized.py](src/dee
 
 ## Environment
 Die Basis Klasse Environment stellt die Schnittstellen zur Verfügung, mit welcher der Agent mit der Umgebung 
-und somit mit dem Spiel interagiert. Für jedes Spiel müssen eigene abgeleitete Environment-Klassen erstellt werden, welche die konkreten Actions-Spaces und Observation-Spaces definieren.
+und somit mit dem Spiel interagiert. Für jedes Spiel müssen eigene abgeleitete Environment-Klassen erstellt werden, welche die konkreten Action-Spaces und Observation-Spaces definieren.
 
 ![environment](/docs/images/environment.png "environment")
 
 Bei der Erstellung eines Environments wird der observation_space und der action_space angelegt. Zusätzlich wird der current_state mit *reset_state()* zurückgesetzt.
 
 ### Action
+
 Jede Action muss eine ID und ein Spiel haben. Mit der Methode *execute()* wird die Aktion in der Game-Klasse ausgeführt und je nach Ausgang ein entsprechender Reward zurückgegeben. Jede Action wird in der Klasse [src/deeplearning/environment/environment.py](src/deeplearning/environment/environment.py) in der Methode *step()* aufgerufen.
 ### States
 Jeder State hat eine Nummer, die individuell für jeden State beim Erstellen eines Environments in der *environment.py* Klasse angelegt wird. Das Anlegen passiert mit der Methode *calc_observation_space()*.
 
 ## TestSuite
-Die TestSuite ist ein Modul welches die Definition von Testläufen zum Trainieren der Agenten in den implementierten Spielen
+Die TestSuite ist ein Modul, welches die Definition von Testläufen zum Trainieren der Agenten in den implementierten Spielen
 ermöglicht. Die Definitionen für die Testläufe werden in JSON-Dateien gespeichert. Dort können unterschiedliche Parameter
-zum Test, Spiel und Agenten definiert werden. 
+für Test, Spiel und Agenten definiert werden. 
 Der TestRunner sucht sich die Dateien aus einem konfigurierbaren Ordner und erstellt TestSuite Instanzen, welche die 
 TestFälle ausführt und die Ergebnisse in Writer abspeichert. 
 Die Testsuite ermöglicht es eine Reihe unterschiedlich konfigurierten Setups des Agenten und der Umgebung innerhalb eines 
 Docker-Containers auf einem leistungsstärkeren Server mit entsprechender NVIDIA-GPU für Tensorflow auszuführen.
 
 ### Dockerfile
-Die Dockerfile zum Erstellen eines passenden Images ist unter /docker/Dockerfile zu finden. 
+Die Dockerfile zum Erstellen eines passenden Images ist unter [docker/Dockerfile](docker/Dockerfile) zu finden. 
 Die Dockerfile wird benötigt um ein Image zu erzeugen, welches von der Docker-Compose Datei herangezogen werden kann.
 
-das Skript unter deploy_skynet.py enthält zur das Bauen und Starten der Container die entsprechenden Befehle.
+Das Skript unter [deploy_skynet.py](deploy_skynet.py) enthält die entsprechenden Befehle zum Bauen und Starten der Container.
 
 ### docker-compose
-Die docker-compose ist im /docker/docker-compose.yml zu finden. 
+Die docker-compose ist im [docker/docker-compose.yml](docker/docker-compose.yml) zu finden. 
 
 
     version: '3.8'
@@ -353,52 +353,81 @@ Die docker-compose ist im /docker/docker-compose.yml zu finden.
 # Bedienung
 
 ## Aufbau eines Spiels mit Agent
+Um das Cube-Spiel anzulegen und es mit einem Agenten zu spielen, kann folgender Code verwendet werden:
+[src/deeplearning/main_cube.py](src/deeplearning/main_cube.py)
 
-Ein Spiel kann beispielsweise so aufgebaut sein:
+```python
+env = EnvCube(CubeGame.setup_game(10)) # Setup des Spiels
+agent = QNetworkAgentOptimizd(env) # Erzeugung des Optimierten QNetwork-Agenten
+# agent = QNetworkAgent(env) # Erzeugung des QNetwork-Agenten
+# agent = QTableAgent(env) # Erzeugung des QTable-Agenten
 
-        from deeplearning.agent.agent_qnetwork_optimized import QNetworkAgentOptimizd
-        from deeplearning.agent.agent_qtable import QTableAgent
-        from deeplearning.monitoring.monitoring import PlotWriter
-        from deeplearning.games.labyrinth.labyrinth_game import LabyrinthGame
-        from deeplearning.games.labyrinth.maze_game_gui_adapter import LabyrinthGameGuiAdapter
-        from deeplearning.games.cube import EnvCube, CubeGame 
-        from deeplearning.games.labyrinth.env_labyrinth import EnvLabyrinth
-        from tensorflow.keras.optimizers import Adam
+# Optional: Erzeugung eines Loggers, um die Daten zu visualisieren
+train_plot = PlotWriter("Training", "", True)
+train_plot.set_label("Epoche", "Reward")
+play_plot = PlotWriter("Play", "", True)
+play_plot.set_label("Epoche", "Reward")
+agent.register_writer_training(train_plot)
+agent.register_writer_play(play_plot)
 
+# Training und Spiel des Agenten (20*50 = 1000 Epochen)
+for i in range(0, 20):
+        agent.train(50)
+        agent.play(i)
+```
 
-        maze_game = LabyrinthGameGuiAdapter(LabyrinthGame.setup_game(6, 6, 3, 12))
-        env = EnvLabyrinth(maze_game)
-        eps = 0.2
-        timesteps_per_episode = 1000
-        learning_rate = 0.01
-        agent = QNetworkAgentOptimizd(env, 
-            optimizer=Adam(learning_rate=learning_rate), 
-            timesteps_per_episode=timesteps_per_episode, 
-            epsilon=eps, 
-            gamma=0.95)
+Um das Maze-Spiel anzulegen und es mit einem Agenten zu spielen, kann folgender Code verwendet werden:
+[src/deeplearning/main_maze.py](src/deeplearning/main_maze.py)
 
-        train_plot = PlotWriter("Training", plot_information="LearningRate: %s, TimeStepsPerEpisode:%s, Epsilon: %s" % (learning_rate, timesteps_per_episode, eps),
-                                should_render=True)
-        play_plot = PlotWriter("Play", plot_information="LearningRate: %s, TimeStepsPerEpisode:%s, Epsilon: %s" % (learning_rate, timesteps_per_episode, eps),
-                                should_render=True)
+```python
+maze_game = LabyrinthGame.setup_game(height, width, target_count, seed) #  Anlegen ohne GUI
+maze_game = LabyrinthGameGuiAdapter(LabyrinthGame.setup_game(10, 10, 4)) # Anlegen mit GUI
 
-
-        agent.register_writer_training(train_plot)
-        agent.register_writer_play(play_plot)
-
-        for i in range(0, 50):
-            agent.train(100, batch_size=40)
-            agent.play(i)
-            agent.set_epsilon(eps)
-
+env = EnvLabyrinth(maze_game) # Environment mit dem Spiel erstellen
+```
+Das Erstellen und Spielen des Agenten ist wie bei dem Cube-Spiel.
 
 ## TestSuite
+Die TestSuite kann durch Ausführen der Datei [testsuite.py](testsuite.py) gestartet werden. Um die Suites zu konfigurieren, können die Dateien in /suites/ geändert werden. Alle Suite-Dateien werden ausgeführt, falls das Attribut *deactivated* nicht auf *true* gesetzt ist.
 
-Zum Testen der Testfälle über die TestSuite müssen die Testfälle in Json-Dateien in dem testsuite Ordner 
-in den Container gemountet werden. Mit folgenden Befehlen lässt sich die Testsuite starten. 
+Eine Suite hat folgende Struktur:
 
-    docker-compose -f docker/docker-compose.yml down -v --rmi all
-    docker build -f docker/Dockerfile -t maze_tf .
-    docker-compose -f docker/docker-compose.yml up -d
-    docker logs docker_testrunner_1 -f
+```json
+{
+    "result_path": "./var/results/",
+    "testsuite_name": "test_1",
+    "deactivated": false,
+    "agent": {
+        "type": "QNetworkAgentOptimizd",
+        "learning_rate": 0.05,
+        "train_epochs": 50,
+        "timesteps_per_episode": 100,
+        "gamma": 0.9,
+        "epsilon": 0.1,
+        "batch_size": 50
+    },
+    "play": {
+        "number_of_plays": 50
+    },
+    "maze": {
+        "height": 10,
+        "width": 10,
+        "targets": 5,
+        "seed": 1337
+    }
+    // Cube mit Parameter "facesize"
+    //"cube": {
+    //    "facesize": 2
+    //}
+}
+```
 
+## Docker
+Um einen Docker-Container mit den Testsuites zu starten muss nur die Datei [deploy_skynet.py](deploy_skynet.py) ausgeführt werden. Sie sieht folgendermaßen aus:
+```python
+import os
+os.system("docker-compose -f docker/docker-compose.yml down -v --rmi all") # Container herunterfahren und Images löschen
+os.system("docker build -f docker/Dockerfile -t maze_tf .") # Image erzeugen
+os.system("docker-compose -f docker/docker-compose.yml up -d") # Container im Hintergrund starten
+os.system("docker logs docker_testrunner_1 -f") # Logs des Containers anzeigen
+```
