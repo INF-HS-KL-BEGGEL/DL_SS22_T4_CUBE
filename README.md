@@ -1,26 +1,24 @@
 ----
-# Fachliche Dokumentation (Kai)
-TODO
-
-## Spiele (Chris)
+# Fachliche Dokumentation
+## Spiele
 Für das Projekt wurden zwei einfache Spiele implementiert. Hierbei handelt es sich bei dem Spiel Cube um einen Würfel mit verschiedenen Seiten, in den der Spieler Figuren durch die dazu vorgesehenen Löscher
 steckt.
 Bei dem Spiel Maze handelt es sich in dieser Implementierung um ein Labyrinth, in welchem der Spieler Ziele einsammeln soll. Ziel dieses Spiels ist es den kürzesten Weg zu wählen.
 
-### Cube (Chris)
+### Cube
 Ziel dieses Spiels ist es in möglichst wenigen Schritten alle Figuren unterschiedlicher Formen durch 
 die Seiten mit entsprechenden Löschern zu bekommen.
 Hierbei ist die Reihenfolge der verfügbaren Figuren vorgegeben. Der Spieler kann den Würfel
 nach Links oder nach rechts drehen und dabei auch mehrere Schritte auf einmal gehen. 
 Der Spieler muss zudem die Figur so rotieren, dass diese in die entsprechende Form der Würfelseite passt. Alle Figuren haben vier verschiedene Seiten. Sind alle Figuren durch den Spieler in den Würfel gelangt, ist das Spiel beendet.
 
-### Maze (Chris)
+### Maze
 Ziel dieses Spiels ist es in möglichst wenigen Schritten die Ziele im Labyrinth einzusammeln.
 Der Spieler startet immer von der gleichen Position das Spiel und hat immer mindestens eine 
 Möglichkeit alle Ziele im Labyrinth zu erreichen.
 Hat der Spieler alle Ziele innerhalb des Labyrinths eingesammelt, ist das Spiel beendet. Das Labyrinth kann zufällig erzeugt werden, oder mit einem seed kontrolliert erzeugt werden. Des Weiteren besteht die Möglichkeit, ein Labyrinth mithilfe einer JSON Datei einzulesen.
 
-## Reinforcement Learning mit Q-Learning (Chris)
+## Reinforcement Learning mit Q-Learning
 Mithilfe eines Reinforcement Learning Agenten kann dieser in die Rolle des Spielers das Spiel bedienen und so viele Runden spielen bis dieser das Spiel mit möglichst wenigen Schritten beendet.
 Hierfür wurden innerhalb des Projekts Q-Learning Algorithmen als Agenten implementiert.
 Diese Agenten besitzen die Möglichkeit sich in einer Umgebung Aktionen auszuführen und erhalten eine Belohnung
@@ -33,7 +31,7 @@ Dem Agenten können folgende Parameter mitgegeben werden:
 - gamma range:0-1 (discount, wie stark der reward mit der Zeit abnimmt)
 - timesteps_per_episode range:0-infinity (Anzahl der Schritte, die der Agent maximal pro Spiel tätigen kann)
 
-### QTable (Chris)
+### QTable
 Bei der Q-Table handelt es sich um eine Tabelle mit allen in der Umgebung möglichen Zuständen, die mithilfe von den möglichen Aktionen erreicht werden können.
 Die Tabelle selbst beinhaltet für jeden Zustand und Aktion die Belohnung/Bestrafung als Erfahrungswert und  wird nach jeder Runde angepasst.
 Befindet der Agent sich in einem bestimmten Zustand und muss die nächste Aktion wählen, 
@@ -59,10 +57,9 @@ die noch nicht vollständig erlernt wurden mit einer gewissen Wahrscheinlichkeit
 
 Im Folgenden soll ein Einblick in die genutzten Werkzeuge und den Aufbau der Anwendung gegeben werden.
 
-## Verwendete Werkzeuge (Kai)
+## Verwendete Werkzeuge
 Für die Umsetzung das Projekt wurde die Programmiersprache Python in der Version 3.6 verwendet. Darauf aufbauend wurden die Pakete 
 TensorFlow (2.6) und matplotlib (3.5.2) verwendet.
-TODO alle requirements?
 
 ### Tensorflow
 Tensorflow ist eine Open-Source-Plattform für maschinelles Lernen. Tensorflow bündelt unterschiedliche Bibliotheken und Werkzeuge,
@@ -120,9 +117,8 @@ Die Game-Klassen repräsentieren ein bestimmtes Spiel und werden von den Umgebun
 Jede Game-Klasse benötigt eine is_done-Methode und eine reset_game-Methode um das Spiel auf Beendigung zu prüfen bzw.
 das Spiel zurückzusetzen.
 
-### Cube (Chris)
+### Cube
 Der Cube hat wie alle Spiele die folgenden Klassen: *actions.py, env_cube.py, cube_game.py und state.py*.
-TODO passt nicht in diesen Teil?: (Das Cube-Spiel besteht aus einem Cube, der verschiedene Seite hat, in denen entsprechende Figuren hineinpassen. Das Spiel hat einen Stack an Figuren, bei dem nur die oberste Figur gesehen werden kann. Diese hat vier verschiedene Orientierungen. Sie muss in die richtige Position gedreht werden, um in den Würfel zu passen)
 
 
 ### Reward
@@ -173,7 +169,7 @@ for i in range(0, 20):
         agent.play(i)
 ```
 
-### Maze (Chris)
+### Maze
 
 Das Maze hat wie alle Spiele die folgenden Klassen: *actions.py, env_labyrinth.py, labyrinth_game.py und state.py*.
 Ein Maze besteht aus einer zweidimensionalen Liste, mit *Tile*-Elementen. Ein *Tile* besitzt die Parameter *x, y* und *TileType*.
@@ -226,7 +222,7 @@ Diese leiten die Daten an entsprechende Ziele weiter.
 Aktuell wird das genutzt, um die Daten entweder mithilfe eines Plotters anzuzeigen oder 
 in einem Server-Modus in eine CSV-Datei wegzuschreiben.
 
-### QTableAgent (Chris)
+### QTableAgent
 Mithilfe von QTable Learning kann der Agent für alle Zustände der Umgebung und den verfügbaren Aktionen 
 und den Belohnungen tabellarisch die besten Aktionen für einen gegebenen Zustand erlernen.
 
@@ -243,7 +239,7 @@ Methoden wurden folgende umgesetzt:
 - play(): spielt das Spiel mit der aktuellen QTable
 - recalculate(): berechnet den Wert, der in die neue Zelle der Tabelle geschrieben werden soll.
 
-### QNetworkAgent (Kai)
+### QNetworkAgent
 
 Der QNetworkAgent ist die der Name verrät ein Agenten mit der Implementierung eines neuronalen Netzes.
 Das Netz wird mithilfe von Tensorflow aufgebaut und ist nochmal in eine eigene Klasse
@@ -297,7 +293,7 @@ Der Codeausschnitt ist in [src/deeplearning/agent/qnetwork_optimized.py](src/dee
   model.compile(loss='mse', optimizer=self._optimizer)
 ```
 
-## Environment (Chris)
+## Environment
 Die Basis Klasse Environment stellt die Schnittstellen zur Verfügung, mit welcher der Agent mit der Umgebung 
 und somit mit dem Spiel interagiert. Für jedes Spiel müssen eigene abgeleitete Environment-Klassen erstellt werden, welche die konkreten Actions-Spaces und Observation-Spaces definieren.
 
@@ -305,9 +301,9 @@ und somit mit dem Spiel interagiert. Für jedes Spiel müssen eigene abgeleitete
 
 Bei der Erstellung eines Environments wird der observation_space und der action_space angelegt. Zusätzlich wird der current_state mit *reset_state()* zurückgesetzt.
 
-### Action (Chris)
+### Action
 Jede Action muss eine ID und ein Spiel haben. Mit der Methode *execute()* wird die Aktion in der Game-Klasse ausgeführt und je nach Ausgang ein entsprechender Reward zurückgegeben. Jede Action wird in der Klasse [src/deeplearning/environment/environment.py](src/deeplearning/environment/environment.py) in der Methode *step()* aufgerufen.
-### States (Chris)
+### States
 Jeder State hat eine Nummer, die individuell für jeden State beim Erstellen eines Environments in der *environment.py* Klasse angelegt wird. Das Anlegen passiert mit der Methode *calc_observation_space()*.
 
 ## TestSuite
@@ -355,36 +351,54 @@ Die docker-compose ist im /docker/docker-compose.yml zu finden.
 
 ----
 # Bedienung
-TODO
+
 ## Aufbau eines Spiels mit Agent
-TODO
+
+Ein Spiel kann beispielsweise so aufgebaut sein:
+
+        from deeplearning.agent.agent_qnetwork_optimized import QNetworkAgentOptimizd
+        from deeplearning.agent.agent_qtable import QTableAgent
+        from deeplearning.monitoring.monitoring import PlotWriter
+        from deeplearning.games.labyrinth.labyrinth_game import LabyrinthGame
+        from deeplearning.games.labyrinth.maze_game_gui_adapter import LabyrinthGameGuiAdapter
+        from deeplearning.games.cube import EnvCube, CubeGame 
+        from deeplearning.games.labyrinth.env_labyrinth import EnvLabyrinth
+        from tensorflow.keras.optimizers import Adam
+
+
+        maze_game = LabyrinthGameGuiAdapter(LabyrinthGame.setup_game(6, 6, 3, 12))
+        env = EnvLabyrinth(maze_game)
+        eps = 0.2
+        timesteps_per_episode = 1000
+        learning_rate = 0.01
+        agent = QNetworkAgentOptimizd(env, 
+            optimizer=Adam(learning_rate=learning_rate), 
+            timesteps_per_episode=timesteps_per_episode, 
+            epsilon=eps, 
+            gamma=0.95)
+
+        train_plot = PlotWriter("Training", plot_information="LearningRate: %s, TimeStepsPerEpisode:%s, Epsilon: %s" % (learning_rate, timesteps_per_episode, eps),
+                                should_render=True)
+        play_plot = PlotWriter("Play", plot_information="LearningRate: %s, TimeStepsPerEpisode:%s, Epsilon: %s" % (learning_rate, timesteps_per_episode, eps),
+                                should_render=True)
+
+
+        agent.register_writer_training(train_plot)
+        agent.register_writer_play(play_plot)
+
+        for i in range(0, 50):
+            agent.train(100, batch_size=40)
+            agent.play(i)
+            agent.set_epsilon(eps)
+
+
 ## TestSuite
 
+Zum Testen der Testfälle über die TestSuite müssen die Testfälle in Json-Dateien in dem testsuite Ordner 
+in den Container gemountet werden. Mit folgenden Befehlen lässt sich die Testsuite starten. 
 
-# Erfahrungen, Probleme, Diskussion und Ausblick (Blogbeitrag)
-
-TODO Q-Table funktioniert gut und lern bei beiden Spielen schnell
-
-TODO Q-Network funktioniert nicht richtig 
-TODO Cube ist einfacher zu lernen als Maze
-TODO Es muss immer ein guter Ausgleich zwischen Exploration und Lernrate geben
-TODO GPU Tensorflow macht Probleme
-TODO Performance
-    predict ist für einzeln aktionen nicht gut siehe Tensorflow doku. Eine Alternative ist der direkte call auf dem Modell
-    das retrain muss nicht in jedem Step gemacht worden, wenn Tensorflow die ganzen Steps in der History bekommt
-
-TODO , Retrain des Netzes. Batching und Steps
-
-TODO Architektur der Anwendung. Agenten und Algorithmen können auf unterschiedliche Umgebungen losgelassen werden
-    TODO Spiele sind durch Adapter-Pattern als Umgebung mit den Agenten verbunden, was flexibilität bringt, weitere Spiele zu implementieren
-    TODO Schreiber können die Results in unterschiedliche Datensenken schreiben
-    TODO Testsuite ist immer ne gute Idee
-    TODO Unittests die nicht existieren auch
-    TODO Actionspace und Observation-space sind zu Konkret vom Spiel abhängig um diese zu verallgemeinern
-
-Kapitel mit Code Snippets
-
-	https://github.com/PacktPublishing/Python-Reinforcement-Learning-Projects
-
-
+    docker-compose -f docker/docker-compose.yml down -v --rmi all
+    docker build -f docker/Dockerfile -t maze_tf .
+    docker-compose -f docker/docker-compose.yml up -d
+    docker logs docker_testrunner_1 -f
 
